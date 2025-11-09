@@ -39,6 +39,12 @@ module.exports = {
             fontFamily: {
                 'helvetica': ['Helvetica', 'Arial', 'sans-serif'],
                 'helvetica-heavy': ['Helvetica Heavy', 'Helvetica', 'Arial', 'sans-serif'],
+            },
+            borderRadius: {
+                'lg': '0.75rem', // Increased from default
+                'xl': '1rem', // Increased from default
+                '2xl': '1.5rem', // Increased from default
+                '3xl': '2rem', // New larger radius
             }
         },
     },

@@ -24,7 +24,7 @@ export default function Cart() {
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className="p-3 text-gray-400 hover:text-white transition-colors rounded-2xl magnetic-btn relative group"
+        className="p-3 text-gray-400 hover:text-white transition-colors rounded-3xl magnetic-btn relative group" // More rounded
         title="Shopping Cart"
       >
         <FaShoppingCart className="w-5 h-5" />
@@ -34,14 +34,14 @@ export default function Cart() {
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 bg-white text-black text-xs rounded-full w-6 h-6 flex items-center justify-center font-black font-helvetica shadow-lg"
+            className="absolute -top-1 -right-1 bg-white/95 text-black text-xs rounded-2xl w-6 h-6 flex items-center justify-center font-black font-helvetica shadow-lg" // More transparent & rounded
           >
             {getCartItemsCount()}
           </motion.span>
         )}
         
         {/* Hover Effect */}
-        <div className="absolute inset-0 bg-white/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
+        <div className="absolute inset-0 bg-white/5 rounded-3xl scale-0 group-hover:scale-100 transition-transform duration-300" /> {/* More transparent & rounded */
       </motion.button>
 
       {/* Cart Sidebar */}
@@ -73,7 +73,7 @@ export default function Cart() {
                   </h2>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 rounded-xl hover:bg-white/10 transition-colors magnetic-btn"
+                    className="p-2 rounded-2xl hover:bg-white/5 transition-colors magnetic-btn" // More rounded & transparent
                   >
                     <FaTimes className="w-5 h-5 text-white" />
                   </button>
@@ -105,12 +105,12 @@ export default function Cart() {
                         key={item.product.id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"
+                        className="flex items-center gap-4 p-4 bg-white/3 rounded-3xl border border-white/10" // More transparent & rounded
                       >
                         <img
                           src={item.product.imageUrl}
                           alt={item.product.name}
-                          className="w-16 h-16 rounded-xl object-cover"
+                          className="w-16 h-16 rounded-2xl object-cover" // More rounded
                         />
                         
                         <div className="flex-1 min-w-0">
@@ -125,7 +125,7 @@ export default function Cart() {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+                            className="w-8 h-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center" // More rounded & transparent
                           >
                             <FaMinus className="w-3 h-3 text-white" />
                           </button>
@@ -136,14 +136,14 @@ export default function Cart() {
                           
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+                            className="w-8 h-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center" // More rounded & transparent
                           >
                             <FaPlus className="w-3 h-3 text-white" />
                           </button>
                           
                           <button
                             onClick={() => removeFromCart(item.product.id)}
-                            className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-colors flex items-center justify-center ml-2"
+                            className="w-8 h-8 rounded-2xl bg-red-500/15 hover:bg-red-500/20 transition-colors flex items-center justify-center ml-2" // More rounded & transparent
                           >
                             <FaTrash className="w-3 h-3 text-red-400" />
                           </button>
