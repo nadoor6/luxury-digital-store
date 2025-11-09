@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaArrowRight, FaStar, FaShippingFast, FaShieldAlt, FaHeadset, FaSparkles, FaGem } from 'react-icons/fa';
+import { FaArrowRight, FaStar, FaShippingFast, FaShieldAlt, FaHeadset, FaGem } from 'react-icons/fa';
+// Replace FaStar with FaStar
 import Link from 'next/link';
 
 export default function Home() {
@@ -61,7 +62,7 @@ export default function Home() {
               transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
               className="inline-flex items-center gap-2 glass px-6 py-3 rounded-full mb-8 magnetic-btn"
             >
-              <FaSparkles className="w-4 h-4 text-turquoise" />
+              <FaStar className="w-4 h-4 text-turquoise" />
               <span className="text-sm font-semibold gradient-text">PREMIUM DIGITAL EXPERIENCE</span>
             </motion.div>
 
@@ -265,7 +266,7 @@ export default function Home() {
                       whileTap={{ scale: 0.95 }}
                       className="btn-liquid flex items-center gap-3 text-lg font-semibold px-8 py-4"
                     >
-                      <FaSparkles className="w-5 h-5" />
+                      <FaStar className="w-5 h-5" />
                       Discover Premium Collection
                       <FaArrowRight className="w-4 h-4" />
                     </motion.div>

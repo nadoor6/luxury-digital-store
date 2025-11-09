@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { FaUser, FaEnvelope, FaLock, FaArrowLeft, FaSparkles } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaArrowLeft, FaStar } from 'react-icons/fa';
+// Replace FaStar with FaStar
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -74,7 +75,7 @@ export default function SignUp() {
               transition={{ delay: 0.2, type: "spring" }}
               className="w-16 h-16 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-4 glow"
             >
-              <FaSparkles className="w-6 h-6 text-white" />
+              <FaStar className="w-6 h-6 text-white" />
             </motion.div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               Join Luxury Digital
@@ -163,7 +164,7 @@ export default function SignUp() {
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
-                <FaSparkles className="w-5 h-5" />
+                <FaStar className="w-5 h-5" />
               )}
               {loading ? 'Creating Account...' : 'Create Account'}
             </motion.button>

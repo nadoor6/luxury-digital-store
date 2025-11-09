@@ -32,6 +32,10 @@ module.exports = {
             },
             backdropBlur: {
                 xs: '2px',
+            },
+            scale: {
+                '105': '1.05',
+                '102': '1.02',
             }
         },
     },

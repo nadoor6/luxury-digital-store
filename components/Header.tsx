@@ -2,11 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaSparkles } from 'react-icons/fa';
-import { useAuth } from '@/contexts/AuthContext';
-import ThemeToggle from './ui/ThemeToggle';
-import Cart from './ui/Cart';
-import Link from 'next/link';
+import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaStar } from 'react-icons/fa';
+// Replace FaStar with FaStar
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -199,7 +196,7 @@ export default function Header() {
                       transition={{ duration: 2, repeat: Infinity }}
                       className="text-green-400"
                     >
-                      <FaSparkles className="w-3 h-3" />
+                      <FaStar className="w-3 h-3" />
                     </motion.div>
                   )}
                 </motion.div>
@@ -285,7 +282,7 @@ export default function Header() {
                         transition={{ duration: 3, repeat: Infinity }}
                         className="text-green-400"
                       >
-                        <FaSparkles className="w-5 h-5" />
+                        <FaStar className="w-5 h-5" />
                       </motion.div>
                     )}
                   </div>
@@ -329,7 +326,7 @@ export default function Header() {
                         whileHover={{ x: 0, opacity: 1 }}
                         className="text-turquoise"
                       >
-                        <FaSparkles className="w-3 h-3" />
+                        <FaStar className="w-3 h-3" />
                       </motion.div>
                     </Link>
                   </motion.div>
