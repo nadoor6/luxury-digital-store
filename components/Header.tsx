@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
-import ThemeToggle from './ui/ThemeToggle';
 import Cart from './ui/Cart';
 import Link from 'next/link';
 
@@ -113,14 +112,6 @@ export default function Header() {
               >
                 <FaSearch className="w-4 h-4" />
               </motion.button>
-
-              {/* Theme Toggle */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ThemeToggle />
-              </motion.div>
 
               {/* Shopping Cart */}
               <Cart />
