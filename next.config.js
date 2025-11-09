@@ -1,22 +1,19 @@
-// next.config.js
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // ... your other config
-    output: 'export', // Keep this if you need static export
-    webpack: (config) => {
-        config.plugins.push(
-            new CopyPlugin({
-                patterns: [{
-                    from: path.join(__dirname, '.next/routes-manifest.json'),
-                    to: path.join(__dirname, 'out/'),
-                }, ],
-            })
-        );
-        return config;
+    images: {
+        remotePatterns: [{
+                protocol: 'https',
+                hostname: 'firebasestorage.googleapis.com',
+            },
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+            },
+        ],
+        unoptimized: process.env.NODE_ENV === 'production', // Only unoptimized for production
     },
+    // Remove any output: 'export' if present
+    trailingSlash: true,
 }
 
-module.exports = nextConfig;
+module.exports = nextConfig
