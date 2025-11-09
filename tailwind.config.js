@@ -4,40 +4,35 @@ module.exports = {
         './pages/**/*.{js,ts,jsx,tsx,mdx}',
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
-        './contexts/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     darkMode: 'class',
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-                serif: ['var(--font-playfair)', 'serif'],
-                display: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
-            },
             colors: {
                 turquoise: '#40E0D0',
+                'neon-blue': '#00C8FF',
+                'neon-purple': '#B446FF',
+                'neon-pink': '#FF46B4',
                 'dark-grey': '#2C2C2C',
                 'cream-white': '#F5F5F5',
             },
             animation: {
-                'fade-in': 'fadeIn 0.5s ease-in-out',
-                'slide-up': 'slideUp 0.5s ease-out',
-                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'float': 'float 6s ease-in-out infinite',
+                'gradient-shift': 'gradientShift 4s ease infinite',
             },
             keyframes: {
-                fadeIn: {
-                    '0%': { opacity: '0' },
-                    '100%': { opacity: '1' },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                    '50%': { transform: 'translateY(-20px) rotate(1deg)' },
                 },
-                slideUp: {
-                    '0%': { transform: 'translateY(20px)', opacity: '0' },
-                    '100%': { transform: 'translateY(0)', opacity: '1' },
-                },
+                gradientShift: {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                }
             },
-            backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-            },
+            backdropBlur: {
+                xs: '2px',
+            }
         },
     },
     plugins: [],
