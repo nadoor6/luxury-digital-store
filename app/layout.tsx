@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { WalletProvider } from '@/contexts/WalletContext';
 import { CartProvider } from '@/contexts/CartContext';
 import Header from '@/components/Header';
 import './globals.css';
@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className="min-h-screen bg-black text-white transition-colors duration-300">
         <ThemeProvider>
-          <AuthProvider>
+          <WalletProvider>
             <CartProvider>
               <Header />
               <main className="min-h-screen">
@@ -33,7 +33,7 @@ export default function RootLayout({
                 </div>
               </footer>
             </CartProvider>
-          </AuthProvider>
+          </WalletProvider>
         </ThemeProvider>
       </body>
     </html>

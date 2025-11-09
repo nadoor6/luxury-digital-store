@@ -3,25 +3,19 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useWallet } from '@/contexts/WalletContext';
 import { getProducts, deleteProduct } from '@/lib/product-storage';
 import { Product } from '@/types/product';
-import { FaPlus, FaEdit, FaTrash, FaBox, FaChartBar, FaUsers, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaBox, FaChartBar, FaUsers, FaEye, FaEyeSlash, FaWallet } from 'react-icons/fa';
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
-  const router = useRouter();
+  const { isAdmin, wallet } = useWallet();
 
   useEffect(() => {
-    if (user && !user.isAdmin) {
-      router.push('/');
-      return;
-    }
     loadProducts();
-  }, [user, router]);
+  }, []);
 
   const loadProducts = async () => {
     try {
@@ -55,11 +49,23 @@ export default function AdminPage() {
     }
   };
 
-  if (!user || !user.isAdmin) {
+  if (!isAdmin) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white text-xl font-helvetica font-bold">UNAUTHORIZED ACCESS</p>
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4 border border-white/20">
+            <FaWallet className="w-8 h-8 text-white" />
+          </div>
+          <p className="text-white text-xl font-helvetica font-bold">ADMIN ACCESS REQUIRED</p>
+          <p className="text-gray-400 mt-2 font-helvetica">
+            Contact system administrator for access
+          </p>
+          <Link 
+            href="/"
+            className="inline-block mt-4 px-6 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors"
+          >
+            Return to Home
+          </Link>
         </div>
       </div>
     );
@@ -105,6 +111,11 @@ export default function AdminPage() {
               <p className="text-gray-400 font-helvetica font-bold">
                 Manage your luxury digital products
               </p>
+              {wallet && (
+                <p className="text-turquoise text-sm mt-2 font-helvetica">
+                  Wallet: {wallet.address}
+                </p>
+              )}
             </div>
             <Link href="/admin/add-product" className="magnetic-btn mt-4 lg:mt-0">
               <motion.div

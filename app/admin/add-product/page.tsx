@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useWallet } from '@/contexts/WalletContext';
 import { createProduct, getCategories } from '@/lib/product-storage';
-import { FaArrowLeft, FaUpload, FaPlus, FaBox } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaPlus, FaBox, FaWallet } from 'react-icons/fa';
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -23,17 +23,10 @@ export default function AddProduct() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { user } = useAuth();
+  const { isAdmin, wallet } = useWallet();
   const router = useRouter();
 
-  // Redirect if not admin
-  if (user && !user.isAdmin) {
-    router.push('/');
-    return null;
-  }
-
-  // Load categories on mount
-  useState(() => {
+  useEffect(() => {
     const loadCategories = async () => {
       try {
         const categoriesData = await getCategories();
@@ -43,7 +36,29 @@ export default function AddProduct() {
       }
     };
     loadCategories();
-  });
+  }, []);
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4 border border-white/20">
+            <FaWallet className="w-8 h-8 text-white" />
+          </div>
+          <p className="text-white text-xl font-helvetica font-bold">ADMIN ACCESS REQUIRED</p>
+          <p className="text-gray-400 mt-2 font-helvetica">
+            Contact system administrator for access
+          </p>
+          <Link 
+            href="/"
+            className="inline-block mt-4 px-6 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors"
+          >
+            Return to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,6 +116,11 @@ export default function AddProduct() {
               <p className="text-gray-400 font-helvetica font-bold">
                 Create a new luxury digital product
               </p>
+              {wallet && (
+                <p className="text-turquoise text-sm mt-1 font-helvetica">
+                  Admin Wallet: {wallet.address.slice(0, 8)}...
+                </p>
+              )}
             </div>
           </div>
 

@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem } from 'react-icons/fa';
-import { useAuth } from '@/contexts/AuthContext';
+import { FaWallet, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaUser, FaKey } from 'react-icons/fa';
+import { useWallet } from '@/contexts/WalletContext';
 import Cart from './ui/Cart';
 import Link from 'next/link';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { wallet, logout, isAdmin } = useWallet();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -25,13 +25,17 @@ export default function Header() {
   ];
 
   // Add Admin tab if user is admin
-  if (user?.isAdmin) {
+  if (isAdmin) {
     navigation.push({ name: 'Admin', href: '/admin', icon: FaCog });
   }
 
   const handleLogout = () => {
     logout();
     setIsMobileMenuOpen(false);
+  };
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   return (
@@ -116,24 +120,24 @@ export default function Header() {
               {/* Shopping Cart */}
               <Cart />
 
-              {/* User Status */}
-              {user ? (
+              {/* Wallet Status */}
+              {wallet ? (
                 <div className="hidden md:flex items-center gap-2">
-                  {/* User Profile */}
+                  {/* Wallet Profile */}
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
                   >
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                      <FaUser className="w-3 h-3 text-white" />
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center">
+                      <FaWallet className="w-3 h-3 text-white" />
                     </div>
                     
                     <div className="flex flex-col">
                       <span className="text-white text-sm font-medium leading-none">
-                        {user.name.split(' ')[0]}
+                        {formatAddress(wallet.address)}
                       </span>
                       <span className="text-white/60 text-xs">
-                        {user.isAdmin ? 'Admin' : 'Member'}
+                        ${wallet.balance.toFixed(2)}
                       </span>
                     </div>
                   </motion.div>
@@ -145,21 +149,24 @@ export default function Header() {
                     onClick={handleLogout}
                     className="px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors border border-white/20"
                   >
-                    Sign Out
+                    Lock Wallet
                   </motion.button>
                 </div>
               ) : (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="hidden md:block"
-                >
+                <motion.div className="hidden md:flex items-center gap-2">
                   <Link
-                    href="/auth/signin"
-                    className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-xl font-medium text-sm hover:bg-gray-100 transition-colors"
+                    href="/wallet/access"
+                    className="flex items-center gap-2 px-3 py-2 bg-white/10 text-white rounded-xl font-medium text-sm hover:bg-white/20 transition-colors border border-white/20"
                   >
-                    <FaUser className="w-3 h-3" />
-                    Sign In
+                    <FaKey className="w-3 h-3" />
+                    Access Wallet
+                  </Link>
+                  <Link
+                    href="/wallet/create"
+                    className="flex items-center gap-2 px-3 py-2 bg-white text-black rounded-xl font-medium text-sm hover:bg-gray-100 transition-colors"
+                  >
+                    <FaWallet className="w-3 h-3" />
+                    Create Wallet
                   </Link>
                 </motion.div>
               )}
@@ -192,8 +199,8 @@ export default function Header() {
                 className="lg:hidden overflow-hidden"
               >
                 <div className="border-t border-white/20 pt-4 pb-4">
-                  {/* User Info Section */}
-                  {user && (
+                  {/* Wallet Info Section */}
+                  {wallet && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -201,18 +208,18 @@ export default function Header() {
                       className="p-4 mb-4 bg-white/10 rounded-xl border border-white/20"
                     >
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                          <FaUser className="w-4 h-4 text-white" />
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center">
+                          <FaWallet className="w-4 h-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-white text-sm">{user.name}</p>
-                          <p className="text-white/60 text-xs">{user.email}</p>
+                          <p className="font-medium text-white text-sm">{formatAddress(wallet.address)}</p>
+                          <p className="text-white/60 text-xs">${wallet.balance.toFixed(2)}</p>
                         </div>
-                        {user.isAdmin && (
+                        {isAdmin && (
                           <div className="w-2 h-2 bg-green-400 rounded-full" />
                         )}
                       </div>
-                      {user.isAdmin && (
+                      {isAdmin && (
                         <div className="flex items-center gap-2 text-xs bg-white/10 px-2 py-1 rounded-lg">
                           <FaCog className="w-3 h-3 text-green-400" />
                           <span className="text-green-400 font-medium">Administrator</span>
@@ -245,9 +252,9 @@ export default function Header() {
                     ))}
                   </nav>
 
-                  {/* Auth Actions */}
+                  {/* Wallet Actions */}
                   <div className="mt-4 pt-4 border-t border-white/20">
-                    {user ? (
+                    {wallet ? (
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -258,7 +265,7 @@ export default function Header() {
                           className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors"
                         >
                           <FaTimes className="w-4 h-4" />
-                          Sign Out
+                          Lock Wallet
                         </button>
                       </motion.div>
                     ) : (
@@ -269,18 +276,18 @@ export default function Header() {
                         className="space-y-2"
                       >
                         <Link
-                          href="/auth/signin"
-                          className="block w-full text-center bg-white text-black py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Sign In
-                        </Link>
-                        <Link
-                          href="/auth/signup"
+                          href="/wallet/access"
                           className="block w-full text-center bg-white/10 text-white py-3 rounded-xl font-medium hover:bg-white/20 transition-colors"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          Create Account
+                          Access Wallet
+                        </Link>
+                        <Link
+                          href="/wallet/create"
+                          className="block w-full text-center bg-white text-black py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Create Wallet
                         </Link>
                       </motion.div>
                     )}
