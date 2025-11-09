@@ -12,15 +12,6 @@ const nextConfig = {
         ],
         unoptimized: true,
     },
-    experimental: {
-        turbo: {
-            rules: {
-                '*.css': {
-                    loaders: ['postcss-loader'],
-                },
-            },
-        },
-    },
 }
 
 module.exports = nextConfig

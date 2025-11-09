@@ -1,15 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 @layer base {
      :root {
-        --turquoise: #40E0D0;
-        --neon-blue: #00C8FF;
-        --neon-purple: #B446FF;
-        --neon-pink: #FF46B4;
-        --dark-grey: #2C2C2C;
-        --cream-white: #F5F5F5;
+        --turquoise: '#40E0D0';
+        --neon-blue: '#00C8FF';
+        --neon-purple: '#B446FF';
+        --neon-pink: '#FF46B4';
+        --dark-grey: '#2C2C2C';
+        --cream-white: '#F5F5F5';
     }
     html {
         scroll-behavior: smooth;
