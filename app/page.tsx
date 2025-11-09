@@ -1,193 +1,128 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import ProductCard from '../components/ui/ProductCard'
-import { Product } from '../lib/utils'
-import { ProductStorage } from '../lib/product-storage'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { ShippingIcon, ShieldIcon, SupportIcon } from '../components/ui/Icons'
-
-const features = [
-  {
-    title: 'Instant Delivery',
-    description: 'Receive your digital goods immediately after purchase',
-    icon: 'shipping'
-  },
-  {
-    title: 'Secure Payment',
-    description: 'Multiple secure payment methods with encryption',
-    icon: 'shield'
-  },
-  {
-    title: '24/7 Support',
-    description: 'Round-the-clock customer support team',
-    icon: 'support'
-  }
-]
+import { motion } from 'framer-motion';
+import { FaArrowRight, FaStar, FaShippingFast, FaShieldAlt, FaHeadset } from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const storedProducts = ProductStorage.getProducts()
-    const activeProducts = storedProducts.filter(product => product.active !== false)
-    setProducts(activeProducts)
-    setLoading(false)
-  }, [])
-
-  const featuredProducts = products.filter(product => product.popular).slice(0, 4)
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-turquoise border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-300">Loading...</p>
-        </div>
-      </div>
-    )
-  }
+  const features = [
+    {
+      icon: <FaStar className="w-8 h-8" />,
+      title: 'Premium Quality',
+      description: 'Curated selection of the finest digital products'
+    },
+    {
+      icon: <FaShippingFast className="w-8 h-8" />,
+      title: 'Fast Delivery',
+      description: 'Instant digital downloads after purchase'
+    },
+    {
+      icon: <FaShieldAlt className="w-8 h-8" />,
+      title: 'Secure Payment',
+      description: '100% secure and encrypted transactions'
+    },
+    {
+      icon: <FaHeadset className="w-8 h-8" />,
+      title: '24/7 Support',
+      description: 'Round-the-clock customer service'
+    }
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-turquoise/20 via-cream-white to-dark-grey/10 dark:from-turquoise/10 dark:via-dark-grey dark:to-black">
-          <div className="absolute inset-0 bg-black/5"></div>
-          <motion.div 
-            className="relative z-10 text-center max-w-4xl mx-auto px-4"
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="text-center max-w-4xl mx-auto"
           >
-            <motion.h1 
-              className="text-5xl md:text-7xl font-bold mb-6 font-serif"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              Luxury <span className="text-turquoise">Digital</span> Goods
-            </motion.h1>
-            <motion.p 
-              className="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-300 font-display"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              Premium digital products with unparalleled service and instant delivery
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              <Link href="/products" className="bg-gradient-to-r from-turquoise to-cyan-400 text-dark-grey px-8 py-4 rounded-xl font-display font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95 inline-block">
-                Explore Products
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
+              Luxury{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Digital
+              </span>{' '}
+              Store
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              Discover exclusive digital products crafted for the modern connoisseur. 
+              Where innovation meets elegance.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  href="/products"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+                >
+                  Shop Now
+                  <FaArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <button className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-2xl font-semibold text-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all duration-300">
+                  Learn More
+                </button>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Features Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20"
+              >
+                <div className="text-blue-600 dark:text-blue-400 mb-4">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white"
+          >
+            <h2 className="text-4xl font-bold mb-4">
+              Ready to Experience Luxury?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join thousands of satisfied customers worldwide
+            </p>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/products"
+                className="bg-white text-blue-600 px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
+              >
+                Browse Collection
+                <FaArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
           </motion.div>
-        </section>
-
-        {/* Featured Products */}
-        <section className="py-20 px-4">
-          <div className="max-w-7xl mx-auto">
-            <motion.div 
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl font-bold mb-4 font-serif">Featured Products</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 font-display">
-                Curated selection of premium digital goods
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                >
-                  <ProductCard product={product} />
-                </motion.div>
-              ))}
-            </div>
-
-            {featuredProducts.length === 0 && (
-              <motion.div 
-                className="text-center py-12"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">
-                  No featured products yet.
-                </p>
-                <Link href="/products" className="bg-dark-grey text-cream-white px-8 py-4 rounded-xl font-display font-semibold text-lg transition-all duration-300 border-2 border-turquoise hover:bg-turquoise hover:text-dark-grey hover:scale-105 active:scale-95 inline-block">
-                  View All Products
-                </Link>
-              </motion.div>
-            )}
-
-            <motion.div 
-              className="text-center mt-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Link href="/products" className="bg-dark-grey text-cream-white px-8 py-4 rounded-xl font-display font-semibold text-lg transition-all duration-300 border-2 border-turquoise hover:bg-turquoise hover:text-dark-grey hover:scale-105 active:scale-95 inline-block">
-                View All Products
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-20 bg-gradient-to-b from-cream-white to-gray-100 dark:from-dark-grey dark:to-gray-900 px-4">
-          <div className="max-w-7xl mx-auto">
-            <motion.div 
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl font-bold mb-4 font-serif">Why Choose LuxuryStore</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-display">
-                Experience premium digital shopping with unparalleled service quality
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="glass dark:glass-dark p-8 rounded-2xl text-center group hover:scale-105 transition-all duration-500"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2, duration: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="w-16 h-16 bg-gradient-to-br from-turquoise to-cyan-400 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-500">
-                    {feature.icon === 'shipping' && <ShippingIcon className="w-8 h-8 text-white" />}
-                    {feature.icon === 'shield' && <ShieldIcon className="w-8 h-8 text-white" />}
-                    {feature.icon === 'support' && <SupportIcon className="w-8 h-8 text-white" />}
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 font-serif text-gray-900 dark:text-white">{feature.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 font-display">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
+        </div>
+      </section>
     </div>
-  )
+  );
 }
