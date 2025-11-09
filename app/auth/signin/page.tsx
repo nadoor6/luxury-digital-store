@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -48,7 +49,7 @@ export default function SignIn() {
             </div>
           )}
           <div>
-            <label htmlFor="email" className="sr-only">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Email address
             </label>
             <input
@@ -63,7 +64,7 @@ export default function SignIn() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="sr-only">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Password
             </label>
             <input
