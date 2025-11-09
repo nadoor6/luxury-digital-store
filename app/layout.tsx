@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
 import Header from '@/components/Header';
 import './globals.css';
 
@@ -18,18 +19,20 @@ export default function RootLayout({
       <body className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
         <ThemeProvider>
           <AuthProvider>
-            <Header />
-            <main className="min-h-screen">
-              {children}
-            </main>
-            
-            <footer className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-              <div className="container mx-auto px-4 py-8">
-                <p className="text-center text-gray-600 dark:text-gray-400">
-                  © 2024 Luxury Digital Store. All rights reserved.
-                </p>
-              </div>
-            </footer>
+            <CartProvider>
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              
+              <footer className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                <div className="container mx-auto px-4 py-8">
+                  <p className="text-center text-gray-600 dark:text-gray-400">
+                    © 2024 Luxury Digital Store. All rights reserved.
+                  </p>
+                </div>
+              </footer>
+            </CartProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

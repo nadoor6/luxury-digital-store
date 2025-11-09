@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaSparkles } from 'react-icons/fa';
+import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaSparkles } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
 import ThemeToggle from './ui/ThemeToggle';
+import Cart from './ui/Cart';
 import Link from 'next/link';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartItemsCount, setCartItemsCount] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const { user, logout } = useAuth();
 
@@ -19,11 +19,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Demo cart items - replace with your actual cart logic
-  useEffect(() => {
-    setCartItemsCount(user ? 3 : 0);
-  }, [user]);
 
   const navigation = [
     { name: 'Home', href: '/', icon: FaHome },
@@ -168,29 +163,8 @@ export default function Header() {
               <ThemeToggle />
             </motion.div>
 
-            {/* Shopping Cart */}
-            <motion.button
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 text-gray-600 dark:text-gray-400 hover:text-turquoise transition-colors rounded-2xl magnetic-btn relative group"
-              title="Shopping Cart"
-            >
-              <FaShoppingCart className="w-5 h-5" />
-              
-              {/* Cart Counter */}
-              {cartItemsCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-gradient-to-r from-red-400 to-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-lg glow"
-                >
-                  {cartItemsCount}
-                </motion.span>
-              )}
-              
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-turquoise/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
-            </motion.button>
+            {/* Shopping Cart - REPLACED WITH CART COMPONENT */}
+            <Cart />
 
             {/* User Status */}
             {user ? (

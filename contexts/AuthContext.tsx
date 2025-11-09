@@ -1,9 +1,18 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged,
+  updateProfile
+} from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 
 interface User {
-  id: string;
+  uid: string;
   email: string;
   name: string;
   isAdmin: boolean;
@@ -12,7 +21,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   loading: boolean;
 }
@@ -24,72 +33,65 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
-  }, []);
-
-  const login = async (email: string, password: string) => {
-    setLoading(true);
-    try {
-      // Simulate API call - replace with your actual auth
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock users - replace with your actual user database
-      const mockUsers = [
-        { id: '1', email: 'admin@luxury.com', password: 'admin123', name: 'Admin User', isAdmin: true },
-        { id: '2', email: 'user@luxury.com', password: 'user123', name: 'Regular User', isAdmin: false }
-      ];
-
-      const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-      
-      if (foundUser) {
-        const userData = { 
-          id: foundUser.id, 
-          email: foundUser.email, 
-          name: foundUser.name, 
-          isAdmin: foundUser.isAdmin 
-        };
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Get user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const userData = userDoc.data();
+        
+        setUser({
+          uid: user.uid,
+          email: user.email!,
+          name: user.displayName || userData?.name || 'User',
+          isAdmin: userData?.isAdmin || false
+        });
       } else {
-        throw new Error('Invalid credentials');
+        setUser(null);
       }
-    } catch (error) {
-      throw error;
-    } finally {
       setLoading(false);
-    }
-  };
+    });
+
+    return unsubscribe;
+  }, []);
 
   const register = async (email: string, password: string, name: string) => {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(user, { displayName: name });
       
-      // Simulate registration
-      const newUser = { 
-        id: Date.now().toString(), 
-        email, 
-        name, 
-        isAdmin: false 
-      };
-      
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
-    } catch (error) {
-      throw error;
+      // Create user document in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        email,
+        name,
+        isAdmin: false,
+        createdAt: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      throw new Error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const login = async (email: string, password: string) => {
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   };
 
   return (

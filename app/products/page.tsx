@@ -2,151 +2,205 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Product } from '@/types/product';
+import { getProducts } from '@/lib/product-storage';
 import ProductCard from '@/components/ui/ProductCard';
-import { useAuth } from '@/contexts/AuthContext'; // Your existing auth hook
-
-// KEEP your existing product fetching logic
-// Just wrap it with loading states
+import { FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth(); // Your existing auth context
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
 
-  // YOUR existing data fetching - just add loading state
+  const categories = ['all', 'templates', 'graphics', 'fonts', 'plugins', 'courses'];
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        // YOUR existing product fetching logic here
-        // const productsData = await getProducts();
-        // setProducts(productsData);
-        
-        // Simulate loading
-        setTimeout(() => {
-          setProducts([]); // Replace with your actual data
-          setLoading(false);
-        }, 1000);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    loadProducts();
   }, []);
 
-  const handleAddToCart = (product) => {
-    // YOUR existing add to cart logic
-    console.log('Add to cart:', product);
+  useEffect(() => {
+    filterProducts();
+  }, [products, searchTerm, selectedCategory, sortBy]);
+
+  const loadProducts = async () => {
+    try {
+      const productsData = await getProducts();
+      setProducts(productsData);
+    } catch (error) {
+      console.error('Error loading products:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleEditProduct = (product) => {
-    // YOUR existing edit logic
-    console.log('Edit product:', product);
+  const filterProducts = () => {
+    let filtered = products;
+
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    // Sort products
+    filtered = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'featured':
+          return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+        default:
+          return 0;
+      }
+    });
+
+    setFilteredProducts(filtered);
   };
 
-  const handleDeleteProduct = (product) => {
-    // YOUR existing delete logic
-    console.log('Delete product:', product);
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('all');
+    setSortBy('name');
   };
 
   if (loading) {
-    return <ProductsLoadingSkeleton />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-turquoise border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">Loading luxury products...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 pt-24">
-      <div className="container mx-auto px-4">
-        {/* Page Header */}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-20 px-4">
+      <div className="container mx-auto">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Products
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+            Luxury <span className="gradient-text">Digital Collection</span>
           </h1>
-          {/* Admin Notice */}
-          {user?.isAdmin && (
-            <p className="text-blue-600 dark:text-blue-400 font-medium">
-              Admin Mode: You can edit and delete products
-            </p>
-          )}
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Discover our curated selection of premium digital products designed for excellence
+          </p>
+        </motion.div>
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass-card rounded-3xl p-6 mb-8"
+        >
+          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+            {/* Search */}
+            <div className="relative flex-1 w-full">
+              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 bg-white/5 dark:bg-black/5 border border-white/10 dark:border-gray-600/20 rounded-2xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-turquoise/50 focus:border-transparent transition-all duration-300 focus-glass"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {categories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-2xl font-medium capitalize transition-all duration-300 ${
+                    selectedCategory === category
+                      ? 'bg-gradient-to-r from-turquoise to-neon-blue text-white shadow-lg'
+                      : 'bg-white/10 dark:bg-black/10 text-gray-600 dark:text-gray-400 hover:bg-white/20'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Sort */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/10 dark:border-gray-600/20 rounded-2xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-turquoise/50 focus:border-transparent transition-all duration-300 focus-glass"
+            >
+              <option value="name">Sort by Name</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="featured">Featured First</option>
+            </select>
+
+            {/* Clear Filters */}
+            {(searchTerm || selectedCategory !== 'all' || sortBy !== 'name') && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-2 px-4 py-3 text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <FaTimes className="w-4 h-4" />
+                Clear
+              </button>
+            )}
+          </div>
         </motion.div>
 
         {/* Products Grid */}
         <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
-          {products.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <ProductCard
-                product={product}
-                onAddToCart={handleAddToCart}
-                showAdminActions={user?.isAdmin}
-                onEdit={user?.isAdmin ? handleEditProduct : undefined}
-                onDelete={user?.isAdmin ? handleDeleteProduct : undefined}
-              />
-            </motion.div>
+          {filteredProducts.map((product, index) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
 
         {/* Empty State */}
-        {products.length === 0 && !loading && (
+        {filteredProducts.length === 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-20"
           >
-            <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">📦</div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              No products available
+            <FaFilter className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              No products found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              {user?.isAdmin 
-                ? "Add some products from the admin dashboard"
-                : "Check back later for new products"
-              }
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Try adjusting your search or filter criteria
             </p>
-            {user?.isAdmin && (
-              <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Add First Product
-              </button>
-            )}
+            <button
+              onClick={clearFilters}
+              className="btn-liquid px-8 py-3 font-semibold"
+            >
+              Clear All Filters
+            </button>
           </motion.div>
         )}
-      </div>
-    </div>
-  );
-}
-
-// Loading Skeleton Component
-function ProductsLoadingSkeleton() {
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 pt-24">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden animate-pulse"
-            >
-              <div className="h-64 bg-gray-200 dark:bg-gray-700"></div>
-              <div className="p-4 space-y-3">
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
