@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes, FaCog } from 'react-icons/fa';
+import { useAuth } from '@/contexts/AuthContext'; // Your existing auth hook
 import ThemeToggle from './ui/ThemeToggle';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartItemsCount, setCartItemsCount] = useState(3);
+  const { user, logout } = useAuth(); // Your existing auth
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,8 +23,12 @@ export default function Header() {
     { name: 'Home', href: '/' },
     { name: 'Products', href: '/products' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Admin', href: '/admin' },
   ];
+
+  // Add Admin tab if user is admin
+  if (user?.isAdmin) {
+    navigation.push({ name: 'Admin', href: '/admin' });
+  }
 
   return (
     <motion.header
@@ -34,15 +39,11 @@ export default function Header() {
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-2"
-          >
+          <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
             <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
               Luxury
             </span>
@@ -54,76 +55,50 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
-              <motion.a
+              <a
                 key={item.name}
                 href={item.href}
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors relative"
-                whileHover={{ y: -2 }}
               >
                 {item.name}
-                <motion.div
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600"
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.a>
+                {item.name === 'Admin' && (
+                  <FaCog className="w-3 h-3 ml-1 inline text-green-500" />
+                )}
+              </a>
             ))}
           </nav>
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-4">
-            {/* Search */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              <FaSearch className="w-5 h-5" />
-            </motion.button>
-
-            {/* Theme Toggle */}
-            <ThemeToggle />
-
-            {/* Cart */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors relative"
-            >
-              <FaShoppingCart className="w-5 h-5" />
-              {cartItemsCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+            {/* User Status */}
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  Hello, {user.name}
+                </span>
+                <button
+                  onClick={logout}
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                 >
-                  {cartItemsCount}
-                </motion.span>
-              )}
-            </motion.button>
-
-            {/* User Account */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              <FaUser className="w-5 h-5" />
-            </motion.button>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <a
+                href="/auth/signin"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Sign In
+              </a>
+            )}
 
             {/* Mobile Menu Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-gray-600 dark:text-gray-400"
             >
-              {isMobileMenuOpen ? (
-                <FaTimes className="w-5 h-5" />
-              ) : (
-                <FaBars className="w-5 h-5" />
-              )}
-            </motion.button>
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </button>
           </div>
         </div>
 
@@ -138,15 +113,15 @@ export default function Header() {
             >
               <nav className="py-4 space-y-2">
                 {navigation.map((item) => (
-                  <motion.a
+                  <a
                     key={item.name}
                     href={item.href}
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center gap-2"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    whileHover={{ x: 8 }}
                   >
                     {item.name}
-                  </motion.a>
+                    {item.name === 'Admin' && <FaCog className="w-3 h-3 text-green-500" />}
+                  </a>
                 ))}
               </nav>
             </motion.div>
