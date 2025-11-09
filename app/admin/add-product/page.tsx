@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { createProduct, getCategories } from '@/lib/product-storage';
-import { FaArrowLeft, FaUpload, FaPlus } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaPlus, FaBox } from 'react-icons/fa';
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function AddProduct() {
     description: '',
     price: '',
     category: '',
-    stock: '100',
+    stock: '1',
     featured: false,
     isActive: true,
     deliveryType: 'instant',
@@ -25,11 +26,13 @@ export default function AddProduct() {
   const { user } = useAuth();
   const router = useRouter();
 
+  // Redirect if not admin
   if (user && !user.isAdmin) {
     router.push('/');
     return null;
   }
 
+  // Load categories on mount
   useState(() => {
     const loadCategories = async () => {
       try {
@@ -58,7 +61,7 @@ export default function AddProduct() {
         isActive: formData.isActive,
         deliveryType: formData.deliveryType as 'instant' | 'manual' | 'auto',
         digitalContent: formData.digitalContent,
-        imageUrl: ''
+        imageUrl: '' // Will be set after upload
       }, imageFile || undefined);
 
       router.push('/admin');
@@ -76,195 +79,226 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
+    <div className="min-h-screen bg-black py-20 px-4">
       <div className="container mx-auto max-w-2xl">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={() => router.back()}
-            className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-          >
-            <FaArrowLeft className="w-5 h-5 text-white" />
-          </button>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Add Product</h1>
-            <p className="text-gray-400">Create a new product</p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass-card rounded-2xl p-8 border border-white/10"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8">
+            <button
+              onClick={() => router.back()}
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors magnetic-btn"
+            >
+              <FaArrowLeft className="w-5 h-5 text-white" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-black text-white brand-ugarit">
+                ADD PRODUCT
+              </h1>
+              <p className="text-gray-400 font-helvetica font-bold">
+                Create a new luxury digital product
+              </p>
+            </div>
           </div>
-        </div>
 
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-lg mb-6">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-xl mb-6 font-helvetica font-bold">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-medium text-white mb-3">Product Image</label>
-            <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-white/40 transition-colors">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-                id="image-upload"
-                required
-              />
-              <label htmlFor="image-upload" className="cursor-pointer">
-                <FaUpload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-400">
-                  {imageFile ? imageFile.name : 'Click to upload product image'}
-                </p>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-black text-white mb-3 font-helvetica">
+                PRODUCT IMAGE
               </label>
+              <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-white/40 transition-colors">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  id="image-upload"
+                  required
+                />
+                <label htmlFor="image-upload" className="cursor-pointer">
+                  <FaUpload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                  <p className="text-gray-400 font-helvetica font-bold">
+                    {imageFile ? imageFile.name : 'CLICK TO UPLOAD PRODUCT IMAGE'}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1 font-helvetica">
+                    Recommended: 800x600px, PNG or JPG
+                  </p>
+                </label>
+              </div>
             </div>
-          </div>
 
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Product Name</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/40 transition-colors"
-              placeholder="Enter product name"
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Description</label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              required
-              rows={3}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/40 transition-colors resize-none"
-              placeholder="Enter product description"
-            />
-          </div>
-
-          {/* Price, Stock, and Category */}
-          <div className="grid grid-cols-3 gap-4">
+            {/* Product Name */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Price ($)</label>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                required
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/40 transition-colors"
-                placeholder="0.00"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Stock</label>
-              <input
-                type="number"
-                min="0"
-                value={formData.stock}
-                onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                required
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/40 transition-colors"
-                placeholder="100"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Category</label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                required
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-white/40 transition-colors"
-              >
-                <option value="">Select category</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-                <option value="apps">Apps & Software</option>
-                <option value="subscriptions">Subscriptions</option>
-                <option value="game-coins">Game Coins</option>
-                <option value="accounts">Accounts</option>
-                <option value="licenses">Licenses</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Delivery Type and Digital Content */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Delivery Type</label>
-              <select
-                value={formData.deliveryType}
-                onChange={(e) => setFormData({ ...formData, deliveryType: e.target.value })}
-                required
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-white/40 transition-colors"
-              >
-                <option value="instant">Instant Automatic</option>
-                <option value="auto">Automated</option>
-                <option value="manual">Manual Delivery</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Digital Content</label>
+              <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                PRODUCT NAME
+              </label>
               <input
                 type="text"
-                value={formData.digitalContent}
-                onChange={(e) => setFormData({ ...formData, digitalContent: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/40 transition-colors"
-                placeholder="License key, download URL, etc."
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                placeholder="ENTER PRODUCT NAME"
               />
             </div>
-          </div>
 
-          {/* Checkboxes */}
-          <div className="flex gap-6">
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="featured"
-                checked={formData.featured}
-                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                className="w-4 h-4 text-white rounded focus:ring-white focus:ring-2 bg-white/10 border-white/20"
-              />
-              <label htmlFor="featured" className="text-sm text-white">
-                Featured
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                DESCRIPTION
               </label>
-            </div>
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="isActive"
-                checked={formData.isActive}
-                onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                className="w-4 h-4 text-white rounded focus:ring-white focus:ring-2 bg-white/10 border-white/20"
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                required
+                rows={4}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold resize-none"
+                placeholder="ENTER PRODUCT DESCRIPTION"
               />
-              <label htmlFor="isActive" className="text-sm text-white">
-                Active
-              </label>
             </div>
-          </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-white text-black py-4 rounded-full font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <FaPlus className="w-5 h-5" />
-            )}
-            {loading ? 'Creating...' : 'Create Product'}
-          </button>
-        </form>
+            {/* Price, Stock, and Category */}
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                  PRICE ($)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                  placeholder="0.00"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                  STOCK
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.stock}
+                  onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                  placeholder="100"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                  CATEGORY
+                </label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                >
+                  <option value="">SELECT CATEGORY</option>
+                  {categories.map(category => (
+                    <option key={category} value={category} className="bg-black text-white">
+                      {category.toUpperCase()}
+                    </option>
+                  ))}
+                  <option value="apps" className="bg-black text-white">APPS & SOFTWARE</option>
+                  <option value="subscriptions" className="bg-black text-white">SUBSCRIPTIONS</option>
+                  <option value="game-coins" className="bg-black text-white">GAME COINS</option>
+                  <option value="accounts" className="bg-black text-white">ACCOUNTS</option>
+                  <option value="licenses" className="bg-black text-white">LICENSES</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Delivery Type and Digital Content */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                  DELIVERY TYPE
+                </label>
+                <select
+                  value={formData.deliveryType}
+                  onChange={(e) => setFormData({ ...formData, deliveryType: e.target.value })}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                >
+                  <option value="instant" className="bg-black text-white">INSTANT AUTOMATIC</option>
+                  <option value="auto" className="bg-black text-white">AUTOMATED</option>
+                  <option value="manual" className="bg-black text-white">MANUAL DELIVERY</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                  DIGITAL CONTENT
+                </label>
+                <input
+                  type="text"
+                  value={formData.digitalContent}
+                  onChange={(e) => setFormData({ ...formData, digitalContent: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 font-helvetica font-bold"
+                  placeholder="License key, download URL, etc."
+                />
+              </div>
+            </div>
+
+            {/* Checkboxes */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={formData.featured}
+                  onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                  className="w-4 h-4 text-white rounded focus:ring-white focus:ring-2 bg-white/10 border-white/20"
+                />
+                <label htmlFor="featured" className="text-sm font-black text-white font-helvetica">
+                  FEATURED
+                </label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={formData.isActive}
+                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                  className="w-4 h-4 text-white rounded focus:ring-white focus:ring-2 bg-white/10 border-white/20"
+                />
+                <label htmlFor="isActive" className="text-sm font-black text-white font-helvetica">
+                  ACTIVE
+                </label>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <motion.button
+              type="submit"
+              disabled={loading}
+              whileHover={{ scale: loading ? 1 : 1.02 }}
+              whileTap={{ scale: loading ? 1 : 0.98 }}
+              className="w-full btn-luxury flex items-center justify-center gap-3 text-lg font-black font-helvetica disabled:opacity-50 disabled:cursor-not-allowed py-4"
+            >
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FaPlus className="w-5 h-5" />
+              )}
+              {loading ? 'CREATING PRODUCT...' : 'CREATE PRODUCT'}
+            </motion.button>
+          </form>
+        </motion.div>
       </div>
     </div>
   );
