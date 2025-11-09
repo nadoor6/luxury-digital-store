@@ -5,23 +5,25 @@ import { motion } from 'framer-motion';
 import { useWallet } from '@/contexts/WalletContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaWallet, FaCopy, FaCheck, FaArrowLeft, FaShield } from 'react-icons/fa';
+import { FaWallet, FaCopy, FaCheck, FaArrowLeft, FaShieldAlt } from 'react-icons/fa';
 
 export default function CreateWallet() {
   const [showPhrase, setShowPhrase] = useState(false);
   const [copied, setCopied] = useState(false);
-  const { createWallet, loading } = useWallet();
+  const { createWallet, wallet, loading } = useWallet();
   const router = useRouter();
 
   const handleCreateWallet = async () => {
-    const wallet = await createWallet();
+    const newWallet = await createWallet();
     setShowPhrase(true);
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(wallet?.secretPhrase || '');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (wallet?.secretPhrase) {
+      navigator.clipboard.writeText(wallet.secretPhrase);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const handleContinue = () => {
@@ -57,7 +59,7 @@ export default function CreateWallet() {
           {!showPhrase ? (
             <div className="text-center space-y-6">
               <div className="w-20 h-20 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-4 glow">
-                <FaShield className="w-8 h-8 text-white" />
+                <FaShieldAlt className="w-8 h-8 text-white" />
               </div>
               
               <h2 className="text-2xl font-black text-white font-helvetica-heavy">

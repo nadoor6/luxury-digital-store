@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useWallet } from '@/contexts/WalletContext';
 import { createProduct, getCategories } from '@/lib/product-storage';
+import Link from 'next/link';
 import { FaArrowLeft, FaUpload, FaPlus, FaBox, FaWallet } from 'react-icons/fa';
 
 export default function AddProduct() {

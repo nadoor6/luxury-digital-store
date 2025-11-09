@@ -1,204 +1,154 @@
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc,
-  query,
-  where,
-  orderBy 
-} from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from './firebase';
+'use client';
+
 import { Product, Category, Order } from '@/types/product';
 
+const STORAGE_KEYS = {
+  PRODUCTS: 'luxury-store-products',
+  CATEGORIES: 'luxury-store-categories',
+  ORDERS: 'luxury-store-orders'
+};
+
+// Helper function to simulate delay
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // PRODUCT OPERATIONS
-export async function getProducts(): Promise<Product[]> {
-  const q = query(
-    collection(db, 'products'),
-    where('isActive', '==', true),
-    orderBy('createdAt', 'desc')
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as Product));
-}
 
-export async function getProduct(id: string): Promise<Product | null> {
-  const docRef = doc(db, 'products', id);
-  const docSnap = await getDoc(docRef);
+export const getProducts = async (): Promise<Product[]> => {
+  await delay(500); // Simulate network delay
+  if (typeof window === 'undefined') return [];
   
-  if (docSnap.exists()) {
-    return { id: docSnap.id, ...docSnap.data() } as Product;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+    // Return default products if none exist
+    return [];
+  } catch (error) {
+    console.error('Error loading products:', error);
+    return [];
   }
-  return null;
-}
+};
 
-export async function createProduct(
-  product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>, 
-  imageFile?: File
-): Promise<string> {
-  let imageUrl = product.imageUrl;
+export const getProduct = async (id: string): Promise<Product | null> => {
+  await delay(300);
+  const products = await getProducts();
+  return products.find(p => p.id === id) || null;
+};
+
+export const createProduct = async (productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>, imageFile?: File): Promise<Product> => {
+  await delay(1000);
+  const products = await getProducts();
   
-  // Upload image if provided
-  if (imageFile) {
-    const storageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
-    const snapshot = await uploadBytes(storageRef, imageFile);
-    imageUrl = await getDownloadURL(snapshot.ref);
-  }
-
-  const productData = {
-    ...product,
-    imageUrl,
-    stock: product.stock || 0,
-    isActive: product.isActive !== undefined ? product.isActive : true,
-    deliveryType: product.deliveryType || 'manual',
+  const newProduct: Product = {
+    ...productData,
+    id: Date.now().toString(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 
-  const docRef = await addDoc(collection(db, 'products'), productData);
-  return docRef.id;
-}
-
-export async function updateProduct(
-  id: string, 
-  product: Partial<Product>, 
-  imageFile?: File
-): Promise<void> {
-  let updates: any = { ...product, updatedAt: new Date().toISOString() };
-  
-  // Upload new image if provided
+  // If there's an image file, we would normally upload it and get a URL, but for now we'll use a placeholder
   if (imageFile) {
-    const storageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
-    const snapshot = await uploadBytes(storageRef, imageFile);
-    updates.imageUrl = await getDownloadURL(snapshot.ref);
+    // In a real app, you would upload the image and get a URL
+    // For now, we'll create a dummy URL
+    newProduct.imageUrl = URL.createObjectURL(imageFile);
+  } else {
+    newProduct.imageUrl = '/images/placeholder-product.jpg';
   }
 
-  const docRef = doc(db, 'products', id);
-  await updateDoc(docRef, updates);
-}
+  const updatedProducts = [...products, newProduct];
+  localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(updatedProducts));
+  
+  return newProduct;
+};
 
-export async function deleteProduct(id: string): Promise<void> {
-  // Soft delete by setting isActive to false
-  const docRef = doc(db, 'products', id);
-  await updateDoc(docRef, { 
-    isActive: false, 
-    updatedAt: new Date().toISOString() 
-  });
-}
+export const updateProduct = async (id: string, productData: Partial<Product>, imageFile?: File): Promise<Product> => {
+  await delay(1000);
+  const products = await getProducts();
+  const index = products.findIndex(p => p.id === id);
+  
+  if (index === -1) {
+    throw new Error('Product not found');
+  }
 
-export async function getFeaturedProducts(): Promise<Product[]> {
-  const q = query(
-    collection(db, 'products'),
-    where('featured', '==', true),
-    where('isActive', '==', true),
-    orderBy('createdAt', 'desc')
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as Product));
-}
+  const updatedProduct = {
+    ...products[index],
+    ...productData,
+    updatedAt: new Date().toISOString()
+  };
 
-export async function getProductsByCategory(category: string): Promise<Product[]> {
-  const q = query(
-    collection(db, 'products'),
-    where('category', '==', category),
-    where('isActive', '==', true),
-    orderBy('createdAt', 'desc')
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as Product));
-}
+  if (imageFile) {
+    updatedProduct.imageUrl = URL.createObjectURL(imageFile);
+  }
+
+  products[index] = updatedProduct;
+  localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+  
+  return updatedProduct;
+};
+
+export const deleteProduct = async (id: string): Promise<void> => {
+  await delay(500);
+  const products = await getProducts();
+  const filteredProducts = products.filter(p => p.id !== id);
+  localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(filteredProducts));
+};
 
 // CATEGORY OPERATIONS
-export async function getCategories(): Promise<Category[]> {
-  const q = query(
-    collection(db, 'categories'),
-    where('isActive', '==', true),
-    orderBy('name', 'asc')
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as Category));
-}
 
-export async function createCategory(category: Omit<Category, 'id' | 'createdAt'>): Promise<string> {
-  const categoryData = {
-    ...category,
-    createdAt: new Date().toISOString()
-  };
+export const getCategories = async (): Promise<Category[]> => {
+  await delay(500);
+  if (typeof window === 'undefined') return [];
+  
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+    // Default categories
+    const defaultCategories: Category[] = [
+      { id: '1', name: 'apps', description: 'Apps & Software', isActive: true, createdAt: new Date().toISOString() },
+      { id: '2', name: 'subscriptions', description: 'Subscriptions', isActive: true, createdAt: new Date().toISOString() },
+      { id: '3', name: 'game-coins', description: 'Game Coins', isActive: true, createdAt: new Date().toISOString() },
+      { id: '4', name: 'accounts', description: 'Accounts', isActive: true, createdAt: new Date().toISOString() },
+      { id: '5', name: 'licenses', description: 'Licenses', isActive: true, createdAt: new Date().toISOString() },
+    ];
+    localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(defaultCategories));
+    return defaultCategories;
+  } catch (error) {
+    console.error('Error loading categories:', error);
+    return [];
+  }
+};
 
-  const docRef = await addDoc(collection(db, 'categories'), categoryData);
-  return docRef.id;
-}
+// ORDER OPERATIONS (if needed)
 
-export async function updateCategory(id: string, category: Partial<Category>): Promise<void> {
-  const docRef = doc(db, 'categories', id);
-  await updateDoc(docRef, category);
-}
+export const getOrders = async (): Promise<Order[]> => {
+  await delay(500);
+  if (typeof window === 'undefined') return [];
+  
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.ORDERS);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error('Error loading orders:', error);
+    return [];
+  }
+};
 
-export async function deleteCategory(id: string): Promise<void> {
-  // Soft delete category
-  const docRef = doc(db, 'categories', id);
-  await updateDoc(docRef, { 
-    isActive: false 
-  });
-}
-
-// ORDER OPERATIONS
-export async function createOrder(order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
-  const orderData = {
-    ...order,
-    status: 'pending',
+export const createOrder = async (orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>): Promise<Order> => {
+  await delay(1000);
+  const orders = await getOrders();
+  
+  const newOrder: Order = {
+    ...orderData,
+    id: Date.now().toString(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 
-  const docRef = await addDoc(collection(db, 'orders'), orderData);
-  return docRef.id;
-}
-
-export async function getOrders(): Promise<Order[]> {
-  const q = query(
-    collection(db, 'orders'),
-    orderBy('createdAt', 'desc')
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as Order));
-}
-
-export async function updateOrderStatus(id: string, status: Order['status']): Promise<void> {
-  const docRef = doc(db, 'orders', id);
-  await updateDoc(docRef, { 
-    status, 
-    updatedAt: new Date().toISOString() 
-  });
-}
-
-// INVENTORY MANAGEMENT
-export async function updateProductStock(productId: string, quantity: number): Promise<void> {
-  const product = await getProduct(productId);
-  if (product) {
-    const newStock = product.stock - quantity;
-    const docRef = doc(db, 'products', productId);
-    await updateDoc(docRef, { 
-      stock: newStock,
-      updatedAt: new Date().toISOString()
-    });
-  }
-}
+  const updatedOrders = [...orders, newOrder];
+  localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(updatedOrders));
+  
+  return newOrder;
+};
