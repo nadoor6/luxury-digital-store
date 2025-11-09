@@ -50,17 +50,6 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="text-center max-w-6xl mx-auto"
           >
-            {/* Premium Badge */}
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-              className="inline-flex items-center gap-2 glass px-6 py-3 rounded-full mb-8 magnetic-btn"
-            >
-              <FaStar className="w-4 h-4 text-white" />
-              <span className="text-sm font-black font-helvetica text-white">EXCLUSIVE DIGITAL LUXURY</span>
-            </motion.div>
-
             {/* Main Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
