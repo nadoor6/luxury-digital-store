@@ -3,18 +3,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes, FaCog } from 'react-icons/fa';
-import { useAuth } from '@/contexts/AuthContext'; // Your existing auth hook
+import { useAuth } from '@/contexts/AuthContext';
 import ThemeToggle from './ui/ThemeToggle';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth(); // Your existing auth
+  const { user, logout } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,7 +25,7 @@ export default function Header() {
 
   // Add Admin tab if user is admin
   if (user?.isAdmin) {
-    navigation.push({ name: 'Admin', href: '/admin' });
+    navigation.push({ name: 'Admin Dashboard', href: '/admin' });
   }
 
   return (
@@ -58,12 +56,9 @@ export default function Header() {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors relative"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
               >
                 {item.name}
-                {item.name === 'Admin' && (
-                  <FaCog className="w-3 h-3 ml-1 inline text-green-500" />
-                )}
               </a>
             ))}
           </nav>
@@ -73,8 +68,13 @@ export default function Header() {
             {/* User Status */}
             {user ? (
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-700 dark:text-gray-300">
+                <span className="text-sm text-gray-700 dark:text-gray-300 hidden sm:block">
                   Hello, {user.name}
+                  {user.isAdmin && (
+                    <span className="ml-2 bg-green-500 text-white px-2 py-1 rounded text-xs">
+                      Admin
+                    </span>
+                  )}
                 </span>
                 <button
                   onClick={logout}
@@ -116,13 +116,20 @@ export default function Header() {
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center gap-2"
+                    className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
-                    {item.name === 'Admin' && <FaCog className="w-3 h-3 text-green-500" />}
                   </a>
                 ))}
+                {user && (
+                  <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+                    <p className="text-sm text-gray-500">Logged in as: {user.name}</p>
+                    {user.isAdmin && (
+                      <p className="text-xs text-green-500 mt-1">Administrator</p>
+                    )}
+                  </div>
+                )}
               </nav>
             </motion.div>
           )}
