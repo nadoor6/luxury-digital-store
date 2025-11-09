@@ -1,15 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged,
-  updateProfile
-} from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 interface User {
   uid: string;
@@ -21,98 +12,88 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
   register: (email: string, password: string, name: string) => Promise<void>;
   loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth) {
-      setLoading(false);
-      return;
+    // Check if user is logged in on mount
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
     }
-
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user && db) {
-        try {
-          // Get user data from Firestore
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          const userData = userDoc.data();
-          
-          setUser({
-            uid: user.uid,
-            email: user.email!,
-            name: user.displayName || userData?.name || 'User',
-            isAdmin: userData?.isAdmin || false
-          });
-        } catch (error) {
-          console.error('Error loading user data:', error);
-          setUser({
-            uid: user.uid,
-            email: user.email!,
-            name: user.displayName || 'User',
-            isAdmin: false
-          });
-        }
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return unsubscribe;
+    setLoading(false);
   }, []);
 
-  const register = async (email: string, password: string, name: string) => {
-    if (!auth || !db) throw new Error('Firebase not initialized');
-    
-    setLoading(true);
-    try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(user, { displayName: name });
-      
-      // Create user document in Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        email,
-        name,
-        isAdmin: false,
-        createdAt: new Date().toISOString()
-      });
-
-    } catch (error: any) {
-      throw new Error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (email: string, password: string) => {
-    if (!auth) throw new Error('Firebase not initialized');
-    
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      throw new Error(error.message);
+      // Simulate API call - replace with your actual auth
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock users - replace with your actual user database
+      const mockUsers = [
+        { uid: '1', email: 'admin@luxury.com', password: 'admin123', name: 'Admin User', isAdmin: true },
+        { uid: '2', email: 'user@luxury.com', password: 'user123', name: 'Regular User', isAdmin: false }
+      ];
+
+      const foundUser = mockUsers.find(u => u.email === email && u.password === password);
+      
+      if (foundUser) {
+        const userData: User = { 
+          uid: foundUser.uid, 
+          email: foundUser.email, 
+          name: foundUser.name, 
+          isAdmin: foundUser.isAdmin 
+        };
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+      } else {
+        throw new Error('Invalid credentials');
+      }
+    } catch (error) {
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = async () => {
-    if (!auth) throw new Error('Firebase not initialized');
-    
+  const register = async (email: string, password: string, name: string) => {
+    setLoading(true);
     try {
-      await signOut(auth);
-    } catch (error: any) {
-      throw new Error(error.message);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate registration
+      const newUser: User = { 
+        uid: Date.now().toString(), 
+        email, 
+        name, 
+        isAdmin: false 
+      };
+      
+      setUser(newUser);
+      localStorage.setItem('user', JSON.stringify(newUser));
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
   };
 
   return (

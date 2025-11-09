@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUser, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaStar } from 'react-icons/fa';
-// Replace FaStar with FaStar
+import { useAuth } from '@/contexts/AuthContext';
+import ThemeToggle from './ui/ThemeToggle';
+import Cart from './ui/Cart';
+import Link from 'next/link';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -160,7 +163,7 @@ export default function Header() {
               <ThemeToggle />
             </motion.div>
 
-            {/* Shopping Cart - REPLACED WITH CART COMPONENT */}
+            {/* Shopping Cart */}
             <Cart />
 
             {/* User Status */}
