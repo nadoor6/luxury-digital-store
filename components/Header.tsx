@@ -40,7 +40,7 @@ export default function Header() {
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'glass border-b border-white/20 shadow-2xl'
+          ? 'glass border-b border-white/20'
           : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -51,39 +51,39 @@ export default function Header() {
     >
       {/* Header Glow Effect */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-turquoise/10 via-neon-blue/5 to-neon-purple/10 rounded-b-3xl"
+        className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/2 to-white/5 rounded-b-3xl"
         animate={{ opacity: isHovering ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       />
 
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo - Ugarit */}
           <motion.div 
             whileHover={{ scale: 1.05 }} 
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-3 magnetic-btn"
           >
             <Link href="/" className="flex items-center gap-3 group">
-              {/* Animated Logo Container */}
+              {/* Logo Container */}
               <motion.div
-                whileHover={{ rotate: 360, scale: 1.1 }}
+                whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.6, type: "spring" }}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-turquoise to-neon-blue flex items-center justify-center shadow-lg glow"
+                className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-lg"
               >
-                <FaGem className="w-6 h-6 text-white" />
+                <span className="text-black font-helvetica-heavy text-lg font-black">U</span>
               </motion.div>
               
-              {/* Logo Text */}
+              {/* Ugarit Text */}
               <div className="flex flex-col">
                 <motion.span
-                  className="text-2xl font-bold gradient-text bg-gradient-to-r from-turquoise to-neon-blue"
+                  className="text-2xl font-black text-white brand-ugarit"
                   whileHover={{ scale: 1.05 }}
                 >
-                  Luxury
+                  Ugarit
                 </motion.span>
-                <span className="text-lg text-gray-700 dark:text-gray-300 font-medium tracking-wider">
-                  Digital
+                <span className="text-sm text-gray-400 font-helvetica font-bold tracking-wider">
+                  DIGITAL LUXURY
                 </span>
               </div>
             </Link>
@@ -101,21 +101,21 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  className="group relative flex items-center gap-3 text-gray-700 dark:text-gray-300 font-medium px-6 py-3 rounded-2xl transition-all duration-300 magnetic-btn"
+                  className="group relative flex items-center gap-3 text-gray-300 font-bold px-6 py-3 rounded-2xl transition-all duration-300 magnetic-btn"
                 >
                   {/* Background Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-turquoise/0 via-turquoise/5 to-neon-blue/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Icon */}
                   <motion.div
-                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    whileHover={{ scale: 1.2 }}
                     className="relative z-10"
                   >
-                    <item.icon className="w-4 h-4 text-turquoise group-hover:text-neon-blue transition-colors duration-300" />
+                    <item.icon className="w-4 h-4 text-white group-hover:text-gray-300 transition-colors duration-300" />
                   </motion.div>
 
                   {/* Text */}
-                  <span className="relative z-10 text-sm font-semibold group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+                  <span className="relative z-10 text-sm font-black font-helvetica group-hover:text-white transition-colors duration-300">
                     {item.name}
                   </span>
 
@@ -124,13 +124,13 @@ export default function Header() {
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full glow"
+                      className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full glow"
                     />
                   )}
 
                   {/* Hover Underline */}
                   <motion.div
-                    className="absolute bottom-2 left-1/2 w-0 h-0.5 bg-gradient-to-r from-turquoise to-neon-blue rounded-full"
+                    className="absolute bottom-2 left-1/2 w-0 h-0.5 bg-white rounded-full"
                     whileHover={{ width: '80%', x: '-40%' }}
                     transition={{ duration: 0.3 }}
                   />
@@ -145,13 +145,13 @@ export default function Header() {
             <motion.button
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.9 }}
-              className="p-3 text-gray-600 dark:text-gray-400 hover:text-turquoise transition-colors rounded-2xl magnetic-btn relative group"
+              className="p-3 text-gray-400 hover:text-white transition-colors rounded-2xl magnetic-btn relative group"
               title="Search"
             >
               <FaSearch className="w-5 h-5" />
               
               {/* Hover Effect */}
-              <div className="absolute inset-0 bg-turquoise/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-white/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
             </motion.button>
 
             {/* Theme Toggle */}
@@ -172,22 +172,22 @@ export default function Header() {
                 {/* User Profile */}
                 <motion.div
                   whileHover={{ scale: 1.05, y: -2 }}
-                  className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur-sm border border-white/20 magnetic-btn"
+                  className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 magnetic-btn"
                 >
                   {/* User Avatar */}
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                    className="w-8 h-8 rounded-full bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center shadow-lg"
+                    className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg"
                   >
-                    <FaUser className="w-4 h-4 text-white" />
+                    <FaUser className="w-4 h-4 text-black" />
                   </motion.div>
                   
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-800 dark:text-white leading-none">
+                    <span className="text-sm font-black text-white leading-none font-helvetica">
                       {user.name.split(' ')[0]}
                     </span>
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                    <span className="text-xs text-gray-400 font-helvetica">
                       {user.isAdmin ? 'Administrator' : 'Member'}
                     </span>
                   </div>
@@ -197,7 +197,7 @@ export default function Header() {
                     <motion.div
                       animate={{ rotate: [0, 10, -10, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="text-green-400"
+                      className="text-white"
                     >
                       <FaStar className="w-3 h-3" />
                     </motion.div>
@@ -209,7 +209,7 @@ export default function Header() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleLogout}
-                  className="px-4 py-2 rounded-2xl bg-gradient-to-r from-red-400 to-pink-500 text-white text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 magnetic-btn"
+                  className="px-4 py-2 rounded-2xl bg-white text-black text-sm font-black font-helvetica shadow-lg hover:bg-gray-200 transition-all duration-300 magnetic-btn"
                 >
                   Sign Out
                 </motion.button>
@@ -222,7 +222,7 @@ export default function Header() {
               >
                 <Link
                   href="/auth/signin"
-                  className="btn-liquid flex items-center gap-2 px-6 py-3 text-sm font-semibold"
+                  className="btn-luxury flex items-center gap-2 px-6 py-3 text-sm font-black font-helvetica"
                 >
                   <FaUser className="w-4 h-4" />
                   Sign In
@@ -235,7 +235,7 @@ export default function Header() {
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-3 text-gray-600 dark:text-gray-400 hover:text-turquoise rounded-2xl magnetic-btn relative group"
+              className="lg:hidden p-3 text-gray-400 hover:text-white rounded-2xl magnetic-btn relative group"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -245,7 +245,7 @@ export default function Header() {
               )}
               
               {/* Hover Effect */}
-              <div className="absolute inset-0 bg-turquoise/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-white/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-300" />
             </motion.button>
           </div>
         </div>
@@ -258,7 +258,7 @@ export default function Header() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -20 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className="lg:hidden glass-card-dark border border-white/10 rounded-3xl shadow-2xl overflow-hidden mt-4"
+              className="lg:hidden glass-card border border-white/10 rounded-2xl shadow-2xl overflow-hidden mt-4"
             >
               {/* User Info Section */}
               {user && (
@@ -266,33 +266,33 @@ export default function Header() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="p-6 border-b border-white/10 bg-gradient-to-r from-turquoise/5 to-neon-blue/5"
+                  className="p-6 border-b border-white/10 bg-white/5"
                 >
                   <div className="flex items-center gap-4 mb-3">
                     <motion.div
                       whileHover={{ rotate: 360 }}
-                      className="w-12 h-12 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center shadow-lg"
+                      className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-lg"
                     >
-                      <FaUser className="w-6 h-6 text-white" />
+                      <FaUser className="w-6 h-6 text-black" />
                     </motion.div>
                     <div className="flex-1">
-                      <p className="font-bold text-gray-900 dark:text-white text-lg">{user.name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+                      <p className="font-black text-white text-lg font-helvetica">{user.name}</p>
+                      <p className="text-sm text-gray-400 font-helvetica">{user.email}</p>
                     </div>
                     {user.isAdmin && (
                       <motion.div
                         animate={{ rotate: [0, 180, 360] }}
                         transition={{ duration: 3, repeat: Infinity }}
-                        className="text-green-400"
+                        className="text-white"
                       >
                         <FaStar className="w-5 h-5" />
                       </motion.div>
                     )}
                   </div>
                   {user.isAdmin && (
-                    <div className="flex items-center gap-2 text-sm bg-gradient-to-r from-green-400/10 to-cyan-400/10 px-3 py-2 rounded-xl">
-                      <FaCog className="w-3 h-3 text-green-400" />
-                      <span className="text-green-600 dark:text-green-400 font-semibold">Administrator Account</span>
+                    <div className="flex items-center gap-2 text-sm bg-white/10 px-3 py-2 rounded-xl">
+                      <FaCog className="w-3 h-3 text-white" />
+                      <span className="text-white font-black font-helvetica">Administrator Account</span>
                     </div>
                   )}
                 </motion.div>
@@ -309,25 +309,25 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="flex items-center gap-4 px-4 py-4 text-gray-700 dark:text-gray-300 hover:bg-white/10 dark:hover:bg-black/10 rounded-2xl transition-all duration-300 group"
+                      className="flex items-center gap-4 px-4 py-4 text-gray-300 hover:bg-white/10 rounded-2xl transition-all duration-300 group"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <motion.div
                         whileHover={{ scale: 1.2 }}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-turquoise/10 to-neon-blue/10 flex items-center justify-center group-hover:from-turquoise/20 group-hover:to-neon-blue/20 transition-all duration-300"
+                        className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all duration-300"
                       >
-                        <item.icon className="w-4 h-4 text-turquoise" />
+                        <item.icon className="w-4 h-4 text-white" />
                       </motion.div>
-                      <span className="font-semibold text-gray-900 dark:text-white flex-1">
+                      <span className="font-black text-white flex-1 font-helvetica">
                         {item.name}
                       </span>
                       {item.name === 'Admin' && (
-                        <span className="w-2 h-2 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full glow" />
+                        <span className="w-2 h-2 bg-white rounded-full glow" />
                       )}
                       <motion.div
                         initial={{ x: -10, opacity: 0 }}
                         whileHover={{ x: 0, opacity: 1 }}
-                        className="text-turquoise"
+                        className="text-white"
                       >
                         <FaStar className="w-3 h-3" />
                       </motion.div>
@@ -347,7 +347,7 @@ export default function Header() {
                   >
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-red-400 to-pink-500 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 magnetic-btn"
+                      className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white text-black rounded-2xl font-black font-helvetica shadow-lg hover:bg-gray-200 transition-all duration-300 magnetic-btn"
                     >
                       <FaTimes className="w-4 h-4" />
                       Sign Out
@@ -362,14 +362,14 @@ export default function Header() {
                   >
                     <Link
                       href="/auth/signin"
-                      className="block w-full text-center btn-liquid font-semibold py-4 rounded-2xl"
+                      className="block w-full text-center btn-luxury font-black font-helvetica py-4 rounded-2xl"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/auth/signup"
-                      className="block w-full text-center btn-glass font-semibold py-4 rounded-2xl"
+                      className="block w-full text-center btn-glass font-black font-helvetica py-4 rounded-2xl"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Create Account

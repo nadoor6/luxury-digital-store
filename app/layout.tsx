@@ -5,8 +5,8 @@ import Header from '@/components/Header';
 import './globals.css';
 
 export const metadata = {
-  title: 'Luxury Digital Store - Premium Digital Products',
-  description: 'Discover exclusive luxury digital products and experiences',
+  title: 'Ugarit - Premium Digital Luxury',
+  description: 'Exclusive digital products and experiences for the discerning client',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <body className="min-h-screen bg-black text-white transition-colors duration-300">
         <ThemeProvider>
           <AuthProvider>
             <CartProvider>
@@ -25,10 +25,10 @@ export default function RootLayout({
                 {children}
               </main>
               
-              <footer className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+              <footer className="bg-black border-t border-white/10">
                 <div className="container mx-auto px-4 py-8">
-                  <p className="text-center text-gray-600 dark:text-gray-400">
-                    © 2024 Luxury Digital Store. All rights reserved.
+                  <p className="text-center text-gray-400 font-helvetica">
+                    © 2024 Ugarit. All rights reserved.
                   </p>
                 </div>
               </footer>

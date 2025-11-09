@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { FaArrowRight, FaStar, FaShippingFast, FaShieldAlt, FaHeadset, FaGem } from 'react-icons/fa';
-// Replace FaStar with FaStar
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,39 +10,35 @@ export default function Home() {
       icon: <FaStar className="w-6 h-6" />,
       title: 'Premium Quality',
       description: 'Curated selection of the finest digital products',
-      gradient: 'from-yellow-400 to-orange-500'
     },
     {
       icon: <FaShippingFast className="w-6 h-6" />,
       title: 'Instant Delivery',
       description: 'Digital downloads available immediately after purchase',
-      gradient: 'from-green-400 to-cyan-500'
     },
     {
       icon: <FaShieldAlt className="w-6 h-6" />,
       title: 'Secure Payment',
       description: 'Bank-level encryption for all transactions',
-      gradient: 'from-blue-400 to-purple-500'
     },
     {
       icon: <FaHeadset className="w-6 h-6" />,
       title: '24/7 Support',
       description: 'Round-the-clock premium customer service',
-      gradient: 'from-purple-400 to-pink-500'
     }
   ];
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-100 dark:from-gray-900 dark:via-blue-900/20 dark:to-cyan-900/10" />
+      {/* Dark Luxury Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black" />
       
-      {/* Floating Particles */}
+      {/* Subtle Floating Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-2 h-2 bg-turquoise/20 rounded-full top-1/4 left-1/4 animate-float" />
-        <div className="absolute w-3 h-3 bg-neon-blue/20 rounded-full top-1/3 right-1/4 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute w-2 h-2 bg-neon-purple/20 rounded-full bottom-1/4 left-1/3 animate-float" style={{ animationDelay: '4s' }} />
-        <div className="absolute w-3 h-3 bg-turquoise/20 rounded-full bottom-1/3 right-1/3 animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute w-2 h-2 bg-white/10 rounded-full top-1/4 left-1/4 animate-float" />
+        <div className="absolute w-3 h-3 bg-white/10 rounded-full top-1/3 right-1/4 animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute w-2 h-2 bg-white/10 rounded-full bottom-1/4 left-1/3 animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute w-3 h-3 bg-white/10 rounded-full bottom-1/3 right-1/3 animate-float" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Hero Section */}
@@ -62,8 +57,8 @@ export default function Home() {
               transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
               className="inline-flex items-center gap-2 glass px-6 py-3 rounded-full mb-8 magnetic-btn"
             >
-              <FaStar className="w-4 h-4 text-turquoise" />
-              <span className="text-sm font-semibold gradient-text">PREMIUM DIGITAL EXPERIENCE</span>
+              <FaStar className="w-4 h-4 text-white" />
+              <span className="text-sm font-black font-helvetica text-white">EXCLUSIVE DIGITAL LUXURY</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -71,11 +66,11 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 1 }}
-              className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 tracking-tight"
+              className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight"
             >
-              <span className="text-gray-900 dark:text-white">Luxury</span>
+              <span className="text-white brand-ugarit">Ugarit</span>
               <br />
-              <span className="gradient-text bg-gradient-to-r from-turquoise via-neon-blue to-neon-purple">
+              <span className="elegant-text text-white">
                 Digital
               </span>
             </motion.h1>
@@ -85,10 +80,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
+              className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-helvetica font-bold"
             >
-              Where <span className="font-semibold text-gray-700 dark:text-gray-200">innovation</span> meets{' '}
-              <span className="font-semibold text-gray-700 dark:text-gray-200">elegance</span>. 
+              Where <span className="font-black text-white">innovation</span> meets{' '}
+              <span className="font-black text-white">elegance</span>. 
               Discover exclusive digital products crafted for the modern connoisseur.
             </motion.p>
 
@@ -103,7 +98,7 @@ export default function Home() {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="btn-liquid flex items-center gap-3 text-lg font-semibold"
+                  className="btn-luxury flex items-center gap-3 text-lg font-black font-helvetica"
                 >
                   <FaGem className="w-5 h-5" />
                   Explore Collection
@@ -114,7 +109,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-glass flex items-center gap-3 text-lg font-semibold text-gray-700 dark:text-gray-200"
+                className="btn-glass flex items-center gap-3 text-lg font-black font-helvetica text-white"
               >
                 Learn More
               </motion.button>
@@ -129,8 +124,8 @@ export default function Home() {
             >
               {[
                 { number: '10K+', label: 'Premium Products' },
-                { number: '50K+', label: 'Happy Customers' },
-                { number: '24/7', label: 'Support' },
+                { number: '50K+', label: 'Elite Clients' },
+                { number: '24/7', label: 'Concierge' },
                 { number: '99.9%', label: 'Uptime' }
               ].map((stat, index) => (
                 <motion.div
@@ -138,11 +133,11 @@ export default function Home() {
                   whileHover={{ scale: 1.05, y: -5 }}
                   className="text-center"
                 >
-                  <div className="glass-card-dark">
-                    <div className="text-2xl md:text-3xl font-bold gradient-text mb-1">
+                  <div className="glass-card">
+                    <div className="text-2xl md:text-3xl font-black text-white mb-1 font-helvetica-heavy">
                       {stat.number}
                     </div>
-                    <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-medium">
+                    <div className="text-xs md:text-sm text-gray-400 font-bold font-helvetica">
                       {stat.label}
                     </div>
                   </div>
@@ -162,11 +157,10 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Why Choose{' '}
-              <span className="gradient-text">Luxury Digital</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4 brand-ugarit">
+              Why Choose Ugarit
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto font-helvetica font-bold">
               Experience the difference of premium digital products with unparalleled quality and service
             </p>
           </motion.div>
@@ -191,27 +185,24 @@ export default function Home() {
                 }}
                 className="relative group"
               >
-                {/* Gradient Glow Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500`} />
-                
                 {/* Glass Card */}
                 <div className="relative glass-card transform-3d perspective-1000">
                   {/* Icon Container */}
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.6, type: "spring" }}
-                    className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center mb-6 mx-auto glow`}
+                    className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-6 mx-auto glow"
                   >
-                    <div className="text-white">
+                    <div className="text-black">
                       {feature.icon}
                     </div>
                   </motion.div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white text-center mb-3">
+                  <h3 className="text-xl font-black text-white text-center mb-3 font-helvetica-heavy">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-center text-sm leading-relaxed">
+                  <p className="text-gray-400 text-center text-sm leading-relaxed font-helvetica font-bold">
                     {feature.description}
                   </p>
 
@@ -219,7 +210,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, x: -10 }}
                     whileHover={{ opacity: 1, x: 0 }}
-                    className="absolute bottom-6 right-6 text-turquoise"
+                    className="absolute bottom-6 right-6 text-white"
                   >
                     <FaArrowRight className="w-4 h-4" />
                   </motion.div>
@@ -239,23 +230,19 @@ export default function Home() {
             transition={{ duration: 0.8, type: "spring" }}
             className="relative"
           >
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-turquoise/20 via-neon-blue/20 to-neon-purple/20 rounded-4xl blur-3xl" />
-            
             {/* Glass Container */}
-            <div className="relative glass-card-dark border border-white/10 rounded-3xl p-12 text-center">
+            <div className="relative glass-card border border-white/10 rounded-3xl p-12 text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className="max-w-3xl mx-auto"
               >
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                  Ready to Experience{' '}
-                  <span className="gradient-text">True Luxury?</span>
+                <h2 className="text-4xl md:text-5xl font-black text-white mb-6 brand-ugarit">
+                  Ready to Experience True Luxury?
                 </h2>
                 
-                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                <p className="text-xl text-gray-300 mb-8 leading-relaxed font-helvetica font-bold">
                   Join over 50,000 discerning customers who have elevated their digital experience with our premium products.
                 </p>
 
@@ -264,7 +251,7 @@ export default function Home() {
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="btn-liquid flex items-center gap-3 text-lg font-semibold px-8 py-4"
+                      className="btn-luxury flex items-center gap-3 text-lg font-black font-helvetica px-8 py-4"
                     >
                       <FaStar className="w-5 h-5" />
                       Discover Premium Collection
@@ -276,7 +263,7 @@ export default function Home() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="btn-glass flex items-center gap-3 text-lg font-semibold px-8 py-4"
+                      className="btn-glass flex items-center gap-3 text-lg font-black font-helvetica px-8 py-4"
                     >
                       Create Account
                     </motion.button>
@@ -291,8 +278,8 @@ export default function Home() {
                   className="flex flex-wrap justify-center gap-6 mt-8 pt-8 border-t border-white/10"
                 >
                   {['Secure Payments', '24/7 Support', 'Instant Delivery', 'Premium Quality'].map((badge, index) => (
-                    <div key={index} className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <FaShieldAlt className="w-3 h-3 text-turquoise" />
+                    <div key={index} className="flex items-center gap-2 text-sm text-gray-400 font-helvetica font-bold">
+                      <FaShieldAlt className="w-3 h-3 text-white" />
                       {badge}
                     </div>
                   ))}

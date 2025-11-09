@@ -9,25 +9,24 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                turquoise: '#40E0D0',
-                'neon-blue': '#00C8FF',
-                'neon-purple': '#B446FF',
-                'neon-pink': '#FF46B4',
-                'dark-grey': '#2C2C2C',
-                'cream-white': '#F5F5F5',
+                // Remove all neon colors, keep only black/white shades
+                'luxury-black': '#000000',
+                'luxury-white': '#FFFFFF',
+                'luxury-gray': '#1A1A1A',
+                'luxury-silver': '#E8E8E8',
             },
             animation: {
-                'float': 'float 6s ease-in-out infinite',
-                'gradient-shift': 'gradientShift 4s ease infinite',
+                'float': 'float 8s ease-in-out infinite',
+                'fade-in-up': 'fadeInUp 0.8s ease-out',
             },
             keyframes: {
                 float: {
-                    '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                    '50%': { transform: 'translateY(-20px) rotate(1deg)' },
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-15px)' },
                 },
-                gradientShift: {
-                    '0%, 100%': { backgroundPosition: '0% 50%' },
-                    '50%': { backgroundPosition: '100% 50%' },
+                fadeInUp: {
+                    '0%': { opacity: '0', transform: 'translateY(30px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
                 }
             },
             backdropBlur: {
@@ -36,6 +35,10 @@ module.exports = {
             scale: {
                 '105': '1.05',
                 '102': '1.02',
+            },
+            fontFamily: {
+                'helvetica': ['Helvetica', 'Arial', 'sans-serif'],
+                'helvetica-heavy': ['Helvetica Heavy', 'Helvetica', 'Arial', 'sans-serif'],
             }
         },
     },
