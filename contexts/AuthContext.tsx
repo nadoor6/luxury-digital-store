@@ -33,18 +33,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // Get user data from Firestore
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        const userData = userDoc.data();
-        
-        setUser({
-          uid: user.uid,
-          email: user.email!,
-          name: user.displayName || userData?.name || 'User',
-          isAdmin: userData?.isAdmin || false
-        });
+      if (user && db) {
+        try {
+          // Get user data from Firestore
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          const userData = userDoc.data();
+          
+          setUser({
+            uid: user.uid,
+            email: user.email!,
+            name: user.displayName || userData?.name || 'User',
+            isAdmin: userData?.isAdmin || false
+          });
+        } catch (error) {
+          console.error('Error loading user data:', error);
+          setUser({
+            uid: user.uid,
+            email: user.email!,
+            name: user.displayName || 'User',
+            isAdmin: false
+          });
+        }
       } else {
         setUser(null);
       }
@@ -55,6 +70,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const register = async (email: string, password: string, name: string) => {
+    if (!auth || !db) throw new Error('Firebase not initialized');
+    
     setLoading(true);
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -76,6 +93,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = async (email: string, password: string) => {
+    if (!auth) throw new Error('Firebase not initialized');
+    
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -87,6 +106,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
+    if (!auth) throw new Error('Firebase not initialized');
+    
     try {
       await signOut(auth);
     } catch (error: any) {
