@@ -1,14 +1,11 @@
 {
     "version": 2,
     "buildCommand": "npm run build",
-    "outputDirectory": "out",
+    "outputDirectory": ".next",
     "installCommand": "npm install",
     "functions": {
         "app/**/*.ts": {
             "includeFiles": "**/*"
         }
-    },
-    "env": {
-        "NODE_ENV": "production"
     }
 }
