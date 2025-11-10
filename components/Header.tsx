@@ -33,6 +33,7 @@ export default function Header() {
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="relative"
         >
           {/* Ultra Transparent Liquid Glass Background */}
@@ -105,33 +106,39 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* Mobile Full Screen Menu */}
+      {/* OPTIMIZED Mobile Full Screen Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="lg:hidden fixed inset-0 z-40"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
             
             <motion.div
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 100 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              transition={{ 
+                type: "spring", 
+                damping: 30, 
+                stiffness: 400,
+                mass: 0.8
+              }}
               className="absolute bottom-24 left-4 right-4 z-50"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-white/8 backdrop-blur-3xl rounded-3xl border border-white/15 shadow-2xl" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-3xl rounded-3xl border border-white/15 shadow-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl" />
                 
                 <div className="relative p-6">
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-3">
+                    <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-3">
                       <FaWallet className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-helvetica-black text-white mb-1">Mark Williamson</h3>
@@ -145,11 +152,15 @@ export default function Header() {
                         key={item.name}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 }}
+                        transition={{ 
+                          delay: index * 0.08,
+                          type: "spring",
+                          stiffness: 500
+                        }}
                       >
                         <Link
                           href={item.href}
-                          className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/8 hover:bg-white/8 hover:border-white/15 transition-all duration-300 group"
+                          className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/10 hover:bg-white/12 hover:border-white/20 transition-all duration-300 group"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           <item.icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform duration-300" />
@@ -160,10 +171,10 @@ export default function Header() {
                   </div>
 
                   <div className="flex gap-3 mt-6">
-                    <button className="flex-1 py-3 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/12 transition-all duration-300">
+                    <button className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-300">
                       Lock
                     </button>
-                    <button className="flex-1 py-3 rounded-2xl bg-white/15 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/20 transition-all duration-300">
+                    <button className="flex-1 py-3 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/25 transition-all duration-300">
                       Settings
                     </button>
                   </div>
@@ -179,6 +190,7 @@ export default function Header() {
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="bg-white/5 backdrop-blur-3xl border-b border-white/10"
         >
           <div className="container mx-auto px-6">
@@ -235,45 +247,56 @@ export default function Header() {
                     }`} />
                   </motion.button>
 
-                  {/* Desktop Dropdown Menu */}
+                  {/* ENHANCED Desktop Dropdown Menu - Less Transparent */}
                   <AnimatePresence>
                     {isDesktopMenuOpen && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute top-full right-0 mt-2 w-48 z-50"
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 500, 
+                          damping: 30 
+                        }}
+                        className="absolute top-full right-0 mt-2 w-56 z-50"
                       >
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-white/8 backdrop-blur-3xl rounded-2xl border border-white/15 shadow-2xl" />
-                          <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-2xl" />
-                          
-                          <div className="relative p-2">
-                            {/* User Info */}
-                            <div className="p-3 border-b border-white/10 mb-2">
-                              <p className="text-white font-helvetica-bold text-sm">Mark Williamson</p>
-                              <p className="text-white/50 text-xs">•••• 5678</p>
-                            </div>
+                        <div className="glass-desktop-menu rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+                          {/* User Info */}
+                          <div className="p-4 border-b border-white/10 bg-white/5">
+                            <p className="text-white font-helvetica-bold text-sm">Mark Williamson</p>
+                            <p className="text-white/60 text-xs mt-1">•••• 5678</p>
+                            <p className="text-white font-helvetica-black text-lg mt-2">$8,245.67</p>
+                          </div>
 
-                            {/* Menu Items */}
-                            {menuNavigation.map((item) => (
-                              <Link
+                          {/* Menu Items */}
+                          <div className="p-2">
+                            {menuNavigation.map((item, index) => (
+                              <motion.div
                                 key={item.name}
-                                href={item.href}
-                                className="flex items-center gap-3 p-3 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 group"
-                                onClick={() => setIsDesktopMenuOpen(false)}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
                               >
-                                <item.icon className="w-4 h-4" />
-                                <span className="text-sm font-helvetica-medium">{item.name}</span>
-                              </Link>
+                                <Link
+                                  href={item.href}
+                                  className="flex items-center gap-3 p-3 rounded-xl text-white hover:bg-white/10 transition-all duration-200 group"
+                                  onClick={() => setIsDesktopMenuOpen(false)}
+                                >
+                                  <item.icon className="w-4 h-4 text-white/80 group-hover:text-white" />
+                                  <span className="text-sm font-helvetica-medium">{item.name}</span>
+                                </Link>
+                              </motion.div>
                             ))}
+                          </div>
 
-                            {/* Action Buttons */}
-                            <div className="flex gap-2 mt-2 pt-2 border-t border-white/10">
-                              <button className="flex-1 py-2 rounded-xl bg-white/8 text-white text-xs font-helvetica-bold hover:bg-white/12 transition-all">
-                                Lock
+                          {/* Action Buttons */}
+                          <div className="p-3 border-t border-white/10 bg-white/5">
+                            <div className="flex gap-2">
+                              <button className="flex-1 py-2 rounded-xl bg-white/10 text-white text-xs font-helvetica-bold hover:bg-white/15 transition-all">
+                                Lock Wallet
                               </button>
-                              <button className="flex-1 py-2 rounded-xl bg-white/15 text-white text-xs font-helvetica-bold hover:bg-white/20 transition-all">
+                              <button className="flex-1 py-2 rounded-xl bg-white/20 text-white text-xs font-helvetica-bold hover:bg-white/25 transition-all">
                                 Settings
                               </button>
                             </div>

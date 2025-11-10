@@ -1,14 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaWallet, FaArrowRight, FaMoneyBillWave, FaChartLine, FaPiggyBank, FaCreditCard, FaBell, FaSearch, FaCog } from 'react-icons/fa';
+import { FaWallet, FaArrowRight, FaMoneyBillWave, FaChartLine, FaPiggyBank, FaCreditCard, FaBell, FaSearch, FaUniversity } from 'react-icons/fa';
 import { SiNetflix, SiAmazon } from 'react-icons/si';
 
 export default function FinanceHome() {
   const transactions = [
     { id: 1, name: 'Netflix', category: 'Entertainment', amount: -56.99, icon: SiNetflix, time: '9:30 AM' },
     { id: 2, name: 'Amazon', category: 'Shopping', amount: -15.49, icon: SiAmazon, time: '10:15 AM' },
-    { id: 3, name: 'Salary', category: 'Income', amount: 4500.00, icon: FaMoneyBillWave, time: '8:00 AM' },
+    { id: 3, name: 'Salary', category: 'Income', amount: 4500.00, icon: FaUniversity, time: '8:00 AM' },
+    { id: 4, name: 'Starbucks', category: 'Food & Drink', amount: -8.75, icon: FaMoneyBillWave, time: '7:45 AM' },
   ];
 
   const quickActions = [
@@ -19,25 +20,34 @@ export default function FinanceHome() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white pb-24">
-      {/* Header */}
-      <div className="p-6">
+    <div className="min-h-screen w-full bg-black text-white pb-32">
+      {/* Header Section */}
+      <div className="p-6 w-full">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex justify-between items-center mb-8"
+          transition={{ duration: 0.5 }}
+          className="flex justify-between items-center mb-8 w-full"
         >
           <div>
             <p className="text-white/40 text-sm font-helvetica-medium mb-1">Good morning</p>
             <h1 className="text-2xl font-helvetica-black">Mark Williamson</h1>
           </div>
           <div className="flex gap-2">
-            <button className="btn-luxury p-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn-luxury p-3"
+            >
               <FaSearch className="w-4 h-4" />
-            </button>
-            <button className="btn-luxury p-3">
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn-luxury p-3"
+            >
               <FaBell className="w-4 h-4" />
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
@@ -45,8 +55,8 @@ export default function FinanceHome() {
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="budget-stat p-6 mb-6"
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="budget-stat p-6 mb-6 w-full"
         >
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -55,10 +65,16 @@ export default function FinanceHome() {
             </div>
             <div className="text-right">
               <p className="text-white/40 text-sm font-helvetica-medium">USD</p>
+              <p className="text-white/30 text-xs">This month</p>
             </div>
           </div>
           <div className="w-full bg-white/10 rounded-full h-1.5">
-            <div className="bg-white h-1.5 rounded-full" style={{ width: '65%' }}></div>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: '65%' }}
+              transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+              className="bg-white h-1.5 rounded-full"
+            />
           </div>
         </motion.div>
 
@@ -66,8 +82,8 @@ export default function FinanceHome() {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="wallet-card p-6 mb-6"
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="wallet-card p-6 mb-6 w-full"
         >
           <div className="flex justify-between items-start mb-6">
             <div>
@@ -87,9 +103,13 @@ export default function FinanceHome() {
               <p className="text-white/30 text-xs font-helvetica-medium">Available</p>
               <p className="text-white font-helvetica-black text-lg">$8,245.67</p>
             </div>
-            <button className="btn-luxury-primary px-4 py-2 text-sm">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn-luxury-primary px-4 py-2 text-sm font-helvetica-bold"
+            >
               Details
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
@@ -97,20 +117,24 @@ export default function FinanceHome() {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mb-8"
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="mb-8 w-full"
         >
           <h3 className="text-lg font-helvetica-black mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-3 w-full">
             {quickActions.map((action, index) => (
               <motion.button
                 key={action.name}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
+                transition={{ 
+                  delay: 0.4 + index * 0.1,
+                  type: "spring",
+                  stiffness: 500
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="quick-action flex flex-col items-center gap-2 py-4"
+                className="quick-action flex flex-col items-center gap-2 py-4 w-full"
               >
                 <action.icon className="w-5 h-5 text-white" />
                 <span className="text-xs font-helvetica-medium">{action.name}</span>
@@ -123,21 +147,27 @@ export default function FinanceHome() {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="w-full"
         >
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4 w-full">
             <h3 className="text-lg font-helvetica-black">Transactions</h3>
             <p className="text-white/40 text-sm font-helvetica-medium">Today</p>
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-3 w-full">
             {transactions.map((transaction, index) => (
               <motion.div
                 key={transaction.id}
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
-                className="transaction-item p-4 flex items-center justify-between"
+                transition={{ 
+                  delay: 0.6 + index * 0.1,
+                  type: "spring",
+                  stiffness: 400
+                }}
+                className="transaction-item p-4 flex items-center justify-between w-full"
+                whileHover={{ scale: 1.02 }}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-2xl glass-simple flex items-center justify-center">
@@ -163,13 +193,18 @@ export default function FinanceHome() {
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="w-full btn-luxury py-4 rounded-2xl mt-4 font-helvetica-bold text-sm"
           >
             View All Transactions
           </motion.button>
         </motion.div>
       </div>
+
+      {/* Bottom spacing for mobile navigation */}
+      <div className="h-20 w-full"></div>
     </div>
   );
 }
