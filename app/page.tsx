@@ -59,6 +59,10 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [features.length]);
 
+  // Get current feature data
+  const currentFeatureData = features[currentFeature];
+  const CurrentFeatureIcon = currentFeatureData.icon;
+
   return (
     <div className="min-h-screen bg-black">
       {/* Hero Section with increased top padding */}
@@ -164,14 +168,14 @@ export default function Home() {
                 className="flex items-center gap-4"
               >
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center">
-                  <features[currentFeature].icon className="w-6 h-6 text-white" />
+                  <CurrentFeatureIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-left">
                   <h3 className="text-white font-black text-lg font-helvetica-heavy">
-                    {features[currentFeature].title}
+                    {currentFeatureData.title}
                   </h3>
                   <p className="text-gray-400 text-sm font-helvetica font-bold">
-                    {features[currentFeature].description}
+                    {currentFeatureData.description}
                   </p>
                 </div>
               </motion.div>
@@ -219,26 +223,29 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="glass-card rounded-2xl p-6 text-center border border-white/10 hover:border-white/20 transition-all duration-300 group"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-black text-white mb-3 font-helvetica-heavy">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-400 font-helvetica font-bold">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
+            {features.map((feature, index) => {
+              const FeatureIcon = feature.icon;
+              return (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="glass-card rounded-2xl p-6 text-center border border-white/10 hover:border-white/20 transition-all duration-300 group"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <FeatureIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-black text-white mb-3 font-helvetica-heavy">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 font-helvetica font-bold">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
