@@ -169,32 +169,27 @@ export default function Header() {
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
+      <div className="lg:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-md">
         <motion.div
           className="glass-card rounded-2xl border border-white/20"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
-              {/* Mobile Logo */}
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-2"
-              >
-                <Link href="/" className="flex items-center gap-2 group">
-                  <div className="w-8 h-8 rounded-lg glass-card border border-white/20 flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">U</span>
-                  </div>
-                  <span className="brand-ugarit text-lg font-bold">
-                    Ugarit
-                  </span>
-                </Link>
-              </motion.div>
+          <div className="px-4">
+            <div className="flex items-center justify-between h-14">
+              {/* Mobile Logo - Smaller */}
+              <Link href="/" className="flex items-center gap-2 group">
+                <div className="w-7 h-7 rounded-lg glass-card border border-white/20 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">U</span>
+                </div>
+                <span className="brand-ugarit text-base font-bold">
+                  Ugarit
+                </span>
+              </Link>
 
-              {/* Mobile Navigation Icons */}
-              <div className="flex items-center gap-1">
+              {/* Mobile Navigation Icons - Better Spacing */}
+              <div className="flex items-center gap-3">
                 {navigation.slice(0, 3).map((item, index) => (
                   <motion.div
                     key={item.name}
@@ -204,7 +199,7 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="btn-glass-modern p-2 magnetic-hover"
+                      className="flex items-center justify-center w-10 h-10 btn-glass-modern magnetic-hover"
                       title={item.name}
                     >
                       <item.icon className="w-4 h-4" />
@@ -213,14 +208,16 @@ export default function Header() {
                 ))}
                 
                 {/* Cart for Mobile */}
-                <Cart />
+                <div className="flex items-center justify-center w-10 h-10">
+                  <Cart />
+                </div>
                 
                 {/* Mobile Menu Button */}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="btn-glass-modern p-2 magnetic-hover"
+                  className="flex items-center justify-center w-10 h-10 btn-glass-modern magnetic-hover"
                   aria-label="Toggle menu"
                 >
                   {isMobileMenuOpen ? (

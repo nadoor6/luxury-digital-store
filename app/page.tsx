@@ -1,367 +1,245 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaArrowRight, FaGem, FaCrown, FaRocket, FaShieldAlt, FaStar, FaAward } from 'react-icons/fa';
+import { FaShield, FaRocket, FaGem, FaArrowRight, FaCrown, FaStar, FaAward, FaLock } from 'react-icons/fa';
 
 export default function Home() {
-  const [currentFeature, setCurrentFeature] = useState(0);
-
-  const features = [
-    {
-      icon: FaGem,
-      title: 'PREMIUM QUALITY',
-      description: 'Curated digital assets of the highest caliber'
-    },
-    {
-      icon: FaCrown,
-      title: 'EXCLUSIVE ACCESS',
-      description: 'Limited edition digital products for discerning clients'
-    },
-    {
-      icon: FaRocket,
-      title: 'INSTANT DELIVERY',
-      description: 'Immediate access to your purchases'
-    },
-    {
-      icon: FaShieldAlt,
-      title: 'SECURE TRANSACTIONS',
-      description: 'Blockchain-verified security for all transactions'
-    }
-  ];
-
-  const products = [
-    {
-      name: 'LUXURY APP SUITE',
-      price: 299,
-      description: 'Premium application bundle with exclusive features',
-      category: 'Software'
-    },
-    {
-      name: 'DIGITAL ART COLLECTION',
-      price: 599,
-      description: 'Limited edition digital artwork series',
-      category: 'Art'
-    },
-    {
-      name: 'PREMIUM SUBSCRIPTION',
-      price: 99,
-      description: 'Year-long access to exclusive content',
-      category: 'Subscription'
-    }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [features.length]);
-
-  // Get current feature data
-  const currentFeatureData = features[currentFeature];
-  const CurrentFeatureIcon = currentFeatureData.icon;
-
   return (
-    <div className="min-h-screen bg-black">
-      {/* Hero Section with increased top padding */}
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32 pb-20 px-4">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/10 to-cyan-900/10" />
-        
-        {/* Floating Particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              animate={{
-                y: [0, -100, 0],
-                x: [0, Math.random() * 100 - 50, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Background Luxury Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating Luxury Elements */}
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 5, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-1/4 left-1/6 w-4 h-4 bg-white/20 rounded-full blur-sm"
+        />
+        <motion.div
+          animate={{
+            y: [0, 15, 0],
+            rotate: [0, -3, 0],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+          className="absolute top-1/3 right-1/5 w-3 h-3 bg-white/15 rounded-full blur-sm"
+        />
+        <motion.div
+          animate={{
+            y: [0, -25, 0],
+            rotate: [0, 8, 0],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+          className="absolute bottom-1/4 left-2/5 w-2 h-2 bg-white/10 rounded-full blur-sm"
+        />
+      </div>
 
-        <div className="container mx-auto text-center relative z-10">
-          {/* Main Brand Name with increased spacing */}
+      <div className="text-center space-y-12 max-w-6xl mx-auto px-4 relative z-10">
+        {/* Enhanced Luxury UGARIT Title */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0, y: 50 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="space-y-6"
+        >
+          {/* Premium Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-8"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="flex justify-center"
           >
-            <h1 className="text-7xl md:text-9xl font-black text-white mb-4 tracking-tighter leading-none">
-              <span className="font-helvetica-black">UGARIT</span>
-            </h1>
-            <div className="h-1 w-24 bg-gradient-to-r from-turquoise to-neon-blue mx-auto mb-6 rounded-full"></div>
-            <p className="text-2xl md:text-3xl text-gray-300 font-light tracking-widest uppercase">
-              DIGITAL LUXURY
+            <div className="luxury-badge glass-card px-6 py-3 rounded-full border border-white/20 inline-flex items-center gap-2">
+              <FaCrown className="w-4 h-4 text-yellow-400" />
+              <span className="text-white/80 text-sm font-medium tracking-wider">PREMIUM DIGITAL LUXURY</span>
+              <FaStar className="w-3 h-3 text-yellow-400" />
+            </div>
+          </motion.div>
+
+          {/* Main Luxury Title */}
+          <div className="relative">
+            <motion.h1 
+              className="luxury-main-title text-8xl md:text-10xl lg:text-12xl font-black tracking-tighter leading-none"
+              initial={{ letterSpacing: '0.2em', opacity: 0 }}
+              animate={{ letterSpacing: '-0.02em', opacity: 1 }}
+              transition={{ delay: 0.3, duration: 1.5, ease: "easeOut" }}
+            >
+              UGARIT
+            </motion.h1>
+            
+            {/* Subtle Glow Effect */}
+            <div className="absolute inset-0 luxury-title-glow opacity-60"></div>
+          </div>
+
+          {/* Enhanced Subtitle */}
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="space-y-4"
+          >
+            <p className="text-2xl md:text-3xl text-white/90 font-light tracking-wide max-w-3xl mx-auto leading-relaxed luxury-subtitle">
+              Where digital excellence meets unparalleled luxury. 
+              <br className="hidden md:block" />
+              Experience the future of premium digital ownership.
+            </p>
+            
+            {/* Stats Bar */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
+              className="flex flex-wrap justify-center gap-8 pt-6 luxury-stats-bar"
+            >
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white luxury-stat-number">500+</div>
+                <div className="text-white/60 text-sm font-medium">Premium Products</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white luxury-stat-number">10K+</div>
+                <div className="text-white/60 text-sm font-medium">Elite Clients</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white luxury-stat-number">99.9%</div>
+                <div className="text-white/60 text-sm font-medium">Uptime</div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* Enhanced CTA Buttons */}
+        <motion.div 
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8"
+        >
+          <Link
+            href="/products"
+            className="luxury-primary-btn btn-liquid-glass px-10 py-5 text-xl font-semibold flex items-center gap-4 group magnetic-hover relative overflow-hidden"
+          >
+            <span className="relative z-10">EXPLORE COLLECTION</span>
+            <FaArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
+            <div className="absolute inset-0 luxury-btn-shimmer"></div>
+          </Link>
+          
+          <Link
+            href="/wallet/create"
+            className="luxury-secondary-btn btn-glass-modern px-10 py-5 text-xl font-semibold flex items-center gap-4 magnetic-hover relative overflow-hidden"
+          >
+            <FaGem className="w-5 h-5 relative z-10" />
+            <span className="relative z-10">CREATE WALLET</span>
+            <div className="absolute inset-0 luxury-btn-sparkle"></div>
+          </Link>
+        </motion.div>
+
+        {/* Enhanced Features Grid */}
+        <motion.div 
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.6, duration: 0.8 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-20 max-w-6xl mx-auto"
+        >
+          {/* Feature 1 */}
+          <motion.div 
+            whileHover={{ y: -8, scale: 1.02 }}
+            className="luxury-feature-card glass-card p-8 rounded-3xl text-center group relative overflow-hidden"
+          >
+            <div className="luxury-feature-glow"></div>
+            <div className="w-16 h-16 luxury-icon-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+              <FaLock className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-white font-bold text-xl mb-4">MILITARY SECURITY</h3>
+            <p className="text-white/70 text-sm leading-relaxed">
+              Bank-grade encryption and blockchain technology protecting every transaction
             </p>
           </motion.div>
 
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 font-helvetica font-bold leading-relaxed"
+          {/* Feature 2 */}
+          <motion.div 
+            whileHover={{ y: -8, scale: 1.02 }}
+            className="luxury-feature-card glass-card p-8 rounded-3xl text-center group relative overflow-hidden"
           >
-            Exclusive digital experiences for the discerning client. 
-            Where innovation meets elegance in the digital realm.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-          >
-            <Link href="/products" className="magnetic-btn">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-luxury flex items-center gap-3 px-8 py-4 text-lg font-black font-helvetica"
-              >
-                <FaGem className="w-5 h-5" />
-                EXPLORE COLLECTION
-                <FaArrowRight className="w-4 h-4" />
-              </motion.div>
-            </Link>
-            
-            <Link href="/wallet/create">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 border-2 border-white/20 text-white rounded-xl font-bold font-helvetica hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-              >
-                CREATE WALLET
-              </motion.button>
-            </Link>
-          </motion.div>
-
-          {/* Rotating Features */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 1 }}
-            className="max-w-md mx-auto"
-          >
-            <div className="glass-card rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
-              <motion.div
-                key={currentFeature}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="flex items-center gap-4"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center">
-                  <CurrentFeatureIcon className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-left">
-                  <h3 className="text-white font-black text-lg font-helvetica-heavy">
-                    {currentFeatureData.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm font-helvetica font-bold">
-                    {currentFeatureData.description}
-                  </p>
-                </div>
-              </motion.div>
+            <div className="luxury-feature-glow"></div>
+            <div className="w-16 h-16 luxury-icon-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+              <FaRocket className="w-6 h-6 text-white" />
             </div>
+            <h3 className="text-white font-bold text-xl mb-4">INSTANT ACCESS</h3>
+            <p className="text-white/70 text-sm leading-relaxed">
+              Immediate digital delivery with seamless experience across all devices
+            </p>
           </motion.div>
-        </div>
 
-        {/* Scroll Indicator */}
+          {/* Feature 3 */}
+          <motion.div 
+            whileHover={{ y: -8, scale: 1.02 }}
+            className="luxury-feature-card glass-card p-8 rounded-3xl text-center group relative overflow-hidden"
+          >
+            <div className="luxury-feature-glow"></div>
+            <div className="w-16 h-16 luxury-icon-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+              <FaGem className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-white font-bold text-xl mb-4">EXCLUSIVE CONTENT</h3>
+            <p className="text-white/70 text-sm leading-relaxed">
+              Curated premium digital assets available only to our elite clientele
+            </p>
+          </motion.div>
+
+          {/* Feature 4 */}
+          <motion.div 
+            whileHover={{ y: -8, scale: 1.02 }}
+            className="luxury-feature-card glass-card p-8 rounded-3xl text-center group relative overflow-hidden"
+          >
+            <div className="luxury-feature-glow"></div>
+            <div className="w-16 h-16 luxury-icon-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+              <FaAward className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-white font-bold text-xl mb-4">PREMIUM SUPPORT</h3>
+            <p className="text-white/70 text-sm leading-relaxed">
+              24/7 dedicated concierge service for all your digital luxury needs
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Trust Badges */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          transition={{ delay: 2, duration: 1 }}
+          className="pt-16"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
-          >
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-1 h-3 bg-white/50 rounded-full mt-2"
-            />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Features Grid Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-black to-purple-900/5">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
-              <span className="font-helvetica-black">WHY</span> 
-              <span className="font-light"> UGARIT</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-helvetica font-bold">
-              Experience the pinnacle of digital luxury with unparalleled quality and service.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => {
-              const FeatureIcon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="glass-card rounded-2xl p-6 text-center border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <FeatureIcon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-black text-white mb-3 font-helvetica-heavy">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-400 font-helvetica font-bold">
-                    {feature.description}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Premium Products Preview */}
-      <section className="py-20 px-4 bg-black">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
-              <span className="font-helvetica-black">CURATED</span> 
-              <span className="font-light"> SELECTION</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-helvetica font-bold">
-              Discover our exclusive range of premium digital products and experiences.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {products.map((product, index) => (
+          <p className="text-white/50 text-sm font-medium mb-6 tracking-wider">TRUSTED BY INDUSTRY LEADERS</p>
+          <div className="flex flex-wrap justify-center gap-8 opacity-40">
+            {['Blockchain', 'Security', 'Luxury', 'Digital', 'Premium', 'Elite'].map((badge, index) => (
               <motion.div
-                key={product.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2, duration: 0.6 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 group"
+                key={badge}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 2.2 + index * 0.1 }}
+                className="glass-card px-4 py-2 rounded-lg border border-white/10"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-                  <FaStar className="w-5 h-5 text-turquoise" />
-                </div>
-                <h3 className="text-2xl font-black text-white mb-2 font-helvetica-heavy">
-                  {product.name}
-                </h3>
-                <p className="text-gray-400 mb-4 font-helvetica font-bold">
-                  {product.description}
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-turquoise text-lg font-black font-helvetica-heavy">
-                    ${product.price}
-                  </span>
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm font-helvetica font-bold">
-                    {product.category}
-                  </span>
-                </div>
+                <span className="text-white/60 text-xs font-medium">{badge}</span>
               </motion.div>
             ))}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-center mt-12"
-          >
-            <Link href="/products" className="magnetic-btn inline-block">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-luxury flex items-center gap-3 px-8 py-4 text-lg font-black font-helvetica"
-              >
-                VIEW ALL PRODUCTS
-                <FaArrowRight className="w-4 h-4" />
-              </motion.div>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-black to-cyan-900/5">
-        <div className="container mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
-          >
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-r from-turquoise to-neon-blue flex items-center justify-center mx-auto mb-6">
-              <FaAward className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
-              <span className="font-helvetica-black">JOIN THE</span> 
-              <span className="font-light"> ELITE</span>
-            </h2>
-            <p className="text-xl text-gray-400 mb-8 font-helvetica font-bold">
-              Create your wallet today and gain access to the world's most exclusive digital marketplace.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/wallet/create" className="magnetic-btn">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="btn-luxury flex items-center gap-3 px-8 py-4 text-lg font-black font-helvetica"
-                >
-                  <FaGem className="w-5 h-5" />
-                  CREATE WALLET
-                </motion.div>
-              </Link>
-              <Link href="/products">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 border-2 border-white/20 text-white rounded-xl font-bold font-helvetica hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-                >
-                  BROWSE PRODUCTS
-                </motion.button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
     </div>
   );
 }
