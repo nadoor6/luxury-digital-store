@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { useWallet } from '@/contexts/WalletContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaArrowLeft, FaMoneyBillWave, FaCreditCard, FaBank, FaExchangeAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaMoneyBillWave, FaCreditCard, FaUniversity, FaExchangeAlt } from 'react-icons/fa';
 
 const paymentMethods = [
-  { value: 'bank_transfer', label: 'Bank Transfer', icon: FaBank, description: 'Wire transfer to our bank account' },
+  { value: 'bank_transfer', label: 'Bank Transfer', icon: FaUniversity, description: 'Wire transfer to our bank account' },
   { value: 'credit_card', label: 'Credit Card', icon: FaCreditCard, description: 'Visa, Mastercard, Amex' },
   { value: 'debit_card', label: 'Debit Card', icon: FaMoneyBillWave, description: 'Direct debit from your bank' },
   { value: 'crypto', label: 'Cryptocurrency', icon: FaExchangeAlt, description: 'BTC, ETH, USDT' },

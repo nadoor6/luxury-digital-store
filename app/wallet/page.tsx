@@ -13,8 +13,7 @@ import {
   FaUser, 
   FaShieldAlt,
   FaCopy,
-  FaCheck,
-  FaQrcode
+  FaCheck
 } from 'react-icons/fa';
 
 export default function WalletPage() {
