@@ -58,7 +58,7 @@ export default function Header() {
               className="flex items-center gap-3"
             >
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-xl glass-card flex items-center justify-center border border-white/20 group-hover:border-white/30 transition-all duration-300">
+                <div className="w-10 h-10 rounded-xl glass-card border border-white/20 flex items-center justify-center group-hover:border-white/30 transition-all duration-300">
                   <span className="text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">U</span>
                 </div>
                 

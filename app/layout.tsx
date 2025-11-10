@@ -20,25 +20,23 @@ export default function RootLayout({
         {/* Enhanced Live Dark B&W Abstract Background */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
           {/* Animated Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90 animate-gradient-shift"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90 bg-size-200 animate-gradient-shift"></div>
           
           {/* Floating Abstract Elements */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-float-sophisticated"></div>
-          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-white/3 rounded-full blur-3xl animate-float-sophisticated" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float-sophisticated" style={{ animationDelay: '4s' }}></div>
+          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-white/3 rounded-full blur-3xl animate-float-sophisticated animation-delay-2000"></div>
+          <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float-sophisticated animation-delay-4000"></div>
           
           {/* Geometric Patterns */}
           <div className="absolute top-0 left-0 w-full h-full opacity-5">
             <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full animate-pulse-sophisticated"></div>
-            <div className="absolute top-40 right-20 w-1 h-1 bg-white rounded-full animate-pulse-sophisticated" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute bottom-32 left-1/4 w-3 h-3 bg-white rounded-full animate-pulse-sophisticated" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute top-1/2 right-32 w-1 h-1 bg-white rounded-full animate-pulse-sophisticated" style={{ animationDelay: '0.5s' }}></div>
+            <div className="absolute top-40 right-20 w-1 h-1 bg-white rounded-full animate-pulse-sophisticated animation-delay-1000"></div>
+            <div className="absolute bottom-32 left-1/4 w-3 h-3 bg-white rounded-full animate-pulse-sophisticated animation-delay-2000"></div>
+            <div className="absolute top-1/2 right-32 w-1 h-1 bg-white rounded-full animate-pulse-sophisticated animation-delay-500"></div>
           </div>
 
           {/* Animated Grid */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" style={{ backgroundSize: '200% 100%' }}></div>
-          </div>
+          <div className="absolute inset-0 opacity-5 bg-shimmer-animated"></div>
         </div>
         
         {/* Main Content */}
@@ -100,18 +98,6 @@ export default function RootLayout({
             </CartProvider>
           </WalletProvider>
         </ThemeProvider>
-
-        {/* Background Animation Styles */}
-        <style jsx>{`
-          @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          .animate-gradient-shift {
-            background-size: 200% 200%;
-            animation: gradient-shift 15s ease infinite;
-          }
-        `}</style>
       </body>
     </html>
   );

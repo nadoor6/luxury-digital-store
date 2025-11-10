@@ -27,36 +27,36 @@ module.exports = {
                 'glass-border': 'rgba(255, 255, 255, 0.2)',
             },
             animation: {
-                'float-sophisticated': 'float-sophisticated 6s ease-in-out infinite',
+                'float-sophisticated': 'float-enhanced 6s ease-in-out infinite',
                 'fade-in-up': 'fadeInUp 0.8s ease-out',
                 'shimmer': 'shimmer 3s infinite',
-                'pulse-sophisticated': 'pulse-sophisticated 3s ease-in-out infinite',
-                'gradient-shift': 'gradientShift 15s ease infinite',
+                'pulse-sophisticated': 'pulse-enhanced 3s ease-in-out infinite',
+                'gradient-shift': 'gradient-shift-enhanced 15s ease infinite',
                 'background-float': 'floatBackground 20s ease-in-out infinite',
             },
             keyframes: {
-                floatSophisticated: {
+                'float-enhanced': {
                     '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                    '33%': { transform: 'translateY(-8px) rotate(0.5deg)' },
-                    '66%': { transform: 'translateY(-4px) rotate(-0.5deg)' },
+                    '33%': { transform: 'translateY(-20px) rotate(1deg)' },
+                    '66%': { transform: 'translateY(10px) rotate(-1deg)' },
                 },
-                fadeInUp: {
+                'fadeInUp': {
                     '0%': { opacity: '0', transform: 'translateY(30px)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
-                shimmer: {
+                'shimmer': {
                     '0%': { backgroundPosition: '-1000px 0' },
                     '100%': { backgroundPosition: '1000px 0' },
                 },
-                pulseSophisticated: {
+                'pulse-enhanced': {
                     '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-                    '50%': { opacity: '0.8', transform: 'scale(1.02)' },
+                    '50%': { opacity: '0.7', transform: 'scale(1.05)' },
                 },
-                gradientShift: {
+                'gradient-shift-enhanced': {
                     '0%, 100%': { backgroundPosition: '0% 50%' },
                     '50%': { backgroundPosition: '100% 50%' },
                 },
-                floatBackground: {
+                'floatBackground': {
                     '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
                     '33%': { transform: 'translateY(-20px) rotate(1deg)' },
                     '66%': { transform: 'translateY(10px) rotate(-1deg)' },
@@ -88,6 +88,9 @@ module.exports = {
             backgroundImage: {
                 'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
                 'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+            },
+            backgroundSize: {
+                '200': '200% 200%',
             }
         },
     },
