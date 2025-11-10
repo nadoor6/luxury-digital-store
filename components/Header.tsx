@@ -6,11 +6,23 @@ import { FaHome, FaCreditCard, FaHistory, FaWallet, FaUser, FaCog, FaChartLine, 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+// TODO: Replace with real authentication context
+const useAuth = () => {
+  return {
+    user: null, // Will be populated with real user data
+    wallet: null, // Will be populated with real wallet data
+    logout: () => {}, // Will be implemented with real logout
+    isAuthenticated: false // Will be set based on real auth state
+  };
+};
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const pathname = usePathname();
+  
+  const { user, wallet, logout, isAuthenticated } = useAuth();
 
   const mainNavigation = [
     { name: 'Home', href: '/', icon: FaHome },
@@ -34,7 +46,6 @@ export default function Header() {
     setIsAnimating(true);
     setIsMobileMenuOpen(!isMobileMenuOpen);
     
-    // Reset animation flag after transition
     setTimeout(() => setIsAnimating(false), 300);
   };
 
@@ -44,9 +55,13 @@ export default function Header() {
     setIsDesktopMenuOpen(false);
   }, [pathname]);
 
+  const formatCardNumber = (cardNumber: string) => {
+    return `•••• ${cardNumber.slice(-4)}`;
+  };
+
   return (
     <>
-      {/* iOS Style Bottom Navigation - Compressed Sides, Expanded Middle */}
+      {/* iOS Style Bottom Navigation */}
       <div className="lg:hidden fixed bottom-4 left-0 right-0 z-50 px-4 performance-optimize">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
@@ -55,11 +70,11 @@ export default function Header() {
           className="flex justify-center"
         >
           <div className="w-full max-w-md">
-            {/* Short Glass Bar Background - Wider in middle */}
+            {/* Short Glass Bar Background */}
             <div className="absolute inset-0 bg-white/8 backdrop-blur-3xl rounded-3xl border border-white/15 shadow-xl mx-4" />
             <div className="absolute inset-0 bg-gradient-to-br from-white/4 to-transparent rounded-3xl mx-4" />
             
-            {/* Navigation Items - Compressed spacing */}
+            {/* Navigation Items */}
             <div className="relative flex items-center justify-between px-2 py-3">
               {mainNavigation.map((item, index) => {
                 const active = isActive(item.href);
@@ -139,15 +154,23 @@ export default function Header() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/6 to-transparent rounded-3xl" />
             
             <div className="relative p-6">
+              {/* User/Wallet Info */}
               <div className="text-center mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-3">
                   <FaWallet className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-helvetica-black text-white mb-1">Mark Williamson</h3>
-                <p className="text-white/50 text-sm font-helvetica-medium">•••• 5678</p>
-                <p className="text-white font-helvetica-black text-xl mt-2">$8,245.67</p>
+                <h3 className="text-lg font-helvetica-black text-white mb-1">
+                  {user?.name || 'Welcome'}
+                </h3>
+                <p className="text-white/50 text-sm font-helvetica-medium">
+                  {wallet ? formatCardNumber(wallet.cardNumber) : 'No wallet connected'}
+                </p>
+                <p className="text-white font-helvetica-black text-xl mt-2">
+                  {wallet ? `$${wallet.balance.toLocaleString()}` : '$0.00'}
+                </p>
               </div>
 
+              {/* Menu Items */}
               <div className="grid grid-cols-2 gap-3">
                 {menuNavigation.map((item, index) => (
                   <Link
@@ -162,10 +185,24 @@ export default function Header() {
                 ))}
               </div>
 
+              {/* Action Buttons */}
               <div className="flex gap-3 mt-6">
-                <button className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-200">
-                  Lock
-                </button>
+                {isAuthenticated ? (
+                  <button
+                    onClick={logout}
+                    className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-200"
+                  >
+                    Sign Out
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-200 text-center"
+                    onClick={handleMobileMenuToggle}
+                  >
+                    Sign In
+                  </Link>
+                )}
                 <button className="flex-1 py-3 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/25 transition-all duration-200">
                   Settings
                 </button>
@@ -216,10 +253,14 @@ export default function Header() {
               {/* Desktop Wallet & Menu */}
               <div className="flex items-center gap-3">
                 {/* Wallet Info */}
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-lg px-3 py-2 rounded-2xl border border-white/10">
-                  <FaWallet className="w-4 h-4 text-white" />
-                  <span className="font-helvetica-bold text-sm">$8,245.67</span>
-                </div>
+                {wallet && (
+                  <div className="flex items-center gap-2 bg-white/5 backdrop-blur-lg px-3 py-2 rounded-2xl border border-white/10">
+                    <FaWallet className="w-4 h-4 text-white" />
+                    <span className="font-helvetica-bold text-sm">
+                      ${wallet.balance.toLocaleString()}
+                    </span>
+                  </div>
+                )}
 
                 {/* Desktop Menu Button */}
                 <div className="relative">
@@ -230,7 +271,9 @@ export default function Header() {
                     className="flex items-center gap-2 bg-white/5 backdrop-blur-lg px-3 py-2 rounded-2xl border border-white/10 text-white/70 hover:text-white transition-colors"
                   >
                     <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                      <span className="text-xs font-helvetica-bold">M</span>
+                      <span className="text-xs font-helvetica-bold">
+                        {user?.name?.[0] || 'U'}
+                      </span>
                     </div>
                     <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${
                       isDesktopMenuOpen ? 'rotate-180' : ''
@@ -250,9 +293,15 @@ export default function Header() {
                         <div className="glass-desktop-menu rounded-2xl border border-white/25 shadow-2xl overflow-hidden">
                           {/* User Info */}
                           <div className="p-4 border-b border-white/20 bg-white/10">
-                            <p className="text-white font-helvetica-bold text-sm">Mark Williamson</p>
-                            <p className="text-white/70 text-xs mt-1">•••• 5678</p>
-                            <p className="text-white font-helvetica-black text-lg mt-2">$8,245.67</p>
+                            <p className="text-white font-helvetica-bold text-sm">
+                              {user?.name || 'User'}
+                            </p>
+                            <p className="text-white/70 text-xs mt-1">
+                              {user?.email || 'user@example.com'}
+                            </p>
+                            <p className="text-white font-helvetica-black text-lg mt-2">
+                              {wallet ? `$${wallet.balance.toLocaleString()}` : '$0.00'}
+                            </p>
                           </div>
 
                           {/* Menu Items */}
@@ -273,9 +322,22 @@ export default function Header() {
                           {/* Action Buttons */}
                           <div className="p-3 border-t border-white/20 bg-white/10">
                             <div className="flex gap-2">
-                              <button className="flex-1 py-2.5 rounded-xl bg-white/15 text-white text-sm font-helvetica-bold hover:bg-white/20 transition-all">
-                                Lock Wallet
-                              </button>
+                              {isAuthenticated ? (
+                                <button
+                                  onClick={logout}
+                                  className="flex-1 py-2.5 rounded-xl bg-white/15 text-white text-sm font-helvetica-bold hover:bg-white/20 transition-all"
+                                >
+                                  Sign Out
+                                </button>
+                              ) : (
+                                <Link
+                                  href="/login"
+                                  className="flex-1 py-2.5 rounded-xl bg-white/15 text-white text-sm font-helvetica-bold hover:bg-white/20 transition-all text-center"
+                                  onClick={() => setIsDesktopMenuOpen(false)}
+                                >
+                                  Sign In
+                                </Link>
+                              )}
                               <button className="flex-1 py-2.5 rounded-xl bg-white/25 text-white text-sm font-helvetica-bold hover:bg-white/30 transition-all">
                                 Settings
                               </button>
