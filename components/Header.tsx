@@ -46,46 +46,46 @@ export default function Header() {
 
   return (
     <>
-      {/* FIXED Mobile Bottom Navigation - Properly Centered */}
-      <div className="lg:hidden fixed bottom-4 left-0 right-0 z-50 px-4 performance-optimize">
+      {/* ULTRA COMPACT iOS Style Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-3 left-0 right-0 z-50 px-3 performance-optimize">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="flex justify-center"
         >
-          <div className="w-full max-w-sm">
-            {/* Ultra Transparent Liquid Glass Background */}
-            <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-xl" />
-            <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
+          <div className="w-full max-w-xs">
+            {/* Ultra Compact Glass Background */}
+            <div className="absolute inset-0 bg-white/8 backdrop-blur-3xl rounded-2xl border border-white/15 shadow-lg" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/4 to-transparent rounded-2xl" />
             
-            {/* Navigation Items - Fixed Flex Layout */}
-            <div className="relative flex items-center justify-between p-2">
+            {/* Compact Navigation Items */}
+            <div className="relative flex items-center justify-between p-1">
               {mainNavigation.map((item, index) => {
                 const active = isActive(item.href);
                 return (
                   <motion.div
                     key={item.name}
                     className="relative flex-1 flex justify-center"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
                   >
                     <Link
                       href={item.href}
-                      className={`relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-all duration-200 ${
+                      className={`relative flex flex-col items-center justify-center w-12 h-12 rounded-xl transition-all duration-200 ${
                         active ? 'text-white' : 'text-white/70'
                       }`}
                     >
                       {active && (
                         <motion.div
                           layoutId="activeTab"
-                          className="absolute inset-0 bg-white/15 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-lg"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          className="absolute inset-0 bg-white/20 backdrop-blur-xl rounded-xl border border-white/25"
+                          transition={{ type: "spring", stiffness: 400, damping: 35 }}
                         />
                       )}
                       
                       <div className="relative z-10">
-                        <item.icon className={`w-5 h-5 transition-all duration-200 ${
+                        <item.icon className={`w-4 h-4 transition-all duration-200 ${
                           active ? 'scale-110' : 'scale-100'
                         }`} />
                       </div>
@@ -94,7 +94,7 @@ export default function Header() {
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="absolute bottom-1 w-1 h-1 bg-white/80 rounded-full"
+                          className="absolute bottom-0.5 w-1 h-1 bg-white rounded-full"
                         />
                       )}
                     </Link>
@@ -102,22 +102,22 @@ export default function Header() {
                 );
               })}
               
-              {/* Mobile Menu Button */}
+              {/* Compact Menu Button */}
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={handleMobileMenuToggle}
-                className="relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-white/70 hover:text-white transition-colors"
+                className="relative flex flex-col items-center justify-center w-12 h-12 rounded-xl text-white/70 hover:text-white transition-colors"
               >
-                <div className="relative z-10 flex flex-col gap-1">
-                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
-                    isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''
+                <div className="relative z-10 flex flex-col gap-0.5">
+                  <div className={`w-1 h-1 bg-current rounded-full transition-all duration-200 ${
+                    isMobileMenuOpen ? 'rotate-45 translate-y-1' : ''
                   }`} />
-                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
+                  <div className={`w-1 h-1 bg-current rounded-full transition-all duration-200 ${
                     isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
                   }`} />
-                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
-                    isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
+                  <div className={`w-1 h-1 bg-current rounded-full transition-all duration-200 ${
+                    isMobileMenuOpen ? '-rotate-45 -translate-y-1' : ''
                   }`} />
                 </div>
               </motion.button>
@@ -126,47 +126,47 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* ULTRA OPTIMIZED Mobile Full Screen Menu - CSS Transitions */}
+      {/* Compact Mobile Full Screen Menu */}
       <div className={`lg:hidden fixed inset-0 z-40 mobile-menu-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
            style={{ pointerEvents: isMobileMenuOpen ? 'auto' : 'none' }}
            onClick={handleMobileMenuToggle}>
         <div className="absolute inset-0 bg-black/40" />
         
-        <div className={`absolute bottom-20 left-4 right-4 z-50 mobile-menu-content ${isMobileMenuOpen ? 'open' : ''}`}
+        <div className={`absolute bottom-16 left-3 right-3 z-50 mobile-menu-content ${isMobileMenuOpen ? 'open' : ''}`}
              onClick={(e) => e.stopPropagation()}>
           <div className="relative">
-            <div className="absolute inset-0 bg-white/12 backdrop-blur-2xl rounded-3xl border border-white/18 shadow-2xl" />
-            <div className="absolute inset-0 bg-gradient-to-br from-white/6 to-transparent rounded-3xl" />
+            <div className="absolute inset-0 bg-white/12 backdrop-blur-2xl rounded-2xl border border-white/18 shadow-xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/6 to-transparent rounded-2xl" />
             
-            <div className="relative p-6">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-3">
-                  <FaWallet className="w-6 h-6 text-white" />
+            <div className="relative p-4">
+              <div className="text-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-2">
+                  <FaWallet className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-lg font-helvetica-black text-white mb-1">Mark Williamson</h3>
-                <p className="text-white/50 text-sm font-helvetica-medium">•••• 5678</p>
-                <p className="text-white font-helvetica-black text-xl mt-2">$8,245.67</p>
+                <h3 className="text-base font-helvetica-black text-white mb-1">Mark Williamson</h3>
+                <p className="text-white/50 text-xs font-helvetica-medium">•••• 5678</p>
+                <p className="text-white font-helvetica-black text-lg mt-1">$8,245.67</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {menuNavigation.map((item, index) => (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/10 hover:bg-white/12 hover:border-white/20 transition-all duration-200 group"
+                    className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/8 backdrop-blur-lg border border-white/10 hover:bg-white/12 hover:border-white/20 transition-all duration-200 group"
                     onClick={handleMobileMenuToggle}
                   >
-                    <item.icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform duration-200" />
-                    <span className="text-white text-sm font-helvetica-medium">{item.name}</span>
+                    <item.icon className="w-5 h-5 text-white mb-1 group-hover:scale-110 transition-transform duration-200" />
+                    <span className="text-white text-xs font-helvetica-medium">{item.name}</span>
                   </Link>
                 ))}
               </div>
 
-              <div className="flex gap-3 mt-6">
-                <button className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-200">
+              <div className="flex gap-2 mt-4">
+                <button className="flex-1 py-2 rounded-xl bg-white/10 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-xs hover:bg-white/15 transition-all duration-200">
                   Lock
                 </button>
-                <button className="flex-1 py-3 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/25 transition-all duration-200">
+                <button className="flex-1 py-2 rounded-xl bg-white/20 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-xs hover:bg-white/25 transition-all duration-200">
                   Settings
                 </button>
               </div>
@@ -237,7 +237,7 @@ export default function Header() {
                     }`} />
                   </motion.button>
 
-                  {/* ENHANCED Desktop Dropdown Menu - Much Less Transparent */}
+                  {/* Desktop Dropdown Menu */}
                   <AnimatePresence>
                     {isDesktopMenuOpen && (
                       <motion.div
