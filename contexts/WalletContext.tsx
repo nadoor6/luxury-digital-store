@@ -9,12 +9,16 @@ interface Wallet {
   createdAt: Date;
 }
 
+// Define the status type explicitly
+type TransactionStatus = 'pending' | 'completed' | 'failed' | 'cancelled';
+type TransactionType = 'deposit' | 'withdrawal' | 'transfer' | 'payment';
+
 interface Transaction {
   id: string;
   walletAddress: string;
-  type: 'deposit' | 'withdrawal' | 'transfer' | 'payment';
+  type: TransactionType;
   amount: number;
-  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  status: TransactionStatus;
   description: string;
   createdAt: Date;
   metadata?: {
@@ -26,13 +30,17 @@ interface Transaction {
   };
 }
 
+// Define KYC status type explicitly
+type KYCStatus = 'pending' | 'verified' | 'rejected' | 'not_started';
+type UserTier = 'basic' | 'verified' | 'premium';
+
 interface UserProfile {
   walletAddress: string;
   email: string;
   fullName: string;
   phone: string;
-  kycStatus: 'pending' | 'verified' | 'rejected' | 'not_started';
-  tier: 'basic' | 'verified' | 'premium';
+  kycStatus: KYCStatus;
+  tier: UserTier;
   documents: {
     idFront?: string;
     idBack?: string;
@@ -65,7 +73,7 @@ interface WalletContextType {
   rejectWithdrawal: (transactionId: string, reason: string) => Promise<void>;
   getPendingTransactions: () => Transaction[];
   getAllUsers: () => UserProfile[];
-  updateUserKYCStatus: (walletAddress: string, status: UserProfile['kycStatus']) => Promise<void>;
+  updateUserKYCStatus: (walletAddress: string, status: KYCStatus) => Promise<void>;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -89,7 +97,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
     const savedTransactions = localStorage.getItem('transactions');
     
     if (savedWallet) {
-      setWallet(JSON.parse(savedWallet));
+      const parsedWallet = JSON.parse(savedWallet);
+      // Convert string dates back to Date objects
+      setWallet({
+        ...parsedWallet,
+        createdAt: new Date(parsedWallet.createdAt)
+      });
     }
     
     if (savedProfile) {
@@ -97,7 +110,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
     }
     
     if (savedTransactions) {
-      setTransactions(JSON.parse(savedTransactions));
+      const parsedTransactions = JSON.parse(savedTransactions);
+      // Convert string dates back to Date objects
+      setTransactions(parsedTransactions.map((t: any) => ({
+        ...t,
+        createdAt: new Date(t.createdAt)
+      })));
     }
     
     if (savedAdmin === 'true') {
@@ -301,12 +319,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
     const transaction = transactions.find(t => t.id === transactionId);
     if (!transaction) throw new Error('Transaction not found');
     
-    // Update transaction status
+    // Update transaction status with proper type
     const updatedTransactions = transactions.map(t => 
       t.id === transactionId 
         ? { 
             ...t, 
-            status: 'completed',
+            status: 'completed' as TransactionStatus,
             metadata: { ...t.metadata, adminNote }
           }
         : t
@@ -329,7 +347,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
       t.id === transactionId 
         ? { 
             ...t, 
-            status: 'failed',
+            status: 'failed' as TransactionStatus,
             metadata: { ...t.metadata, adminNote: reason }
           }
         : t
@@ -347,7 +365,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
       t.id === transactionId 
         ? { 
             ...t, 
-            status: 'completed',
+            status: 'completed' as TransactionStatus,
             metadata: { ...t.metadata, adminNote }
           }
         : t
@@ -370,7 +388,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
       t.id === transactionId 
         ? { 
             ...t, 
-            status: 'failed',
+            status: 'failed' as TransactionStatus,
             metadata: { ...t.metadata, adminNote: reason }
           }
         : t
@@ -379,8 +397,9 @@ export function WalletProvider({ children }: WalletProviderProps) {
   };
 
   const getTransactionHistory = (): Transaction[] => {
-    return transactions.filter(t => t.walletAddress === wallet?.address)
-                      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return transactions
+      .filter(t => t.walletAddress === wallet?.address)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   };
 
   const getPendingTransactions = (): Transaction[] => {
@@ -392,7 +411,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
     return userProfile ? [userProfile] : [];
   };
 
-  const updateUserKYCStatus = async (walletAddress: string, status: UserProfile['kycStatus']): Promise<void> => {
+  const updateUserKYCStatus = async (walletAddress: string, status: KYCStatus): Promise<void> => {
     if (!isAdmin) throw new Error('Admin access required');
     
     if (userProfile && userProfile.walletAddress === walletAddress) {
