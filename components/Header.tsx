@@ -27,18 +27,18 @@ export default function Header() {
 
   return (
     <>
-      {/* iOS Liquid Glass Bottom Navigation */}
+      {/* Ultra Transparent iOS Liquid Glass Bottom Navigation */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-sm">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="relative"
         >
-          {/* Liquid Glass Background */}
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-3xl rounded-3xl border border-white/20 shadow-2xl" />
+          {/* Ultra Transparent Liquid Glass Background */}
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-xl" />
           
-          {/* Subtle Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-3xl" />
+          {/* Very Subtle Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
           
           {/* Navigation Items */}
           <div className="relative flex items-center justify-between p-2">
@@ -54,14 +54,14 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-2xl transition-all duration-300 ${
-                      active ? 'text-white' : 'text-white/60'
+                      active ? 'text-white' : 'text-white/70'
                     }`}
                   >
-                    {/* Active Background Bubble */}
+                    {/* Active Background Bubble - More Transparent */}
                     {active && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-lg"
+                        className="absolute inset-0 bg-white/15 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-lg"
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
                     )}
@@ -73,12 +73,12 @@ export default function Header() {
                       }`} />
                     </div>
                     
-                    {/* Active Dot */}
+                    {/* Active Dot - More Subtle */}
                     {active && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="absolute bottom-2 w-1 h-1 bg-white rounded-full"
+                        className="absolute bottom-2 w-1 h-1 bg-white/80 rounded-full"
                       />
                     )}
                   </Link>
@@ -86,12 +86,12 @@ export default function Header() {
               );
             })}
             
-            {/* Menu Button */}
+            {/* Menu Button - More Transparent */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative flex flex-col items-center justify-center w-16 h-16 rounded-2xl text-white/60 hover:text-white transition-colors"
+              className="relative flex flex-col items-center justify-center w-16 h-16 rounded-2xl text-white/70 hover:text-white transition-colors"
             >
               {/* Menu Icon Dots */}
               <div className="relative z-10 flex flex-col gap-1">
@@ -110,7 +110,7 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* Full Screen Liquid Glass Menu */}
+      {/* Full Screen Ultra Transparent Liquid Glass Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -120,8 +120,8 @@ export default function Header() {
             className="fixed inset-0 z-40"
             onClick={() => setIsMenuOpen(false)}
           >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+            {/* More Transparent Backdrop */}
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
             
             {/* Menu Content */}
             <motion.div
@@ -132,25 +132,25 @@ export default function Header() {
               className="absolute bottom-24 left-1/2 transform -translate-x-1/2 w-[90%] max-w-sm"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Liquid Glass Menu Card */}
+              {/* Ultra Transparent Liquid Glass Menu Card */}
               <div className="relative">
-                {/* Glass Background */}
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-3xl rounded-3xl border border-white/20 shadow-2xl" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-3xl" />
+                {/* Very Transparent Glass Background */}
+                <div className="absolute inset-0 bg-white/8 backdrop-blur-3xl rounded-3xl border border-white/15 shadow-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
                 
                 {/* Menu Content */}
                 <div className="relative p-6">
-                  {/* User Info */}
+                  {/* User Info - More Transparent */}
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/20 flex items-center justify-center mx-auto mb-3">
+                    <div className="w-16 h-16 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/15 flex items-center justify-center mx-auto mb-3">
                       <FaWallet className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-helvetica-black text-white mb-1">Mark Williamson</h3>
-                    <p className="text-white/40 text-sm font-helvetica-medium">•••• 5678</p>
+                    <p className="text-white/50 text-sm font-helvetica-medium">•••• 5678</p>
                     <p className="text-white font-helvetica-black text-xl mt-2">$8,245.67</p>
                   </div>
 
-                  {/* Menu Items Grid */}
+                  {/* Menu Items Grid - More Transparent */}
                   <div className="grid grid-cols-2 gap-3">
                     {menuNavigation.map((item, index) => (
                       <motion.div
@@ -161,7 +161,7 @@ export default function Header() {
                       >
                         <Link
                           href={item.href}
-                          className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
+                          className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/8 hover:bg-white/8 hover:border-white/15 transition-all duration-300 group"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <item.icon className="w-6 h-6 text-white mb-2 group-hover:scale-110 transition-transform duration-300" />
@@ -171,12 +171,12 @@ export default function Header() {
                     ))}
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Action Buttons - More Transparent */}
                   <div className="flex gap-3 mt-6">
-                    <button className="flex-1 py-3 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/15 transition-all duration-300">
+                    <button className="flex-1 py-3 rounded-2xl bg-white/8 backdrop-blur-lg border border-white/15 text-white font-helvetica-bold text-sm hover:bg-white/12 transition-all duration-300">
                       Lock
                     </button>
-                    <button className="flex-1 py-3 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/30 text-white font-helvetica-bold text-sm hover:bg-white/25 transition-all duration-300">
+                    <button className="flex-1 py-3 rounded-2xl bg-white/15 backdrop-blur-lg border border-white/20 text-white font-helvetica-bold text-sm hover:bg-white/20 transition-all duration-300">
                       Settings
                     </button>
                   </div>
@@ -187,18 +187,18 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      {/* Desktop Header (Simplified) */}
+      {/* Desktop Header (More Transparent) */}
       <header className="hidden lg:block fixed top-0 left-0 right-0 z-50">
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}
-          className="glass-card border-b border-white/20"
+          className="bg-white/5 backdrop-blur-3xl border-b border-white/10"
         >
           <div className="container mx-auto px-6">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
               <Link href="/" className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl glass-simple flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 flex items-center justify-center">
                   <span className="text-white font-helvetica-black text-lg">U</span>
                 </div>
                 <span className="luxury-title text-xl font-helvetica-black">
@@ -206,7 +206,7 @@ export default function Header() {
                 </span>
               </Link>
 
-              {/* Desktop Navigation */}
+              {/* Desktop Navigation - More Transparent */}
               <nav className="flex items-center gap-1">
                 {mainNavigation.map((item) => (
                   <Link
@@ -214,8 +214,8 @@ export default function Header() {
                     href={item.href}
                     className={`flex items-center gap-2 px-4 py-2 rounded-2xl font-helvetica-bold transition-all ${
                       isActive(item.href)
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/60 hover:text-white'
+                        ? 'bg-white/15 text-white'
+                        : 'text-white/70 hover:text-white hover:bg-white/5'
                     }`}
                   >
                     <item.icon className="w-4 h-4" />
@@ -224,9 +224,9 @@ export default function Header() {
                 ))}
               </nav>
 
-              {/* Wallet Info */}
+              {/* Wallet Info - More Transparent */}
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 glass-simple px-3 py-2 rounded-2xl">
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-lg px-3 py-2 rounded-2xl border border-white/10">
                   <FaWallet className="w-4 h-4 text-white" />
                   <span className="font-helvetica-bold text-sm">$8,245.67</span>
                 </div>

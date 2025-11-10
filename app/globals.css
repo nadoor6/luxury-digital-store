@@ -209,6 +209,75 @@ body {
 }
 
 
+/* Ultra Transparent iOS Liquid Glass Effects */
+
+.ios-glass-ultra {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(50px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+}
+
+.ios-glass-heavy-ultra {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(60px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* Enhanced Glass Morphism with More Transparency */
+
+.glass-card-ultra {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+}
+
+.glass-simple-ultra {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+}
+
+
+/* Ultra Transparent Button States */
+
+.btn-ultra-transparent {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: white;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-ultra-transparent:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+
+/* Ultra Transparent Active States */
+
+.active-ultra-transparent {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* Hover States for Ultra Transparency */
+
+.hover-ultra-transparent:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
 /* iOS-style Button Press */
 
 .ios-press:active {
