@@ -17,7 +17,7 @@ export default function AdminAccess() {
     e.preventDefault();
     
     // Simple admin password - you can change this
-    if (password === 'admin123') {
+    if (password === 'nadernader777111') {
       // Grant admin access by setting admin flag
       localStorage.setItem('adminAccess', 'true');
       router.push('/admin');
