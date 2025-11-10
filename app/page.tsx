@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaArrowRight, FaGem, FaCrown, FaRocket, FaShield, FaStar, FaAward } from 'react-icons/fa';
+import { FaArrowRight, FaGem, FaCrown, FaRocket, FaShieldAlt, FaStar, FaAward } from 'react-icons/fa';
 
 export default function Home() {
   const [currentFeature, setCurrentFeature] = useState(0);
@@ -25,7 +25,7 @@ export default function Home() {
       description: 'Immediate access to your purchases'
     },
     {
-      icon: FaShield,
+      icon: FaShieldAlt,
       title: 'SECURE TRANSACTIONS',
       description: 'Blockchain-verified security for all transactions'
     }
