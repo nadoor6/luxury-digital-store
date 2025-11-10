@@ -46,80 +46,82 @@ export default function Header() {
 
   return (
     <>
-      {/* FIXED Mobile Bottom Navigation - Proper Width & Spacing */}
-      <div className="lg:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[96%] max-w-md performance-optimize">
+      {/* FIXED Mobile Bottom Navigation - Properly Centered */}
+      <div className="lg:hidden fixed bottom-4 left-0 right-0 z-50 px-4 performance-optimize">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="relative"
+          className="flex justify-center"
         >
-          {/* Ultra Transparent Liquid Glass Background */}
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-xl" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
-          
-          {/* Navigation Items - Fixed Grid Layout */}
-          <div className="relative grid grid-cols-4 gap-0 p-1">
-            {mainNavigation.map((item, index) => {
-              const active = isActive(item.href);
-              return (
-                <motion.div
-                  key={item.name}
-                  className="relative flex justify-center"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link
-                    href={item.href}
-                    className={`relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-all duration-200 ${
-                      active ? 'text-white' : 'text-white/70'
-                    }`}
-                  >
-                    {active && (
-                      <motion.div
-                        layoutId="activeTab"
-                        className="absolute inset-0 bg-white/15 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-lg"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                    
-                    <div className="relative z-10">
-                      <item.icon className={`w-5 h-5 transition-all duration-200 ${
-                        active ? 'scale-110' : 'scale-100'
-                      }`} />
-                    </div>
-                    
-                    {active && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute bottom-1 w-1 h-1 bg-white/80 rounded-full"
-                      />
-                    )}
-                  </Link>
-                </motion.div>
-              );
-            })}
+          <div className="w-full max-w-sm">
+            {/* Ultra Transparent Liquid Glass Background */}
+            <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
             
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleMobileMenuToggle}
-              className="relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-white/70 hover:text-white transition-colors"
-            >
-              <div className="relative z-10 flex flex-col gap-1">
-                <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
-                  isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''
-                }`} />
-                <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
-                  isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
-                }`} />
-                <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
-                  isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
-                }`} />
-              </div>
-            </motion.button>
+            {/* Navigation Items - Fixed Flex Layout */}
+            <div className="relative flex items-center justify-between p-2">
+              {mainNavigation.map((item, index) => {
+                const active = isActive(item.href);
+                return (
+                  <motion.div
+                    key={item.name}
+                    className="relative flex-1 flex justify-center"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className={`relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-all duration-200 ${
+                        active ? 'text-white' : 'text-white/70'
+                      }`}
+                    >
+                      {active && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute inset-0 bg-white/15 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-lg"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                      
+                      <div className="relative z-10">
+                        <item.icon className={`w-5 h-5 transition-all duration-200 ${
+                          active ? 'scale-110' : 'scale-100'
+                        }`} />
+                      </div>
+                      
+                      {active && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute bottom-1 w-1 h-1 bg-white/80 rounded-full"
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              
+              {/* Mobile Menu Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleMobileMenuToggle}
+                className="relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-white/70 hover:text-white transition-colors"
+              >
+                <div className="relative z-10 flex flex-col gap-1">
+                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
+                    isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''
+                  }`} />
+                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
+                    isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+                  }`} />
+                  <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
+                    isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
+                  }`} />
+                </div>
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       </div>
