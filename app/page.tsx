@@ -26,7 +26,6 @@ export default function HomePage() {
     }
   }, [wallet, loading, router]);
 
-  // Show loading/redirect screen
   if (loading || isRedirecting) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -45,7 +44,7 @@ export default function HomePage() {
               rotate: { duration: 2, repeat: Infinity, ease: "linear" },
               scale: { duration: 1.5, repeat: Infinity }
             }}
-            className="w-20 h-20 bg-gradient-to-r from-turquoise to-neon-blue rounded-2xl flex items-center justify-center mx-auto mb-6 glow"
+            className="w-20 h-20 liquid-glass rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10"
           >
             <FaGem className="w-8 h-8 text-white" />
           </motion.div>
@@ -65,7 +64,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-gray-400 font-helvetica font-bold text-lg mb-8"
+            className="text-white/60 font-helvetica-bold text-lg mb-8"
           >
             Premium Digital Finance
           </motion.p>
@@ -77,8 +76,8 @@ export default function HomePage() {
             transition={{ delay: 0.6 }}
             className="flex flex-col items-center space-y-4"
           >
-            <div className="w-8 h-8 border-2 border-turquoise border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-400 font-helvetica font-bold">
+            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-white/60 font-helvetica-bold">
               {wallet ? 'Entering your wallet...' : 'Redirecting to access...'}
             </p>
           </motion.div>
@@ -91,20 +90,20 @@ export default function HomePage() {
             className="grid grid-cols-2 gap-4 mt-12 max-w-md mx-auto"
           >
             {[
-              { icon: FaShieldAlt, text: 'Secure', color: 'text-green-400' },
-              { icon: FaCoins, text: 'Multi-Currency', color: 'text-yellow-400' },
-              { icon: FaRocket, text: 'Fast', color: 'text-blue-400' },
-              { icon: FaWallet, text: 'Managed', color: 'text-purple-400' },
+              { icon: FaShieldAlt, text: 'Secure' },
+              { icon: FaCoins, text: 'Multi-Currency' },
+              { icon: FaRocket, text: 'Fast' },
+              { icon: FaWallet, text: 'Managed' },
             ].map((feature, index) => (
               <motion.div
                 key={feature.text}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 + index * 0.1 }}
-                className="flex items-center gap-2 p-3 bg-white/5 rounded-xl border border-white/10"
+                className="flex items-center gap-2 p-3 liquid-glass rounded-xl border border-white/10"
               >
-                <feature.icon className={`w-4 h-4 ${feature.color}`} />
-                <span className="text-white text-sm font-helvetica font-bold">{feature.text}</span>
+                <feature.icon className="w-4 h-4 text-white" />
+                <span className="text-white text-sm font-helvetica-bold">{feature.text}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -114,9 +113,9 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
-            className="mt-8 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl max-w-md mx-auto"
+            className="mt-8 p-4 liquid-glass border border-white/10 rounded-xl max-w-md mx-auto"
           >
-            <p className="text-yellow-400 text-sm font-helvetica font-bold text-center">
+            <p className="text-white text-sm font-helvetica-bold text-center">
               🔒 Your security is our priority. All transactions are manually verified.
             </p>
           </motion.div>
@@ -125,12 +124,11 @@ export default function HomePage() {
     );
   }
 
-  // Fallback - This should rarely show as redirect happens quickly
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center">
-        <div className="w-16 h-16 border-4 border-turquoise border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-white font-helvetica font-bold">Preparing Ugarit...</p>
+        <div className="w-16 h-16 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-white font-helvetica-bold">Preparing Ugarit...</p>
       </div>
     </div>
   );

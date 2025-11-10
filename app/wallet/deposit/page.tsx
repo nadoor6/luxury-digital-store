@@ -50,23 +50,23 @@ export default function DepositPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-2xl p-8 border border-white/10"
+          className="liquid-glass rounded-2xl p-8 border border-white/10"
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/wallet" className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors magnetic-btn">
+            <Link href="/wallet" className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-300 magnetic-btn">
               <FaArrowLeft className="w-5 h-5 text-white" />
             </Link>
             <div>
               <h1 className="text-3xl font-black text-white brand-ugarit">REQUEST DEPOSIT</h1>
-              <p className="text-gray-400 font-helvetica font-bold">Add funds to your wallet</p>
+              <p className="text-white/60 font-helvetica">Add funds to your wallet</p>
             </div>
           </div>
 
           {/* Current Balance */}
-          <div className="bg-white/5 rounded-xl p-6 mb-6 border border-white/10">
-            <p className="text-gray-400 text-sm font-helvetica font-bold">CURRENT BALANCE</p>
-            <p className="text-3xl font-black text-white font-helvetica-heavy">
+          <div className="liquid-glass rounded-2xl p-6 mb-6 border border-white/10">
+            <p className="text-white/60 font-helvetica-bold mb-2">CURRENT BALANCE</p>
+            <p className="text-3xl font-black text-white brand-ugarit">
               ${wallet?.balance.toFixed(2) || '0.00'}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function DepositPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Quick Amount Buttons */}
             <div>
-              <label className="block text-sm font-black text-white mb-3 font-helvetica">
+              <label className="block text-white font-helvetica-bold mb-3">
                 QUICK AMOUNT (USD)
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -83,9 +83,9 @@ export default function DepositPage() {
                     key={quickAmount}
                     type="button"
                     onClick={() => setAmount(quickAmount.toString())}
-                    className={`p-3 rounded-xl border font-helvetica font-bold transition-all ${
+                    className={`p-3 rounded-xl border font-helvetica-bold transition-all duration-300 ${
                       amount === quickAmount.toString()
-                        ? 'bg-turquoise border-turquoise text-black'
+                        ? 'bg-white text-black border-white'
                         : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                     }`}
                   >
@@ -97,11 +97,11 @@ export default function DepositPage() {
 
             {/* Amount Input */}
             <div>
-              <label className="block text-sm font-black text-white mb-2 font-helvetica">
+              <label className="block text-white font-helvetica-bold mb-2">
                 CUSTOM AMOUNT (USD)
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white font-bold">$</span>
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white font-helvetica-bold">$</span>
                 <input
                   type="number"
                   value={amount}
@@ -109,7 +109,7 @@ export default function DepositPage() {
                   required
                   min="1"
                   step="0.01"
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent font-helvetica font-bold"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent font-helvetica resize-none"
                   placeholder="0.00"
                 />
               </div>
@@ -117,14 +117,14 @@ export default function DepositPage() {
 
             {/* Payment Method */}
             <div>
-              <label className="block text-sm font-black text-white mb-4 font-helvetica">
+              <label className="block text-white font-helvetica-bold mb-4">
                 PAYMENT METHOD
               </label>
               <div className="grid grid-cols-1 gap-3">
                 {paymentMethods.map((method) => (
                   <label 
                     key={method.value} 
-                    className="flex items-start gap-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 transition-colors"
+                    className="flex items-start gap-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-300"
                   >
                     <input
                       type="radio"
@@ -132,12 +132,12 @@ export default function DepositPage() {
                       value={method.value}
                       checked={paymentMethod === method.value}
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="text-turquoise focus:ring-turquoise mt-1"
+                      className="text-white focus:ring-white/20 mt-1"
                     />
                     <method.icon className="w-5 h-5 text-white mt-0.5" />
                     <div className="flex-1">
-                      <span className="text-white font-helvetica font-bold block">{method.label}</span>
-                      <span className="text-gray-400 text-sm font-helvetica">{method.description}</span>
+                      <span className="text-white font-helvetica-bold block">{method.label}</span>
+                      <span className="text-white/60 font-helvetica text-sm">{method.description}</span>
                     </div>
                   </label>
                 ))}
@@ -147,22 +147,22 @@ export default function DepositPage() {
             {/* Bank Details for Transfer */}
             {paymentMethod === 'bank_transfer' && (
               <div>
-                <label className="block text-sm font-black text-white mb-2 font-helvetica">
+                <label className="block text-white font-helvetica-bold mb-2">
                   BANK TRANSFER DETAILS
                 </label>
                 <textarea
                   value={bankDetails}
                   onChange={(e) => setBankDetails(e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent font-helvetica font-bold resize-none"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent font-helvetica resize-none"
                   placeholder="Please provide bank name, account number, transfer reference, etc."
                 />
               </div>
             )}
 
             {/* Info Box */}
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-              <p className="text-blue-400 text-sm font-helvetica font-bold text-center">
+            <div className="liquid-glass border border-white/10 rounded-xl p-4">
+              <p className="text-white font-helvetica-bold text-sm text-center">
                 💡 Deposits are processed manually within 24 hours. You'll receive email confirmation once approved.
               </p>
             </div>
@@ -172,10 +172,10 @@ export default function DepositPage() {
               disabled={loading || isSubmitting || !amount}
               whileHover={{ scale: (loading || isSubmitting || !amount) ? 1 : 1.02 }}
               whileTap={{ scale: (loading || isSubmitting || !amount) ? 1 : 0.98 }}
-              className="w-full btn-luxury flex items-center justify-center gap-3 text-lg font-black font-helvetica disabled:opacity-50 py-4"
+              className="w-full btn-luxury flex items-center justify-center gap-3 text-lg font-helvetica-bold disabled:opacity-50 py-4"
             >
               {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <FaMoneyBillWave className="w-5 h-5" />
               )}

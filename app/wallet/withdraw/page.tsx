@@ -37,36 +37,36 @@ export default function WithdrawPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-2xl p-8 border border-white/10"
+          className="liquid-glass rounded-2xl p-8 border border-white/10"
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/wallet" className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors magnetic-btn">
+            <Link href="/wallet" className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-300 magnetic-btn">
               <FaArrowLeft className="w-5 h-5 text-white" />
             </Link>
             <div>
               <h1 className="text-3xl font-black text-white brand-ugarit">REQUEST WITHDRAWAL</h1>
-              <p className="text-gray-400 font-helvetica font-bold">Withdraw funds from your wallet</p>
+              <p className="text-white/60 font-helvetica">Withdraw funds from your wallet</p>
             </div>
           </div>
 
           {/* Current Balance */}
-          <div className="bg-white/5 rounded-xl p-6 mb-6 border border-white/10">
-            <p className="text-gray-400 text-sm font-helvetica font-bold">AVAILABLE BALANCE</p>
-            <p className="text-3xl font-black text-white font-helvetica-heavy">
+          <div className="liquid-glass rounded-2xl p-6 mb-6 border border-white/10">
+            <p className="text-white/60 font-helvetica-bold mb-2">AVAILABLE BALANCE</p>
+            <p className="text-3xl font-black text-white brand-ugarit">
               ${wallet?.balance.toFixed(2) || '0.00'}
             </p>
-            <p className="text-gray-400 text-sm font-helvetica mt-2">
+            <p className="text-white/60 font-helvetica text-sm mt-2">
               Maximum withdrawal: ${wallet?.balance.toFixed(2) || '0.00'}
             </p>
           </div>
 
           {/* Insufficient Balance Warning */}
           {wallet && wallet.balance === 0 && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+            <div className="liquid-glass border border-white/10 rounded-xl p-4 mb-6">
               <div className="flex items-center gap-3">
-                <FaExclamationTriangle className="w-5 h-5 text-red-400" />
-                <p className="text-red-400 text-sm font-helvetica font-bold">
+                <FaExclamationTriangle className="w-5 h-5 text-white" />
+                <p className="text-white font-helvetica-bold text-sm">
                   You need funds in your wallet to make a withdrawal.
                 </p>
               </div>
@@ -77,7 +77,7 @@ export default function WithdrawPage() {
             {/* Quick Amount Buttons */}
             {quickAmounts.length > 0 && (
               <div>
-                <label className="block text-sm font-black text-white mb-3 font-helvetica">
+                <label className="block text-white font-helvetica-bold mb-3">
                   QUICK AMOUNT (USD)
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -86,9 +86,9 @@ export default function WithdrawPage() {
                       key={quickAmount}
                       type="button"
                       onClick={() => setAmount(quickAmount.toString())}
-                      className={`p-3 rounded-xl border font-helvetica font-bold transition-all ${
+                      className={`p-3 rounded-xl border font-helvetica-bold transition-all duration-300 ${
                         amount === quickAmount.toString()
-                          ? 'bg-turquoise border-turquoise text-black'
+                          ? 'bg-white text-black border-white'
                           : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                       }`}
                     >
@@ -101,11 +101,11 @@ export default function WithdrawPage() {
 
             {/* Amount Input */}
             <div>
-              <label className="block text-sm font-black text-white mb-2 font-helvetica">
+              <label className="block text-white font-helvetica-bold mb-2">
                 WITHDRAWAL AMOUNT (USD)
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white font-bold">$</span>
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white font-helvetica-bold">$</span>
                 <input
                   type="number"
                   value={amount}
@@ -114,12 +114,12 @@ export default function WithdrawPage() {
                   min="1"
                   max={wallet?.balance}
                   step="0.01"
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent font-helvetica font-bold"
+                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent font-helvetica"
                   placeholder="0.00"
                 />
               </div>
               {wallet && amount && parseFloat(amount) > wallet.balance && (
-                <p className="text-red-400 text-sm font-helvetica mt-2">
+                <p className="text-white font-helvetica text-sm mt-2">
                   Amount exceeds available balance
                 </p>
               )}
@@ -127,7 +127,7 @@ export default function WithdrawPage() {
 
             {/* Bank Details */}
             <div>
-              <label className="block text-sm font-black text-white mb-2 font-helvetica">
+              <label className="block text-white font-helvetica-bold mb-2">
                 BANK ACCOUNT DETAILS
               </label>
               <textarea
@@ -135,17 +135,17 @@ export default function WithdrawPage() {
                 onChange={(e) => setBankDetails(e.target.value)}
                 required
                 rows={4}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent font-helvetica font-bold resize-none"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent font-helvetica resize-none"
                 placeholder="Bank Name, Account Holder Name, Account Number, Routing Number, SWIFT/BIC Code"
               />
-              <p className="text-gray-500 text-sm mt-2 font-helvetica">
+              <p className="text-white/60 font-helvetica text-sm mt-2">
                 Provide complete bank details for wire transfer
               </p>
             </div>
 
             {/* Info Box */}
-            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
-              <p className="text-yellow-400 text-sm font-helvetica font-bold text-center">
+            <div className="liquid-glass border border-white/10 rounded-xl p-4">
+              <p className="text-white font-helvetica-bold text-sm text-center">
                 ⏳ Withdrawals are processed manually within 24-48 hours. You'll receive email confirmation.
               </p>
             </div>
@@ -155,10 +155,10 @@ export default function WithdrawPage() {
               disabled={loading || isSubmitting || !amount || !bankDetails || (wallet && parseFloat(amount) > wallet.balance)}
               whileHover={{ scale: (loading || isSubmitting || !amount || !bankDetails) ? 1 : 1.02 }}
               whileTap={{ scale: (loading || isSubmitting || !amount || !bankDetails) ? 1 : 0.98 }}
-              className="w-full btn-luxury flex items-center justify-center gap-3 text-lg font-black font-helvetica disabled:opacity-50 py-4"
+              className="w-full btn-luxury flex items-center justify-center gap-3 text-lg font-helvetica-bold disabled:opacity-50 py-4"
             >
               {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <FaMoneyBillWave className="w-5 h-5" />
               )}
