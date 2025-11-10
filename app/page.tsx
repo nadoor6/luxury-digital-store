@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaShield, FaRocket, FaGem, FaArrowRight, FaCrown, FaStar, FaAward, FaLock } from 'react-icons/fa';
+import { FaShieldAlt, FaRocket, FaGem, FaArrowRight, FaCrown, FaStar, FaAward, FaLock } from 'react-icons/fa';
 
 export default function Home() {
   return (
@@ -163,7 +163,7 @@ export default function Home() {
           >
             <div className="luxury-feature-glow"></div>
             <div className="w-16 h-16 luxury-icon-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
-              <FaLock className="w-6 h-6 text-white" />
+              <FaShieldAlt className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-white font-bold text-xl mb-4">MILITARY SECURITY</h3>
             <p className="text-white/70 text-sm leading-relaxed">
