@@ -164,6 +164,75 @@ body {
 }
 
 
+/* iOS Liquid Glass Effects */
+
+.ios-glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+}
+
+.ios-glass-heavy {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(60px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/* Liquid Bubble Animation */
+
+@keyframes liquidBubble {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+.liquid-bubble {
+    animation: liquidBubble 3s ease-in-out infinite;
+}
+
+
+/* Smooth Transitions */
+
+.smooth-transition {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+/* iOS-style Button Press */
+
+.ios-press:active {
+    transform: scale(0.95);
+}
+
+
+/* Glass Morphism Improvements */
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+}
+
+.glass-simple {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+
 /* Simple Animations */
 
 .animate-float {
