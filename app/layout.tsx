@@ -21,7 +21,8 @@ export default function RootLayout({
           <WalletProvider>
             <CartProvider>
               <Header />
-              <main className="min-h-screen pt-24 pb-16">
+              {/* Adjusted padding for mobile bottom navigation */}
+              <main className="min-h-screen pt-20 lg:pt-24 pb-20 lg:pb-16">
                 <div className="container mx-auto px-4">
                   {children}
                 </div>
@@ -30,15 +31,12 @@ export default function RootLayout({
               <footer className="glass-card border-t border-white/10 mt-16">
                 <div className="container mx-auto px-4 py-8">
                   <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                    {/* Brand */}
+                    {/* Simplified Brand - Only Ugarit */}
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg glass-card border border-white/20 flex items-center justify-center">
                         <span className="text-white font-bold text-sm">U</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="brand-ugarit text-lg leading-none">Ugarit</span>
-                        <span className="text-white/60 text-xs font-medium tracking-wider">DIGITAL</span>
-                      </div>
+                      <span className="brand-ugarit text-lg font-bold">Ugarit</span>
                     </div>
                     
                     {/* Links */}
@@ -56,7 +54,7 @@ export default function RootLayout({
                     
                     {/* Copyright */}
                     <p className="text-white/40 text-sm font-helvetica">
-                      © 2024 Ugarit Digital. All rights reserved.
+                      © 2024 Ugarit. All rights reserved.
                     </p>
                   </div>
                   
