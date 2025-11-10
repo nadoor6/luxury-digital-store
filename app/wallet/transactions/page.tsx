@@ -3,64 +3,93 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useWallet } from '@/contexts/WalletContext';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaArrowLeft, FaCheck, FaClock, FaTimes, FaExchangeAlt, FaMoneyBillWave, FaDownload } from 'react-icons/fa';
+import { 
+  FaWallet, 
+  FaMoneyBillWave, 
+  FaDownload, 
+  FaHistory, 
+  FaUser, 
+  FaShieldAlt,
+  FaCopy,
+  FaCheck
+} from 'react-icons/fa';
 
-export default function TransactionsPage() {
-  const { getTransactionHistory, wallet } = useWallet();
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [filter, setFilter] = useState<'all' | 'pending' | 'completed' | 'failed'>('all');
+export default function WalletPage() {
+  const { wallet, userProfile, getTransactionHistory, logout } = useWallet();
+  const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
+  const [copied, setCopied] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const success = searchParams.get('success');
 
   useEffect(() => {
-    if (wallet) {
-      setTransactions(getTransactionHistory());
-    }
-  }, [wallet, getTransactionHistory]);
+    setIsClient(true);
+  }, []);
 
-  const filteredTransactions = transactions.filter(transaction => {
-    if (filter === 'all') return true;
-    return transaction.status === filter;
-  });
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed': return <FaCheck className="w-4 h-4 text-green-400" />;
-      case 'pending': return <FaClock className="w-4 h-4 text-yellow-400" />;
-      case 'failed': return <FaTimes className="w-4 h-4 text-red-400" />;
-      default: return <FaExchangeAlt className="w-4 h-4 text-gray-400" />;
+  useEffect(() => {
+    if (wallet && isClient) {
+      const transactions = getTransactionHistory();
+      setRecentTransactions(transactions.slice(0, 3));
     }
+  }, [wallet, getTransactionHistory, isClient]);
+
+  const copyToClipboard = (text: string) => {
+    if (!isClient) return;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed': return 'text-green-400 bg-green-400/10 border-green-400/20';
-      case 'pending': return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
-      case 'failed': return 'text-red-400 bg-red-400/10 border-red-400/20';
-      default: return 'text-gray-400 bg-gray-400/10 border-gray-400/20';
+  // Redirect logic - only on client side
+  useEffect(() => {
+    if (isClient && !wallet) {
+      router.push('/wallet/access');
     }
-  };
+  }, [wallet, isClient, router]);
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'deposit': return <FaMoneyBillWave className="w-4 h-4 text-blue-400" />;
-      case 'withdrawal': return <FaDownload className="w-4 h-4 text-purple-400" />;
-      default: return <FaExchangeAlt className="w-4 h-4 text-gray-400" />;
+  // Show loading while checking wallet state
+  if (!isClient || !wallet) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-turquoise border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white font-helvetica font-bold">Loading wallet...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const quickActions = [
+    {
+      icon: FaMoneyBillWave,
+      label: 'Deposit',
+      description: 'Add funds',
+      href: '/wallet/deposit',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: FaDownload,
+      label: 'Withdraw',
+      description: 'Get funds',
+      href: '/wallet/withdraw',
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: FaHistory,
+      label: 'Transactions',
+      description: 'View history',
+      href: '/wallet/transactions',
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: FaUser,
+      label: 'Profile',
+      description: 'KYC & Settings',
+      href: '/wallet/profile',
+      color: 'from-orange-500 to-red-500'
     }
-  };
-
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-black py-20 px-4">
@@ -68,136 +97,153 @@ export default function TransactionsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-2xl p-8 border border-white/10"
+          className="space-y-6"
         >
           {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <Link href="/wallet" className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors magnetic-btn">
-              <FaArrowLeft className="w-5 h-5 text-white" />
-            </Link>
-            <div>
-              <h1 className="text-3xl font-black text-white brand-ugarit">TRANSACTION HISTORY</h1>
-              <p className="text-gray-400 font-helvetica font-bold">All your wallet transactions</p>
+          <div className="glass-card rounded-2xl p-8 border border-white/10">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-3xl font-black text-white brand-ugarit">MY WALLET</h1>
+                <p className="text-gray-400 font-helvetica font-bold">Manage your funds securely</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className={`px-3 py-1 rounded-full text-xs font-helvetica font-bold ${
+                  userProfile?.kycStatus === 'verified' 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                    : userProfile?.kycStatus === 'pending'
+                    ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                    : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                }`}>
+                  {userProfile?.kycStatus?.toUpperCase() || 'NOT VERIFIED'}
+                </div>
+                <button
+                  onClick={logout}
+                  className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl hover:bg-red-500/20 transition-colors font-helvetica font-bold"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Success Message */}
-          {success && (
-            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-6">
-              <p className="text-green-400 text-sm font-helvetica font-bold text-center">
-                ✅ Transaction request submitted successfully! It's now pending admin approval.
+            {/* Balance Card */}
+            <div className="bg-gradient-to-r from-turquoise to-neon-blue rounded-2xl p-6 text-black mb-6">
+              <p className="text-black/70 font-helvetica font-bold mb-2">TOTAL BALANCE</p>
+              <p className="text-4xl font-black font-helvetica-heavy mb-4">
+                ${wallet.balance.toFixed(2)}
               </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FaWallet className="w-4 h-4" />
+                  <span className="font-helvetica font-bold text-sm">Wallet Address:</span>
+                </div>
+                <button
+                  onClick={() => copyToClipboard(wallet.address)}
+                  className="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-lg hover:bg-black/30 transition-colors"
+                >
+                  <span className="font-helvetica font-bold text-sm">
+                    {wallet.address.slice(0, 8)}...{wallet.address.slice(-6)}
+                  </span>
+                  {copied ? <FaCheck className="w-3 h-3" /> : <FaCopy className="w-3 h-3" />}
+                </button>
+              </div>
             </div>
-          )}
 
-          {/* Filter Buttons */}
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-            {[
-              { value: 'all', label: 'All Transactions' },
-              { value: 'pending', label: 'Pending' },
-              { value: 'completed', label: 'Completed' },
-              { value: 'failed', label: 'Failed' }
-            ].map((filterOption) => (
-              <button
-                key={filterOption.value}
-                onClick={() => setFilter(filterOption.value as any)}
-                className={`px-4 py-2 rounded-xl font-helvetica font-bold whitespace-nowrap transition-all ${
-                  filter === filterOption.value
-                    ? 'bg-turquoise text-black'
-                    : 'bg-white/5 text-white hover:bg-white/10'
-                }`}
-              >
-                {filterOption.label}
-              </button>
-            ))}
+            {/* Quick Actions */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {quickActions.map((action, index) => (
+                <motion.div
+                  key={action.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link
+                    href={action.href}
+                    className={`bg-gradient-to-r ${action.color} rounded-xl p-4 block text-white hover:scale-105 transition-transform group`}
+                  >
+                    <action.icon className="w-6 h-6 mb-2" />
+                    <p className="font-helvetica font-bold">{action.label}</p>
+                    <p className="text-white/70 text-sm font-helvetica">{action.description}</p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Transactions List */}
-          <div className="space-y-4">
-            {filteredTransactions.length === 0 ? (
-              <div className="text-center py-12">
-                <FaExchangeAlt className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400 font-helvetica font-bold text-lg">No transactions found</p>
-                <p className="text-gray-500 font-helvetica mt-2">
-                  {filter === 'all' 
-                    ? "You haven't made any transactions yet."
-                    : `No ${filter} transactions found.`
-                  }
+          {/* Recent Transactions */}
+          <div className="glass-card rounded-2xl p-6 border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-black text-white font-helvetica-heavy">RECENT TRANSACTIONS</h2>
+              <Link 
+                href="/wallet/transactions"
+                className="text-turquoise hover:text-neon-blue font-helvetica font-bold text-sm"
+              >
+                View All
+              </Link>
+            </div>
+
+            {recentTransactions.length === 0 ? (
+              <div className="text-center py-8">
+                <FaHistory className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                <p className="text-gray-400 font-helvetica font-bold">No recent transactions</p>
+                <p className="text-gray-500 font-helvetica text-sm mt-2">
+                  Your transaction history will appear here
                 </p>
-                {(filter === 'all' && wallet?.balance === 0) && (
-                  <Link
-                    href="/wallet/deposit"
-                    className="btn-luxury inline-flex items-center gap-2 mt-4"
-                  >
-                    <FaMoneyBillWave className="w-4 h-4" />
-                    Make Your First Deposit
-                  </Link>
-                )}
               </div>
             ) : (
-              filteredTransactions.map((transaction) => (
-                <motion.div
-                  key={transaction.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      {getTypeIcon(transaction.type)}
+              <div className="space-y-3">
+                {recentTransactions.map((transaction) => (
+                  <div
+                    key={transaction.id}
+                    className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg ${
+                        transaction.type === 'deposit' 
+                          ? 'bg-green-500/20 text-green-400'
+                          : 'bg-red-500/20 text-red-400'
+                      }`}>
+                        {transaction.type === 'deposit' ? <FaMoneyBillWave /> : <FaDownload />}
+                      </div>
                       <div>
-                        <p className="text-white font-helvetica font-bold">
+                        <p className="text-white font-helvetica font-bold text-sm">
                           {transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}
                         </p>
-                        <p className="text-gray-400 text-sm font-helvetica">
-                          {formatDate(transaction.createdAt)}
+                        <p className="text-gray-400 font-helvetica text-xs">
+                          {new Date(transaction.createdAt).toLocaleDateString()}
                         </p>
-                        <p className="text-gray-500 text-sm font-helvetica mt-1">
-                          {transaction.description}
-                        </p>
-                        {transaction.metadata?.adminNote && (
-                          <p className="text-gray-500 text-sm font-helvetica mt-1">
-                            Note: {transaction.metadata.adminNote}
-                          </p>
-                        )}
                       </div>
                     </div>
-                    
                     <div className="text-right">
-                      <p className={`text-lg font-helvetica font-bold ${
+                      <p className={`font-helvetica font-bold ${
                         transaction.type === 'deposit' ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {transaction.type === 'deposit' ? '+' : '-'}${transaction.amount.toFixed(2)}
                       </p>
-                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-helvetica font-bold mt-2 ${getStatusColor(transaction.status)}`}>
-                        {getStatusIcon(transaction.status)}
-                        {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                      </div>
+                      <p className={`text-xs font-helvetica font-bold ${
+                        transaction.status === 'completed' ? 'text-green-400' :
+                        transaction.status === 'pending' ? 'text-yellow-400' : 'text-red-400'
+                      }`}>
+                        {transaction.status}
+                      </p>
                     </div>
                   </div>
-                </motion.div>
-              ))
+                ))}
+              </div>
             )}
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/10">
-            <Link
-              href="/wallet/deposit"
-              className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition-colors group"
-            >
-              <FaMoneyBillWave className="w-6 h-6 text-turquoise mx-auto mb-2" />
-              <p className="text-white font-helvetica font-bold">Deposit</p>
-              <p className="text-gray-400 text-sm font-helvetica">Add Funds</p>
-            </Link>
-            <Link
-              href="/wallet/withdraw"
-              className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition-colors group"
-            >
-              <FaDownload className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-              <p className="text-white font-helvetica font-bold">Withdraw</p>
-              <p className="text-gray-400 text-sm font-helvetica">Get Funds</p>
-            </Link>
+          {/* Security Notice */}
+          <div className="glass-card rounded-2xl p-6 border border-yellow-500/20 bg-yellow-500/5">
+            <div className="flex items-center gap-3">
+              <FaShieldAlt className="w-5 h-5 text-yellow-400" />
+              <div>
+                <p className="text-yellow-400 font-helvetica font-bold">Security First</p>
+                <p className="text-yellow-400/80 font-helvetica text-sm">
+                  Never share your secret phrase. Enable 2FA for extra security.
+                </p>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
