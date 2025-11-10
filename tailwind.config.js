@@ -9,7 +9,6 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                // Modern B&W color palette
                 'luxury-black': '#000000',
                 'luxury-white': '#FFFFFF',
                 'luxury-gray': {
@@ -27,38 +26,22 @@ module.exports = {
                 'glass-border': 'rgba(255, 255, 255, 0.2)',
             },
             animation: {
-                'float-enhanced': 'float-enhanced 8s ease-in-out infinite',
-                'fade-in-up': 'fadeInUp 0.8s ease-out',
-                'shimmer': 'shimmer 3s infinite',
-                'pulse-sophisticated': 'pulse-enhanced 3s ease-in-out infinite',
-                'gradient-shift': 'gradientShift 15s ease infinite',
-                'spin-smooth': 'spin-smooth 2s linear infinite',
+                'fade-in-up': 'fade-in-up 0.8s ease-out',
+                'spin-smooth': 'spin 2s linear infinite',
+                'pulse-sophisticated': 'pulse 3s ease-in-out infinite',
             },
             keyframes: {
-                'float-enhanced': {
-                    '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                    '33%': { transform: 'translateY(-20px) rotate(1deg)' },
-                    '66%': { transform: 'translateY(10px) rotate(-1deg)' },
-                },
-                'fadeInUp': {
+                'fade-in-up': {
                     '0%': { opacity: '0', transform: 'translateY(30px)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
-                'shimmer': {
-                    '0%': { backgroundPosition: '-1000px 0' },
-                    '100%': { backgroundPosition: '1000px 0' },
-                },
-                'pulse-enhanced': {
-                    '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-                    '50%': { opacity: '0.7', transform: 'scale(1.05)' },
-                },
-                'gradientShift': {
-                    '0%, 100%': { backgroundPosition: '0% 50%' },
-                    '50%': { backgroundPosition: '100% 50%' },
-                },
-                'spin-smooth': {
+                'spin': {
                     'from': { transform: 'rotate(0deg)' },
                     'to': { transform: 'rotate(360deg)' },
+                },
+                'pulse': {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.7' },
                 }
             },
             backdropBlur: {
@@ -86,11 +69,7 @@ module.exports = {
             },
             backgroundImage: {
                 'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-                'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
             },
-            backgroundSize: {
-                '200': '200% 200%',
-            }
         },
     },
     plugins: [],

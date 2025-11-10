@@ -23,39 +23,11 @@ body {
     max-width: 100vw;
     overflow-x: hidden;
     font-family: 'Helvetica Neue', sans-serif;
-    background: #000000;
-    /* Solid black base */
 }
-
-
-/* Enhanced Live Dark B&W Abstract Background - DIRECT on body */
 
 body {
     color: rgb(var(--foreground-rgb));
-    background: /* Base black */
-    #000000, /* Large animated gradients */
-    radial-gradient(circle at 20% 80%, rgba(120, 120, 120, 0.25) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(80, 80, 80, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(60, 60, 60, 0.15) 0%, transparent 50%), /* Moving gradient overlay */
-    linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    position: relative;
-    overflow-x: hidden;
-}
-
-
-/* Remove all body pseudo-elements that were creating layers */
-
-
-/* body::before and body::after are REMOVED */
-
-@keyframes gradientShift {
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
+    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 a {
@@ -188,7 +160,6 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
 }
 
 .font-helvetica {
@@ -275,7 +246,11 @@ a {
 
 /* Loading Animation */
 
-@keyframes spin-smooth {
+.animate-spin-smooth {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
     from {
         transform: rotate(0deg);
     }
@@ -284,31 +259,29 @@ a {
     }
 }
 
-.animate-spin-smooth {
-    animation: spin-smooth 2s linear infinite;
-}
-
 
 /* Pulse Animation */
 
-@keyframes pulse-sophisticated {
+.animate-pulse-sophisticated {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
     0%,
     100% {
         opacity: 1;
-        transform: scale(1);
     }
     50% {
-        opacity: 0.8;
-        transform: scale(1.02);
+        opacity: 0.7;
     }
-}
-
-.animate-pulse-sophisticated {
-    animation: pulse-sophisticated 3s ease-in-out infinite;
 }
 
 
 /* Fade In Up Animation */
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
 
 @keyframes fade-in-up {
     0% {
@@ -319,10 +292,6 @@ a {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out;
 }
 
 
@@ -352,26 +321,6 @@ a {
 
 .stagger-animate>*:nth-child(5) {
     animation-delay: 0.5s;
-}
-
-
-/* Background Animation */
-
-@keyframes float-enhanced {
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    33% {
-        transform: translateY(-20px) rotate(1deg);
-    }
-    66% {
-        transform: translateY(10px) rotate(-1deg);
-    }
-}
-
-.animate-float-enhanced {
-    animation: float-enhanced 8s ease-in-out infinite;
 }
 
 
