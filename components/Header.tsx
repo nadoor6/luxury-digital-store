@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaWallet, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaUser, FaKey } from 'react-icons/fa';
+import { FaWallet, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaUser, FaKey, FaUserShield } from 'react-icons/fa';
 import { useWallet } from '@/contexts/WalletContext';
 import Cart from './ui/Cart';
 import Link from 'next/link';
@@ -24,9 +24,11 @@ export default function Header() {
     { name: 'Contact', href: '/contact', icon: FaEnvelope },
   ];
 
-  // Add Admin tab if user is admin
+  // Add Admin or Admin Access based on permissions
   if (isAdmin) {
     navigation.push({ name: 'Admin', href: '/admin', icon: FaCog });
+  } else {
+    navigation.push({ name: 'Admin Access', href: '/admin/access', icon: FaUserShield });
   }
 
   const handleLogout = () => {
@@ -99,6 +101,9 @@ export default function Header() {
                     {/* Admin Badge */}
                     {item.name === 'Admin' && (
                       <div className="relative z-10 w-2 h-2 bg-green-400 rounded-full ml-1" />
+                    )}
+                    {item.name === 'Admin Access' && (
+                      <div className="relative z-10 w-2 h-2 bg-yellow-400 rounded-full ml-1" />
                     )}
                   </Link>
                 </motion.div>
@@ -246,6 +251,9 @@ export default function Header() {
                           <span className="font-medium">{item.name}</span>
                           {item.name === 'Admin' && (
                             <div className="w-2 h-2 bg-green-400 rounded-full ml-auto" />
+                          )}
+                          {item.name === 'Admin Access' && (
+                            <div className="w-2 h-2 bg-yellow-400 rounded-full ml-auto" />
                           )}
                         </Link>
                       </motion.div>

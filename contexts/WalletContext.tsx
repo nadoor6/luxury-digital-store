@@ -16,6 +16,7 @@ interface WalletContextType {
   logout: () => void;
   loading: boolean;
   isAdmin: boolean;
+  grantAdminAccess: (password: string) => boolean;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -63,7 +64,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
   };
 
   const generateAddress = (phrase: string): string => {
-    // Simple hash-based address generation
     let hash = 0;
     for (let i = 0; i < phrase.length; i++) {
       const char = phrase.charCodeAt(i);
@@ -112,8 +112,8 @@ export function WalletProvider({ children }: WalletProviderProps) {
     }
   };
 
-  const grantAdminAccess = (password: string) => {
-    // Simple admin access - you can enhance this
+  const grantAdminAccess = (password: string): boolean => {
+    // Simple admin password check
     if (password === 'admin123') {
       setIsAdmin(true);
       localStorage.setItem('adminAccess', 'true');
@@ -136,7 +136,8 @@ export function WalletProvider({ children }: WalletProviderProps) {
       accessWallet, 
       logout, 
       loading,
-      isAdmin: isAdmin || (wallet?.address === 'UGR000000000000') // Special admin wallet
+      isAdmin: isAdmin || (wallet?.address === 'UGR000000000000'), // Special admin wallet
+      grantAdminAccess
     }}>
       {children}
     </WalletContext.Provider>

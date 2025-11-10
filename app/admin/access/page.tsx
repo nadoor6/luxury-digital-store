@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 import { useWallet } from '@/contexts/WalletContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaLock, FaArrowLeft, FaUserShield } from 'react-icons/fa';
+import { FaLock, FaArrowLeft, FaUserShield, FaWallet } from 'react-icons/fa';
 
 export default function AdminAccess() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { isAdmin, wallet } = useWallet();
+  const { isAdmin } = useWallet();
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -18,14 +18,7 @@ export default function AdminAccess() {
     
     // Simple admin password - you can change this
     if (password === 'admin123') {
-      // Grant admin access by setting a special wallet
-      const adminWallet = {
-        address: 'UGR000000000000',
-        balance: 0,
-        secretPhrase: 'admin-access',
-        createdAt: new Date()
-      };
-      localStorage.setItem('wallet', JSON.stringify(adminWallet));
+      // Grant admin access by setting admin flag
       localStorage.setItem('adminAccess', 'true');
       router.push('/admin');
       router.refresh(); // Refresh to update wallet context
@@ -89,7 +82,7 @@ export default function AdminAccess() {
                 />
               </div>
               <p className="text-gray-500 text-sm mt-2 font-helvetica">
-                Default password: admin123
+                Default password: <span className="text-turquoise">admin123</span>
               </p>
             </div>
 
