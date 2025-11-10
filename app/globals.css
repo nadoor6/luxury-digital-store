@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;500;700;900&display=swap');
+.font-helvetica {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+}
+
+.font-helvetica-bold {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+}
+
+.font-helvetica-black {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+}
+
+.font-helvetica-heavy {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 800;
+}
+
+.font-light {
+    font-weight: 300;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
