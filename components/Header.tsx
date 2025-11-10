@@ -2,38 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaWallet, FaSearch, FaBars, FaTimes, FaCog, FaHome, FaBox, FaEnvelope, FaGem, FaUser, FaKey, FaUserShield } from 'react-icons/fa';
+import { FaWallet, FaHome, FaChartLine, FaCreditCard, FaPiggyBank, FaCog, FaUser, FaTimes, FaBars, FaMoneyBillWave, FaUniversity } from 'react-icons/fa';
 import { useWallet } from '@/contexts/WalletContext';
-import Cart from './ui/Cart';
 import Link from 'next/link';
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { wallet, logout, isAdmin } = useWallet();
+  const { wallet, logout } = useWallet();
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navigation = [
-    { name: 'Home', href: '/', icon: FaHome },
-    { name: 'Products', href: '/products', icon: FaBox },
-    { name: 'Contact', href: '/contact', icon: FaEnvelope },
+  const financeNavigation = [
+    { name: 'Dashboard', href: '/', icon: FaHome },
+    { name: 'Invest', href: '/invest', icon: FaChartLine },
+    { name: 'Cards', href: '/cards', icon: FaCreditCard },
+    { name: 'Savings', href: '/savings', icon: FaPiggyBank },
+    { name: 'Transactions', href: '/transactions', icon: FaMoneyBillWave },
+    { name: 'Profile', href: '/profile', icon: FaUser },
   ];
-
-  if (isAdmin) {
-    navigation.push({ name: 'Admin', href: '/admin', icon: FaCog });
-  } else {
-    navigation.push({ name: 'Admin Access', href: '/admin/access', icon: FaUserShield });
-  }
-
-  const handleLogout = () => {
-    logout();
-    setIsMobileMenuOpen(false);
-  };
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -41,133 +25,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Desktop Header - Top */}
-      <header className="hidden lg:block fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
-        <motion.div
-          className={`glass-card rounded-2xl transition-all duration-500 ${
-            isScrolled ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/15'
-          }`}
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
-              {/* Simplified Logo - Only Ugarit */}
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-3"
-              >
-                <Link href="/" className="flex items-center gap-3 group">
-                  <div className="w-10 h-10 rounded-xl glass-card border border-white/20 flex items-center justify-center group-hover:border-white/30 transition-all duration-300">
-                    <span className="text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">U</span>
-                  </div>
-                  
-                  <span className="brand-ugarit text-xl font-bold">
-                    Ugarit
-                  </span>
-                </Link>
-              </motion.div>
-
-              {/* Desktop Navigation */}
-              <nav className="flex items-center gap-2">
-                {navigation.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="btn-glass-modern flex items-center gap-2 px-4 py-2 text-sm font-medium magnetic-hover"
-                    >
-                      <item.icon className="w-4 h-4" />
-                      <span>{item.name}</span>
-                      
-                      {/* Status Indicators */}
-                      {item.name === 'Admin' && (
-                        <div className="w-2 h-2 bg-green-400 rounded-full ml-1 glow-soft" />
-                      )}
-                      {item.name === 'Admin Access' && (
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full ml-1 glow-soft" />
-                      )}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
-
-              {/* Right Side Actions */}
-              <div className="flex items-center gap-2">
-                {/* Search Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="btn-glass-modern p-2 magnetic-hover"
-                  title="Search"
-                >
-                  <FaSearch className="w-4 h-4" />
-                </motion.button>
-
-                {/* Shopping Cart */}
-                <Cart />
-
-                {/* Wallet Section */}
-                {wallet ? (
-                  <div className="flex items-center gap-2">
-                    {/* Wallet Profile */}
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="glass-card flex items-center gap-2 px-3 py-2 rounded-xl magnetic-hover"
-                    >
-                      <div className="w-8 h-8 rounded-full glass-card border border-white/20 flex items-center justify-center">
-                        <FaWallet className="w-3 h-3 text-white" />
-                      </div>
-                      
-                      <div className="flex flex-col">
-                        <span className="text-white text-sm font-medium leading-none">
-                          {formatAddress(wallet.address)}
-                        </span>
-                        <span className="text-white/60 text-xs">
-                          ${wallet.balance.toFixed(2)}
-                        </span>
-                      </div>
-                    </motion.div>
-
-                    {/* Logout Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleLogout}
-                      className="btn-glass-modern px-3 py-2 text-sm font-medium magnetic-hover"
-                    >
-                      Lock Wallet
-                    </motion.button>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href="/wallet/access"
-                      className="btn-glass-modern flex items-center gap-2 px-3 py-2 text-sm font-medium magnetic-hover"
-                    >
-                      <FaKey className="w-3 h-3" />
-                      Access Wallet
-                    </Link>
-                    <Link
-                      href="/wallet/create"
-                      className="btn-liquid-glass flex items-center gap-2 px-3 py-2 text-sm font-medium text-white magnetic-hover"
-                    >
-                      <FaWallet className="w-3 h-3" />
-                      Create Wallet
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </header>
-
       {/* Mobile Bottom Navigation */}
       <div className="lg:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-md">
         <motion.div
@@ -176,57 +33,39 @@ export default function Header() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="px-4">
-            <div className="flex items-center justify-between h-14">
-              {/* Mobile Logo - Smaller */}
-              <Link href="/" className="flex items-center gap-2 group">
-                <div className="w-7 h-7 rounded-lg glass-card border border-white/20 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">U</span>
-                </div>
-                <span className="brand-ugarit text-base font-bold">
-                  Ugarit
-                </span>
-              </Link>
-
-              {/* Mobile Navigation Icons - Better Spacing */}
-              <div className="flex items-center gap-3">
-                {navigation.slice(0, 3).map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="flex items-center justify-center w-10 h-10 btn-glass-modern magnetic-hover"
-                      title={item.name}
-                    >
-                      <item.icon className="w-4 h-4" />
-                    </Link>
-                  </motion.div>
-                ))}
-                
-                {/* Cart for Mobile */}
-                <div className="flex items-center justify-center w-10 h-10">
-                  <Cart />
-                </div>
-                
-                {/* Mobile Menu Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="flex items-center justify-center w-10 h-10 btn-glass-modern magnetic-hover"
-                  aria-label="Toggle menu"
+          <div className="px-2 py-2">
+            <div className="flex items-center justify-between">
+              {financeNavigation.slice(0, 5).map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {isMobileMenuOpen ? (
-                    <FaTimes className="w-4 h-4" />
-                  ) : (
-                    <FaBars className="w-4 h-4" />
-                  )}
-                </motion.button>
-              </div>
+                  <Link
+                    href={item.href}
+                    className="flex flex-col items-center justify-center w-14 h-14 magnetic-hover"
+                  >
+                    <item.icon className="w-5 h-5 text-white mb-1" />
+                    <span className="text-[10px] font-helvetica-bold text-white/80">{item.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+              
+              {/* Menu Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="flex flex-col items-center justify-center w-14 h-14 magnetic-hover"
+              >
+                {isMobileMenuOpen ? (
+                  <FaTimes className="w-5 h-5 text-white mb-1" />
+                ) : (
+                  <FaBars className="w-5 h-5 text-white mb-1" />
+                )}
+                <span className="text-[10px] font-helvetica-bold text-white/80">Menu</span>
+              </motion.button>
             </div>
           </div>
         </motion.div>
@@ -252,100 +91,75 @@ export default function Header() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6">
-                {/* Wallet Info Section */}
+                {/* Wallet Info */}
                 {wallet && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="glass-card p-4 mb-4 rounded-xl border border-white/20 stagger-animate"
+                    className="glass-card p-4 mb-4 rounded-xl border border-white/20"
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full glass-card border border-white/20 flex items-center justify-center">
-                        <FaWallet className="w-4 h-4 text-white" />
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-12 h-12 rounded-full glass-card border border-white/20 flex items-center justify-center">
+                        <FaWallet className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium text-white text-sm">{formatAddress(wallet.address)}</p>
-                        <p className="text-white/60 text-xs">${wallet.balance.toFixed(2)}</p>
+                        <p className="font-helvetica-bold text-white text-sm">{formatAddress(wallet.address)}</p>
+                        <p className="text-white/60 text-xs font-helvetica-bold">${wallet.balance.toFixed(2)}</p>
                       </div>
-                      {isAdmin && (
-                        <div className="w-2 h-2 bg-green-400 rounded-full glow-soft" />
-                      )}
                     </div>
-                    {isAdmin && (
-                      <div className="flex items-center gap-2 text-xs glass-card px-2 py-1 rounded-lg">
-                        <FaCog className="w-3 h-3 text-green-400" />
-                        <span className="text-green-400 font-medium">Administrator</span>
-                      </div>
-                    )}
                   </motion.div>
                 )}
 
-                {/* Full Navigation Links */}
-                <nav className="space-y-2 stagger-animate">
-                  {navigation.map((item, index) => (
+                {/* Full Navigation */}
+                <nav className="space-y-2">
+                  {financeNavigation.map((item, index) => (
                     <motion.div
                       key={item.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
+                      transition={{ delay: index * 0.1 }}
                     >
                       <Link
                         href={item.href}
-                        className="btn-glass-modern flex items-center gap-3 px-4 py-3 font-medium w-full text-left"
+                        className="flex items-center gap-4 px-4 py-3 font-helvetica-bold text-white hover:bg-white/5 rounded-xl transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <item.icon className="w-4 h-4" />
+                        <item.icon className="w-5 h-5" />
                         <span>{item.name}</span>
-                        {item.name === 'Admin' && (
-                          <div className="w-2 h-2 bg-green-400 rounded-full ml-auto glow-soft" />
-                        )}
-                        {item.name === 'Admin Access' && (
-                          <div className="w-2 h-2 bg-yellow-400 rounded-full ml-auto glow-soft" />
-                        )}
                       </Link>
                     </motion.div>
                   ))}
                 </nav>
 
                 {/* Wallet Actions */}
-                <div className="mt-4 pt-4 border-t border-white/20 stagger-animate">
+                <div className="mt-6 pt-4 border-t border-white/20">
                   {wallet ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5 }}
+                    <motion.button
+                      onClick={() => {
+                        logout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full luxury-primary-btn py-3 font-helvetica-bold"
                     >
-                      <button
-                        onClick={handleLogout}
-                        className="btn-glass-modern w-full flex items-center justify-center gap-2 px-4 py-3 font-medium"
-                      >
-                        <FaTimes className="w-4 h-4" />
-                        Lock Wallet
-                      </button>
-                    </motion.div>
+                      Lock Wallet
+                    </motion.button>
                   ) : (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5 }}
-                      className="space-y-2"
-                    >
+                    <div className="space-y-2">
                       <Link
                         href="/wallet/access"
-                        className="btn-glass-modern block w-full text-center py-3 font-medium"
+                        className="block w-full luxury-primary-btn py-3 text-center font-helvetica-bold"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Access Wallet
                       </Link>
                       <Link
                         href="/wallet/create"
-                        className="btn-liquid-glass block w-full text-center py-3 font-medium text-white"
+                        className="block w-full luxury-secondary-btn py-3 text-center font-helvetica-bold"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Create Wallet
                       </Link>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -353,6 +167,66 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Desktop Header */}
+      <header className="hidden lg:block fixed top-0 left-0 right-0 z-50">
+        <motion.div
+          className="glass-card border-b border-white/20"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+        >
+          <div className="container mx-auto px-6">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="w-8 h-8 rounded-lg glass-card border border-white/20 flex items-center justify-center">
+                  <span className="text-white font-helvetica-black text-lg">U</span>
+                </div>
+                <span className="luxury-main-title text-xl font-helvetica-black">
+                  Ugarit Finance
+                </span>
+              </Link>
+
+              {/* Desktop Navigation */}
+              <nav className="flex items-center gap-1">
+                {financeNavigation.map((item, index) => (
+                  <motion.div key={item.name} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+                    <Link href={item.href} className="flex items-center gap-2 px-4 py-2 font-helvetica-bold text-white/80 hover:text-white transition-colors">
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+
+              {/* Wallet Section */}
+              <div className="flex items-center gap-3">
+                {wallet ? (
+                  <>
+                    <div className="flex items-center gap-2 glass-card px-3 py-2 rounded-lg">
+                      <FaWallet className="w-4 h-4 text-white" />
+                      <span className="font-helvetica-bold text-sm">{formatAddress(wallet.address)}</span>
+                      <span className="text-white/60 text-sm">${wallet.balance.toFixed(2)}</span>
+                    </div>
+                    <button onClick={logout} className="luxury-primary-btn px-4 py-2 text-sm font-helvetica-bold">
+                      Lock
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Link href="/wallet/access" className="luxury-primary-btn px-4 py-2 text-sm font-helvetica-bold">
+                      Access Wallet
+                    </Link>
+                    <Link href="/wallet/create" className="luxury-secondary-btn px-4 py-2 text-sm font-helvetica-bold">
+                      Create Wallet
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </header>
     </>
   );
 }

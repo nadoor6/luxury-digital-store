@@ -12,8 +12,9 @@ module.exports = {
                 'luxury-black': '#000000',
                 'luxury-white': '#FFFFFF',
                 'luxury-gray': {
-                    100: '#f7f7f7',
-                    200: '#e6e6e6',
+                    50: '#fafafa',
+                    100: '#f5f5f5',
+                    200: '#e5e5e5',
                     300: '#d4d4d4',
                     400: '#a3a3a3',
                     500: '#737373',
@@ -29,6 +30,7 @@ module.exports = {
                 'fade-in-up': 'fade-in-up 0.8s ease-out',
                 'spin-smooth': 'spin 2s linear infinite',
                 'pulse-sophisticated': 'pulse 3s ease-in-out infinite',
+                'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
                 'fade-in-up': {
@@ -42,6 +44,10 @@ module.exports = {
                 'pulse': {
                     '0%, 100%': { opacity: '1' },
                     '50%': { opacity: '0.7' },
+                },
+                'float': {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-10px)' },
                 }
             },
             backdropBlur: {
@@ -53,13 +59,10 @@ module.exports = {
                 '2xl': '24px',
                 '3xl': '36px',
             },
-            scale: {
-                '105': '1.05',
-                '102': '1.02',
-            },
             fontFamily: {
                 'helvetica': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-                'helvetica-heavy': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+                'helvetica-bold': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+                'helvetica-black': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
             },
             borderRadius: {
                 'lg': '0.75rem',
@@ -69,6 +72,7 @@ module.exports = {
             },
             backgroundImage: {
                 'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                'finance-gradient': 'linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%)',
             },
         },
     },
