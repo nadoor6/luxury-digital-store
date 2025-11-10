@@ -110,26 +110,26 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* Fixed Full Screen Liquid Glass Menu - Properly Positioned */}
+      {/* Fixed Full Screen Liquid Glass Menu - Simple Bottom Positioning */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-40 lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           >
             {/* More Transparent Backdrop */}
             <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
             
-            {/* Menu Content - Fixed Positioning */}
+            {/* Menu Content - Simple Bottom Placement */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 100 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[85%] max-w-sm z-50"
+              className="absolute bottom-24 left-4 right-4 z-50"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Ultra Transparent Liquid Glass Menu Card */}
