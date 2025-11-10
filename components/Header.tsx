@@ -46,8 +46,8 @@ export default function Header() {
 
   return (
     <>
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-sm performance-optimize">
+      {/* FIXED Mobile Bottom Navigation - Proper Width & Spacing */}
+      <div className="lg:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[96%] max-w-md performance-optimize">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -58,20 +58,20 @@ export default function Header() {
           <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-xl" />
           <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent rounded-3xl" />
           
-          {/* Navigation Items */}
-          <div className="relative flex items-center justify-between p-2">
+          {/* Navigation Items - Fixed Grid Layout */}
+          <div className="relative grid grid-cols-4 gap-0 p-1">
             {mainNavigation.map((item, index) => {
               const active = isActive(item.href);
               return (
                 <motion.div
                   key={item.name}
-                  className="relative flex-1 flex justify-center"
+                  className="relative flex justify-center"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
                     href={item.href}
-                    className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-2xl transition-all duration-200 ${
+                    className={`relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-all duration-200 ${
                       active ? 'text-white' : 'text-white/70'
                     }`}
                   >
@@ -84,7 +84,7 @@ export default function Header() {
                     )}
                     
                     <div className="relative z-10">
-                      <item.icon className={`w-6 h-6 transition-all duration-200 ${
+                      <item.icon className={`w-5 h-5 transition-all duration-200 ${
                         active ? 'scale-110' : 'scale-100'
                       }`} />
                     </div>
@@ -93,7 +93,7 @@ export default function Header() {
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="absolute bottom-2 w-1 h-1 bg-white/80 rounded-full"
+                        className="absolute bottom-1 w-1 h-1 bg-white/80 rounded-full"
                       />
                     )}
                   </Link>
@@ -106,7 +106,7 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleMobileMenuToggle}
-              className="relative flex flex-col items-center justify-center w-16 h-16 rounded-2xl text-white/70 hover:text-white transition-colors"
+              className="relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-white/70 hover:text-white transition-colors"
             >
               <div className="relative z-10 flex flex-col gap-1">
                 <div className={`w-1.5 h-1.5 bg-current rounded-full transition-all duration-200 ${
@@ -130,7 +130,7 @@ export default function Header() {
            onClick={handleMobileMenuToggle}>
         <div className="absolute inset-0 bg-black/40" />
         
-        <div className={`absolute bottom-24 left-4 right-4 z-50 mobile-menu-content ${isMobileMenuOpen ? 'open' : ''}`}
+        <div className={`absolute bottom-20 left-4 right-4 z-50 mobile-menu-content ${isMobileMenuOpen ? 'open' : ''}`}
              onClick={(e) => e.stopPropagation()}>
           <div className="relative">
             <div className="absolute inset-0 bg-white/12 backdrop-blur-2xl rounded-3xl border border-white/18 shadow-2xl" />
